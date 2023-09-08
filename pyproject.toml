@@ -1,0 +1,86 @@
+[build-system]
+requires = ["setuptools>=68.0.0", "wheel~=0.40.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name="howso-visuals"
+dynamic = ["version", "readme"]
+description = "Visualization utilities for use with Howso Engine."
+requires-python = ">=3.8"
+keywords = ["machine", "learning", "artificial", "intelligence", "data", "visualization"]
+license = {text = "Commercial"}
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: Other/Proprietary License",
+    "Programming Language :: Python :: 3"
+]
+dependencies = [
+    "seaborn~=0.12.0",
+    "plotly",
+    "scipy",
+]
+
+[project.optional-dependencies]
+dev = [
+    "flake8",
+    "howso-build-artifacts",
+    "howso-engine",
+    "isort",
+    "pytest-cov",
+    "pytest",
+    "yapf",
+]
+
+
+[tool.setuptools.packages.find]
+exclude = ["howso.visuals.tests"]
+
+[tool.setuptools.dynamic]
+version = {attr = "howso.visuals.__version__"}
+readme = {file = ["README.MD"]}
+
+[tool.isort]
+profile = "google"
+known_first_party = ["howso"]
+line_length = 119
+group_by_package = true
+force_single_line = false
+use_parentheses = true
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 2
+
+[tool.coverage.run]
+source = ["howso.visuals"]
+branch = true
+omit = ["*/tests/*"]
+
+[tool.coverage.html]
+directory = ".htmlcov"
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+
+    # Don't complain about missing debug-only code:
+    "def __repr__",
+    "if self.debug",
+
+    # Don't complain if tests don't hit defensive assertion code:
+    "raise AssertionError",
+    "raise NotImplementedError",
+
+    # Don't complain if non-runnable code isn't run:
+    "if 0:",
+    "if __name__ == .__main__.:",
+
+    "@abstractmethod",
+    "@abc.abstractmethod",
+]
+
+[tool.yapf]
+based_on_style = "pep8"
+column_limit = 119
+dedent_closing_brackets = true
+split_penalty_after_opening_bracket = 100
+split_penalty_for_added_line_split = 300
