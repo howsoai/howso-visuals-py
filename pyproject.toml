@@ -23,7 +23,6 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "flake8",
-    "howso-build-artifacts",
     "howso-engine",
     "isort",
     "pytest-cov",
@@ -40,7 +39,6 @@ repository = "https://github.com/howsoai/howso-visuals-py"
 exclude = ["howso.visuals.tests"]
 
 [tool.setuptools.dynamic]
-version = {attr = "howso.visuals.__version__"}
 readme = {file = ["README.MD"]}
 
 [tool.isort]
