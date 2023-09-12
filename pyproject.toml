@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68.0.0", "wheel~=0.40.0"]
+requires = ["setuptools>=68.0.0", "wheel~=0.40.0", "setuptools_scm[toml]>=6.2"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -23,7 +23,6 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "flake8",
-    "howso-build-artifacts",
     "howso-engine",
     "isort",
     "pytest-cov",
@@ -31,12 +30,15 @@ dev = [
     "yapf",
 ]
 
+[project.urls]
+homepage = "https://howso.com"
+documentation = "https://docs.howso.com/"
+repository = "https://github.com/howsoai/howso-visuals-py"
 
 [tool.setuptools.packages.find]
 exclude = ["howso.visuals.tests"]
 
 [tool.setuptools.dynamic]
-version = {attr = "howso.visuals.__version__"}
 readme = {file = ["README.MD"]}
 
 [tool.isort]
@@ -84,3 +86,6 @@ column_limit = 119
 dedent_closing_brackets = true
 split_penalty_after_opening_bracket = 100
 split_penalty_for_added_line_split = 300
+
+# version is managed by setuptools_scm
+[tool.setuptools_scm]

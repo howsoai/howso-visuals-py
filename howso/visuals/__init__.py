@@ -15,5 +15,3 @@ __all__ = [
     "plot_interpretable_prediction",
     "plot_kl_divergence",
 ]
-
-__version__ = "1.0.0"
