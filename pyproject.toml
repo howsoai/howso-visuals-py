@@ -39,7 +39,7 @@ repository = "https://github.com/howsoai/howso-visuals-py"
 exclude = ["howso.visuals.tests"]
 
 [tool.setuptools.dynamic]
-readme = {file = ["README.MD"]}
+readme = {file = ["README.md"]}
 
 [tool.isort]
 profile = "google"
