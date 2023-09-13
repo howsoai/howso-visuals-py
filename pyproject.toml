@@ -9,10 +9,10 @@ readme = "README.md"
 description = "Visualization utilities for use with Howso Engine."
 requires-python = ">=3.8"
 keywords = ["machine", "learning", "artificial", "intelligence", "data", "visualization"]
-license = {text = "Commercial"}
+license = {file = "LICENSE.txt"}
 classifiers = [
     "Development Status :: 3 - Alpha",
-    "License :: Other/Proprietary License",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
     "Programming Language :: Python :: 3"
 ]
 dependencies = [
