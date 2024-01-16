@@ -7,7 +7,9 @@ from typing import (
     Optional,
     TYPE_CHECKING,
 )
+import warnings
 
+import matplotlib.pyplot as plt
 import numpy as np
 from pandas import (
     DataFrame,
@@ -581,3 +583,46 @@ def plot_interpretable_prediction(
 
     if len(figures) == 1:
         return figures[0]
+
+
+def graph_fairness_disparity(
+        fairness_results: dict,
+        ref: str,
+        threshold: float = 0.75,
+        x_rotate: bool = False
+):
+    """
+    Helper function for graphing fairness disparity results.
+
+    Parameters
+    ----------
+    fairness_results : dict
+        Dictionary of the fairness disparity ratios.
+    ref : str
+         The reference class from the feature to calculate.
+    threshold : float, default 0.75
+        Threshold for values to be classified as fair. Values below this threshold are colored red when
+        graphing while values above are colored green.
+    x_rotate : bool, default False
+        Whether to rotate the x-axis labels.
+    """
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+
+        _, ax = plt.subplots(ncols=3, nrows=1, figsize=(12, 5))
+
+        for i, item in enumerate(fairness_results.items()):
+            dataset_name = item[0]
+            results = item[1]
+            sorted_data = {key: results[key] for key in sorted(results, key=lambda x: (x != ref, x))}
+            for key, value in sorted_data.items():
+                color = 'grey' if key == ref else ('red' if value < threshold else 'green')
+                key_value = key if key != ref else f'{ref} (ref)'
+                ax[i].bar(key_value, value, color=color)
+                ax[i].text(key_value, value / 2, round(value, 2), ha='center', va='center', fontsize=12)
+                ax[i].set_title(dataset_name)
+                if x_rotate:
+                    ax[i].tick_params(axis='x', rotation=45)
+
+        plt.tight_layout()
+        plt.show()
