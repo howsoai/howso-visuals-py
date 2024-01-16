@@ -585,14 +585,14 @@ def plot_interpretable_prediction(
         return figures[0]
 
 
-def graph_fairness_disparity(
+def plot_fairness_disparity(
         fairness_results: dict,
         ref: str,
         threshold: float = 0.75,
         x_rotate: bool = False
 ):
     """
-    Helper function for graphing fairness disparity results.
+    Helper function for plotting fairness disparity results.
 
     Parameters
     ----------
