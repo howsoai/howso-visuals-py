@@ -1,0 +1,196 @@
+name: Build
+run-name: "Branch Build (${{ github.run_attempt }}.${{ github.run_number }}) - ${{ github.ref_name }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      amalgam-lang-py-build:
+        description: |
+          (Optional) amalgam-lang-py build or version number. Defaults to pinned release.
+          
+          Examples:
+            '6807310618',
+            'https://github.com/howsoai/amalgam-lang-py/actions/runs/6807310618',
+            '4.0.1'
+        required: false
+        type: string
+      howso-engine-py-build:
+        description: |
+          (Optional) howso-engine-py build or version number. Defaults to pinned release.
+        required: false
+        type: string
+  workflow_call:
+    inputs:
+      build-type:
+        required: false
+        type: string
+      optional-release-tag:
+        required: false
+        type: string
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  metadata:
+    uses: howsoai/.github/.github/workflows/set-metadata.yml@main
+    secrets: inherit
+    with:
+      build-type: ${{ inputs.build-type }}
+      optional-release-tag: ${{ inputs.optional-release-tag }}
+      amalgam-lang-py-build: ${{ inputs.amalgam-lang-py-build }}
+      howso-engine-py-build: ${{ inputs.howso-engine-py-build }}
+
+  build:
+    needs: ["metadata"]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install pypa/build
+      run: >-
+        python3 -m
+        pip install
+        build
+        --user
+
+    - name: Build a binary wheel and a source tarball
+      run: >-
+        python3 -m
+        build
+        --sdist
+        --wheel
+        --outdir dist/
+        .
+      env:
+        SETUPTOOLS_SCM_PRETEND_VERSION: ${{ needs.metadata.outputs.version }}
+
+    - name: Upload Tarball Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: "howso-visuals-${{ needs.metadata.outputs.version }}"
+        path: "dist/howso-visuals-${{ needs.metadata.outputs.version }}.tar.gz"
+        if-no-files-found: error
+
+    - name: Upload Wheel Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: "howso_visuals-${{ needs.metadata.outputs.version }}-py3-none-any"
+        path: "dist/howso_visuals-${{ needs.metadata.outputs.version }}-py3-none-any.whl"
+        if-no-files-found: error
+
+  workflow-summary:
+    needs: ['metadata']
+    uses: "howsoai/.github/.github/workflows/workflow-summary.yml@main"
+    secrets: inherit
+    with:
+      upstream-details: ${{ needs.metadata.outputs.upstream-details }}
+
+  pytest-linux-3-8-st:
+    needs: ['metadata', 'build']
+    uses: howsoai/.github/.github/workflows/pytest.yml@main
+    secrets: inherit
+    with:
+      platform: 'howso-ubuntu-runner-latest'
+      platform-pretty: 'Linux'
+      amalgam-plat-arch: 'linux-amd64'
+      python-version: '3.8'
+      config-fp: './config/latest-st-debug-howso.yml'
+      config-pretty: 'ST'
+      workers: 'auto'
+      upstream-details: ${{ needs.metadata.outputs.upstream-details }}
+
+  pytest-linux-3-11-mt:
+    needs: ['metadata', 'build']
+    uses: howsoai/.github/.github/workflows/pytest.yml@main
+    secrets: inherit
+    with:
+      platform: 'howso-ubuntu-runner-latest'
+      platform-pretty: 'Linux'
+      amalgam-plat-arch: 'linux-amd64'
+      python-version: '3.11'
+      config-fp: './config/latest-mt-debug-howso.yml'
+      config-pretty: 'MT'
+      upstream-details: ${{ needs.metadata.outputs.upstream-details }}
+
+  pytest-windows-3-11-mt:
+    needs: ['metadata', 'build']
+    uses: howsoai/.github/.github/workflows/pytest.yml@main
+    secrets: inherit
+    with:
+      platform: 'howso-windows-runner-latest'
+      platform-pretty: 'Windows'
+      amalgam-plat-arch: 'windows-amd64'
+      python-version: '3.11'
+      config-fp: './config/latest-mt-debug-howso.yml'
+      config-pretty: 'MT'
+      upstream-details: ${{ needs.metadata.outputs.upstream-details }}
+
+  pytest-macos-3-11-mt:
+    needs: ['metadata', 'build']
+    uses: howsoai/.github/.github/workflows/pytest.yml@main
+    secrets: inherit
+    with:
+      platform: 'macos-latest-xlarge'
+      platform-pretty: 'MacOS'
+      amalgam-plat-arch: 'darwin-arm64'
+      python-version: '3.11'
+      config-fp: './config/latest-mt-debug-howso.yml'
+      config-pretty: 'MT'
+      upstream-details: ${{ needs.metadata.outputs.upstream-details }}
+
+  release:
+    if: inputs.build-type == 'release'
+    needs: ['metadata', 'build']
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+
+    - uses: actions/checkout@v3
+
+    - name: download artifacts
+      uses: actions/download-artifact@v3
+      with:
+        path: ./tmp
+
+    - name: Create Release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ needs.metadata.outputs.version }}
+        commit: ${{ github.sha }}
+        name: "${{ github.event.repository.name }} ${{ needs.metadata.outputs.version }}"
+        artifactErrorsFailBuild: true
+        generateReleaseNotes: true
+        makeLatest: legacy
+        artifacts: "./tmp/howso-visuals-*/howso-visuals-*.tar.gz,./tmp/howso_visuals-*/howso_visuals-*.whl"
+        artifactContentType: application/gzip
+
+    - name: Clean up dir
+      run: |
+        mkdir -p dist
+        find ./tmp -type f -name '*.whl' -exec cp -t ./dist {} +
+        find ./tmp -type f -name '*.tar.gz' -exec cp -t ./dist {} +
+        ls ./dist
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Publish distribution to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
