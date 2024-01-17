@@ -585,9 +585,13 @@ def plot_interpretable_prediction(
 
 def plot_fairness_disparity(
     fairness_results: dict,
-    ref: str,
-    threshold: float = 0.75,
-    x_rotate: bool = False
+    reference_class: str,
+    *,
+    fairness_threshold: float = 0.75,
+    x_tickangle: bool | float = False,
+    fair_color: str = "#9BBf85",
+    unfair_color: str = "#B3589A",
+    reference_class_color: str = 'grey',
 ):
     """
     Helper function for plotting fairness disparity results.
@@ -596,22 +600,51 @@ def plot_fairness_disparity(
     ----------
     fairness_results : dict
         Dictionary of the fairness disparity ratios.
-    ref : str
+    reference_class : str
         The reference class for the metric calculation.
-    threshold : float, default 0.75
+    fairness_threshold : float, default 0.75
         Threshold for values to be classified as fair. Values below this threshold are colored red when
         graphing while values above are colored green.
-    x_rotate : bool, default False
-        Whether to rotate the x-axis labels.
+    x_tickangle : bool | float, default False
+        The angle of rotation for the x-axis labels. If False, the labels will not be rotated.
+    fair_color : str, default '#9BBf85'
+        The bar chart color for values that are above the ``fairness_threshold``. Accepts `Plotly` compatible
+        values.
+    unfair_color : str, default '#B3589A'
+        The bar chart color for values that are below the ``fairness_threshold``. Accepts `Plotly` compatible
+        values.
+    reference_class_color : str, default 'grey'
+        The bar chart color for the reference class. Accepts `Plotly` compatible
+        values.
+
+    Returns
+    -------
+    Figure
+        The resultant `Plotly` figure.
+
+    Examples
+    --------
+    .. code-block::python
+
+        >> fairness_results
+            {
+                'Dataset1': {'Male': 0.8, 'Female': 0.7, 'Other': 0.9},
+                'Dataset2': {'Male': 0.6, 'Female': 0.9, 'Other': 0.5},
+                'Dataset3': {'Male': 0.7, 'Female': 0.4, 'Other': 0.6}
+            }
+        >> fig = plot_fairness_disparity(fairness_results, reference_class='Male')
+
     """
     num_subplots = len(fairness_results)
     fig = make_subplots(rows=1, cols=num_subplots, subplot_titles=list(fairness_results.keys()))
 
     for i, (_, results) in enumerate(fairness_results.items(), 1):
-        sorted_data = {key: results[key] for key in sorted(results, key=lambda x: (x != ref, x))}
+        sorted_data = {key: results[key] for key in sorted(results, key=lambda x: (x != reference_class, x))}
         for key, value in sorted_data.items():
-            color = 'grey' if key == ref else ('red' if value < threshold else 'green')
-            key_value = key if key != ref else f'{ref} (ref)'
+            color = reference_class_color if key == reference_class else (
+                unfair_color if value < fairness_threshold else fair_color
+            )
+            key_value = key if key != reference_class else f'{reference_class} (ref)'
 
             fig.add_trace(
                 go.Bar(x=[key_value], y=[value], marker_color=color, name=key_value),
@@ -622,7 +655,7 @@ def plot_fairness_disparity(
 
     fig.update_layout(showlegend=False)
 
-    if x_rotate:
-        fig.update_xaxes(tickangle=45)
+    if x_tickangle:
+        fig.update_xaxes(tickangle=x_tickangle)
 
     return fig

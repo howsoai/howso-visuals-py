@@ -221,6 +221,6 @@ def test_plot_fairness_disparity():
         'Dataset2': {'Male': 0.6, 'Female': 0.9, 'Other': 0.5},
         'Dataset3': {'Male': 0.7, 'Female': 0.4, 'Other': 0.6}
     }
-    fig = plot_fairness_disparity(fairness_results, ref='Male')
+    fig = plot_fairness_disparity(fairness_results, reference_class='Male')
 
     assert fig is not None
