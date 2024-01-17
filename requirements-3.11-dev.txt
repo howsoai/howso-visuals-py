@@ -206,6 +206,10 @@ deprecation==2.1.0 \
     --hash=sha256:72b3bde64e5d778694b0cf68178aed03d15e15477116add3fb773e581f9518ff \
     --hash=sha256:a10811591210e1fb0e768a8c25517cabeabcba6f0bf96564f8ff45189f90b14a
     # via howso-engine
+execnet==2.0.2 \
+    --hash=sha256:88256416ae766bc9e8895c76a87928c0012183da3cc4fc18016e6f050e025f41 \
+    --hash=sha256:cc59bc4423742fd71ad227122eb0dd44db51efb3dc4095b45ac9a08c770096af
+    # via pytest-xdist
 faker==22.2.0 \
     --hash=sha256:2c2b7a8e55368defd718226bd5b48ef31b2d082c2900ccb4200987e433be500e \
     --hash=sha256:fab78f435d27fa7bd109b095eea3504477e4149051c903fd63f11ce252e3d9b7
@@ -704,9 +708,14 @@ pytest==7.4.4 \
     # via
     #   howso-visuals (pyproject.toml)
     #   pytest-cov
+    #   pytest-xdist
 pytest-cov==4.1.0 \
     --hash=sha256:3904b13dfbfec47f003b8e77fd5b589cd11904a21ddf1ab38a64f204d6a10ef6 \
     --hash=sha256:6ba70b9e97e69fcc3fb45bfeab2d0a138fb65c4d0d6a41ef33983ad114be8c3a
+    # via howso-visuals (pyproject.toml)
+pytest-xdist==3.5.0 \
+    --hash=sha256:cbb36f3d67e0c478baa57fa4edc8843887e0f6cfc42d677530a36d7472b32d8a \
+    --hash=sha256:d075629c7e00b611df89f490a5063944bee7a4362a5ff11c7cc7824a03dfce24
     # via howso-visuals (pyproject.toml)
 python-dateutil==2.8.2 \
     --hash=sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86 \
