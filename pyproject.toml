@@ -26,8 +26,9 @@ dev = [
     "flake8",
     "howso-engine",
     "isort",
-    "pytest-cov",
     "pytest",
+    "pytest-cov",
+    "pytest-xdist",
     "yapf",
 ]
 
