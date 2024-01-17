@@ -18,8 +18,7 @@ classifiers = [
 dependencies = [
     "seaborn~=0.12.0",
     "plotly",
-    "scipy",
-    "matplotlib"
+    "scipy"
 ]
 
 [project.optional-dependencies]
