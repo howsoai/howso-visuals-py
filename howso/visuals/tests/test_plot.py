@@ -6,7 +6,8 @@ from howso.visuals import (
     plot_anomalies,
     plot_dataset,
     plot_interpretable_prediction,
-    plot_kl_divergence,
+    plot_fairness_disparity,
+    plot_kl_divergence
 )
 from howso.visuals.visuals import plot_drift, plot_feature_importances
 
@@ -210,5 +211,17 @@ def test_plot_drift(compute_rolling_mean, line_positions, rolling_window):
 def test_plot_feature_importances():
     data = pd.DataFrame({"a": [0.5], "b": [0.2], "c": [0.1]})
     fig = plot_feature_importances(data)
+
+    assert fig is not None
+
+
+@pytest.mark.parametrize("x_tickangle", [True, False, 45])
+def test_plot_fairness_disparity(x_tickangle):
+    fairness_results = {
+        'Dataset1': {'Male': 0.8, 'Female': 0.7, 'Other': 0.9},
+        'Dataset2': {'Male': 0.6, 'Female': 0.9, 'Other': 0.5},
+        'Dataset3': {'Male': 0.7, 'Female': 0.4, 'Other': 0.6}
+    }
+    fig = plot_fairness_disparity(fairness_results, reference_class='Male', x_tickangle=x_tickangle)
 
     assert fig is not None
