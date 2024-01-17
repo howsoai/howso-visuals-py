@@ -215,12 +215,13 @@ def test_plot_feature_importances():
     assert fig is not None
 
 
-def test_plot_fairness_disparity():
+@pytest.mark.parametrize("x_tickangle", [True, False, 45])
+def test_plot_fairness_disparity(x_tickangle):
     fairness_results = {
         'Dataset1': {'Male': 0.8, 'Female': 0.7, 'Other': 0.9},
         'Dataset2': {'Male': 0.6, 'Female': 0.9, 'Other': 0.5},
         'Dataset3': {'Male': 0.7, 'Female': 0.4, 'Other': 0.6}
     }
-    fig = plot_fairness_disparity(fairness_results, reference_class='Male')
+    fig = plot_fairness_disparity(fairness_results, reference_class='Male', x_tickangle=x_tickangle)
 
     assert fig is not None

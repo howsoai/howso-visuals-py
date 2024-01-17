@@ -606,7 +606,8 @@ def plot_fairness_disparity(
         Threshold for values to be classified as fair. Values below this threshold are colored red when
         graphing while values above are colored green.
     x_tickangle : bool | float, default False
-        The angle of rotation for the x-axis labels. If False, the labels will not be rotated.
+        Whether to rotate the x-axis labels. If False, the labels will not be rotated. If True,
+        the default angle is 45 degrees. If float, then that angle of rotation will be used.
     fair_color : str, default '#9BBf85'
         The bar chart color for values that are above the ``fairness_threshold``. Accepts `Plotly` compatible
         values.
@@ -656,6 +657,8 @@ def plot_fairness_disparity(
     fig.update_layout(showlegend=False)
 
     if x_tickangle:
+        if isinstance(x_tickangle, bool):
+            x_tickangle = 45
         fig.update_xaxes(tickangle=x_tickangle)
 
     return fig
