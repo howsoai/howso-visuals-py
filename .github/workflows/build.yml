@@ -145,7 +145,7 @@ jobs:
       platform-pretty: 'MacOS'
       amalgam-plat-arch: 'darwin-amd64'
       python-version: '3.11'
-      config-fp: './config/latest-mt-debug-howso.yml'
+      config-fp: './config/latest-mt-noavx-debug-howso.yml'
       config-pretty: 'MT'
       upstream-details: ${{ needs.metadata.outputs.upstream-details }}
 
