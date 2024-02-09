@@ -488,7 +488,7 @@ def plot_interpretable_prediction(
     for action_feature in react["action"].columns:
         predicted_value = react["action"][action_feature].iloc[0]
 
-        influential_cases = react.get("explanation", {}).get("influential_cases")
+        influential_cases = react.get("details", {}).get("influential_cases")
         influential_cases = influential_cases[0] if influential_cases else None
 
         if generative_reacts is not None:
