@@ -675,7 +675,7 @@ def compose_figures(
     Helper function for composing several plotly `Figure`s.
 
     This is particularly useful for `Figure`s created by ``plotly.express``. Any
-    unspecified keyword argumemnts are passed to ``plotly.subplots.make_subplots``.
+    unspecified keyword arguments are passed to ``plotly.subplots.make_subplots``.
 
     Parameters
     ----------
