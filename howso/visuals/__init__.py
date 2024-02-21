@@ -1,4 +1,5 @@
 from .visuals import (
+    compose_figures,
     plot_anomalies,
     plot_dataset,
     plot_drift,
@@ -9,6 +10,7 @@ from .visuals import (
 )
 
 __all__ = [
+    "compose_figures",
     "plot_anomalies",
     "plot_dataset",
     "plot_drift",
