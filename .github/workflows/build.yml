@@ -78,8 +78,8 @@ jobs:
     - name: Upload Tarball Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: "howso-visuals-${{ needs.metadata.outputs.version }}"
-        path: "dist/howso-visuals-${{ needs.metadata.outputs.version }}.tar.gz"
+        name: "howso_visuals-${{ needs.metadata.outputs.version }}"
+        path: "dist/howso_visuals-${{ needs.metadata.outputs.version }}.tar.gz"
         if-no-files-found: error
 
     - name: Upload Wheel Artifact
@@ -149,9 +149,16 @@ jobs:
       config-pretty: 'MT'
       upstream-details: ${{ needs.metadata.outputs.upstream-details }}
 
+  generate-changelog:
+    if: inputs.build-type == 'release'
+    secrets: inherit
+    needs:
+      - metadata
+    uses: "howsoai/.github/.github/workflows/release-notes.yml@main"
+
   release:
     if: inputs.build-type == 'release'
-    needs: ['metadata', 'build']
+    needs: ['metadata', 'build', 'generate-changelog']
     runs-on: ubuntu-latest
     environment:
       name: pypi
@@ -175,9 +182,9 @@ jobs:
         commit: ${{ github.sha }}
         name: "${{ github.event.repository.name }} ${{ needs.metadata.outputs.version }}"
         artifactErrorsFailBuild: true
-        generateReleaseNotes: true
+        body: ${{ needs.generate-changelog.outputs.changelog }}
         makeLatest: legacy
-        artifacts: "./tmp/howso-visuals-*/howso-visuals-*.tar.gz,./tmp/howso_visuals-*/howso_visuals-*.whl"
+        artifacts: "./tmp/howso_visuals-*/howso_visuals-*.tar.gz,./tmp/howso_visuals-*/howso_visuals-*.whl"
         artifactContentType: application/gzip
 
     - name: Clean up dir
