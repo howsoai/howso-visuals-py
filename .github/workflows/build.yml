@@ -96,7 +96,7 @@ jobs:
     with:
       upstream-details: ${{ needs.metadata.outputs.upstream-details }}
 
-  pytest-linux-3-8-st:
+  pytest-linux-3-9-st:
     needs: ['metadata', 'build']
     uses: howsoai/.github/.github/workflows/pytest.yml@main
     secrets: inherit
@@ -104,13 +104,13 @@ jobs:
       platform: 'howso-ubuntu-runner-latest'
       platform-pretty: 'Linux'
       amalgam-plat-arch: 'linux-amd64'
-      python-version: '3.8'
+      python-version: '3.9'
       config-fp: './config/latest-st-debug-howso.yml'
       config-pretty: 'ST'
       workers: 'auto'
       upstream-details: ${{ needs.metadata.outputs.upstream-details }}
 
-  pytest-linux-3-11-mt:
+  pytest-linux-3-12-mt:
     needs: ['metadata', 'build']
     uses: howsoai/.github/.github/workflows/pytest.yml@main
     secrets: inherit
@@ -118,12 +118,12 @@ jobs:
       platform: 'howso-ubuntu-runner-latest'
       platform-pretty: 'Linux'
       amalgam-plat-arch: 'linux-amd64'
-      python-version: '3.11'
+      python-version: '3.12'
       config-fp: './config/latest-mt-debug-howso.yml'
       config-pretty: 'MT'
       upstream-details: ${{ needs.metadata.outputs.upstream-details }}
 
-  pytest-windows-3-11-mt:
+  pytest-windows-3-12-mt:
     needs: ['metadata', 'build']
     uses: howsoai/.github/.github/workflows/pytest.yml@main
     secrets: inherit
@@ -131,12 +131,12 @@ jobs:
       platform: 'howso-windows-runner-latest'
       platform-pretty: 'Windows'
       amalgam-plat-arch: 'windows-amd64'
-      python-version: '3.11'
+      python-version: '3.12'
       config-fp: './config/latest-mt-debug-howso.yml'
       config-pretty: 'MT'
       upstream-details: ${{ needs.metadata.outputs.upstream-details }}
 
-  pytest-macos-3-11-mt:
+  pytest-macos-3-12-mt:
     needs: ['metadata', 'build']
     uses: howsoai/.github/.github/workflows/pytest.yml@main
     secrets: inherit
@@ -144,7 +144,7 @@ jobs:
       platform: 'macos-latest-large'
       platform-pretty: 'MacOS'
       amalgam-plat-arch: 'darwin-amd64'
-      python-version: '3.11'
+      python-version: '3.12'
       config-fp: './config/latest-mt-noavx-debug-howso.yml'
       config-pretty: 'MT'
       upstream-details: ${{ needs.metadata.outputs.upstream-details }}
@@ -158,7 +158,14 @@ jobs:
 
   release:
     if: inputs.build-type == 'release'
-    needs: ['metadata', 'build', 'generate-changelog']
+    needs:
+      - metadata
+      - build
+      - generate-changelog
+      - pytest-linux-3-9-st
+      - pytest-linux-3-12-mt
+      - pytest-windows-3-12-mt
+      - pytest-macos-3-12-mt
     runs-on: ubuntu-latest
     environment:
       name: pypi
