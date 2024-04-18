@@ -1,13 +1,79 @@
+build
+1.2.1
+MIT License
+Filipe Laíns <lains@riseup.net>, Bernát Gábor <gaborjbernat@gmail.com>, layday <layday@protonmail.com>, Henry Schreiner <henryschreineriii@gmail.com>
+https://build.pypa.io
+A simple, correct Python build frontend
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/build-1.2.1.dist-info/LICENSE
+Copyright © 2019 Filipe Laíns <filipe.lains@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+
+click
+8.1.7
+BSD License
+UNKNOWN
+https://palletsprojects.com/p/click/
+Composable command line interface toolkit
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/click-8.1.7.dist-info/LICENSE.rst
+Copyright 2014 Pallets
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+1.  Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+2.  Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+
+3.  Neither the name of the copyright holder nor the names of its
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
 contourpy
-1.2.0
+1.2.1
 BSD License
 Ian Thomas <ianthomas23@gmail.com>
 https://github.com/contourpy/contourpy
 Python library for calculating contours of 2D quadrilateral grids
-/opt/hostedtoolcache/Python/3.11.7/x64/lib/python3.11/site-packages/contourpy-1.2.0.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/contourpy-1.2.1.dist-info/LICENSE
 BSD 3-Clause License
 
-Copyright (c) 2021-2023, ContourPy Developers.
+Copyright (c) 2021-2024, ContourPy Developers.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -42,7 +108,7 @@ BSD License
 Thomas A Caswell <matplotlib-users@python.org>
 https://matplotlib.org/cycler/
 Composable style cycles
-/opt/hostedtoolcache/Python/3.11.7/x64/lib/python3.11/site-packages/cycler-0.12.1.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/cycler-0.12.1.dist-info/LICENSE
 Copyright (c) 2015, matplotlib project
 All rights reserved.
 
@@ -72,12 +138,12 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 fonttools
-4.47.2
+4.51.0
 MIT License
 Just van Rossum
 http://github.com/fonttools/fonttools
 Tools to manipulate font files
-/opt/hostedtoolcache/Python/3.11.7/x64/lib/python3.11/site-packages/fonttools-4.47.2.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/fonttools-4.51.0.dist-info/LICENSE
 MIT License
 
 Copyright (c) 2017 Just van Rossum
@@ -107,7 +173,7 @@ BSD License
 The Nucleic Development Team <sccolbert@gmail.com>
 https://github.com/nucleic/kiwi
 A fast implementation of the Cassowary constraint solver
-/opt/hostedtoolcache/Python/3.11.7/x64/lib/python3.11/site-packages/kiwisolver-1.4.5.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/kiwisolver-1.4.5.dist-info/LICENSE
 =========================
  The Kiwi licensing terms
 =========================
@@ -182,12 +248,12 @@ to indicate the copyright and license terms:
 
 
 matplotlib
-3.8.2
+3.8.4
 Python Software Foundation License
 John D. Hunter, Michael Droettboom
 https://matplotlib.org
 Python plotting package
-/opt/hostedtoolcache/Python/3.11.7/x64/lib/python3.11/site-packages/matplotlib-3.8.2.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/matplotlib-3.8.4.dist-info/LICENSE
 License agreement for matplotlib versions 1.3.0 and later
 =========================================================
 
@@ -289,12 +355,12 @@ Licensee agrees to be bound by the terms and conditions of this License
 Agreement.
 
 numpy
-1.26.3
+1.26.4
 BSD License
 Travis E. Oliphant et al.
 https://numpy.org
 Fundamental package for array computing in Python
-/opt/hostedtoolcache/Python/3.11.7/x64/lib/python3.11/site-packages/numpy-1.26.3.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/numpy-1.26.4.dist-info/LICENSE.txt
 Copyright (c) 2005-2023, NumPy Developers.
 All rights reserved.
 
@@ -359,11 +425,6 @@ Name: Meson
 Files: vendored-meson/meson/*
 License: Apache 2.0
   For license text, see vendored-meson/meson/COPYING
-
-Name: meson-python
-Files: vendored-meson/meson-python/*
-License: MIT
-  For license text, see vendored-meson/meson-python/LICENSE
 
 Name: spin
 Files: .spin/cmds.py
@@ -1274,24 +1335,24 @@ License: LGPL-2.1-or-later
 
 
 packaging
-23.2
+24.0
 Apache Software License; BSD License
 Donald Stufft <donald@stufft.io>
 https://github.com/pypa/packaging
 Core utilities for Python packages
-/opt/hostedtoolcache/Python/3.11.7/x64/lib/python3.11/site-packages/packaging-23.2.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/packaging-24.0.dist-info/LICENSE
 This software is made available under the terms of *either* of the licenses
 found in LICENSE.APACHE or LICENSE.BSD. Contributions to this software is made
 under the terms of *both* these licenses.
 
 
 pandas
-2.1.4
+2.2.2
 BSD License
 The Pandas Development Team <pandas-dev@python.org>
 https://pandas.pydata.org
 Powerful data structures for data analysis, time series, and statistics
-/opt/hostedtoolcache/Python/3.11.7/x64/lib/python3.11/site-packages/pandas-2.1.4.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/pandas-2.2.2.dist-info/LICENSE
 BSD 3-Clause License
 
 Copyright (c) 2008-2011, AQR Capital Management, LLC, Lambda Foundry, Inc. and PyData Development Team
@@ -1326,20 +1387,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 pillow
-10.2.0
+10.3.0
 Historical Permission Notice and Disclaimer (HPND)
-"Jeffrey A. Clark (Alex)" <aclark@aclark.net>
+"Jeffrey A. Clark" <aclark@aclark.net>
 https://python-pillow.org
 Python Imaging Library (Fork)
-/opt/hostedtoolcache/Python/3.11.7/x64/lib/python3.11/site-packages/pillow-10.2.0.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/pillow-10.3.0.dist-info/LICENSE
 The Python Imaging Library (PIL) is
 
     Copyright © 1997-2011 by Secret Labs AB
-    Copyright © 1995-2011 by Fredrik Lundh
+    Copyright © 1995-2011 by Fredrik Lundh and contributors
 
 Pillow is the friendly PIL fork. It is
 
-    Copyright © 2010-2024 by Jeffrey A. Clark (Alex) and contributors.
+    Copyright © 2010-2024 by Jeffrey A. Clark and contributors
 
 Like PIL, Pillow is licensed under the open source HPND License:
 
@@ -2677,13 +2738,50 @@ the file ChangeLog history information documenting your changes.  Please read
 the FAQ for more information on the distribution of modified source versions.
 
 
+pip-tools
+7.4.1
+BSD License
+Vincent Driessen <me@nvie.com>
+https://github.com/jazzband/pip-tools/
+pip-tools keeps your pinned dependencies fresh.
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/pip_tools-7.4.1.dist-info/LICENSE
+BSD 3-Clause License
+
+Copyright (c). All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+    1. Redistributions of source code must retain the above copyright notice,
+       this list of conditions and the following disclaimer.
+
+    2. Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+
+    3. Neither the name of pip-tools nor the names of its contributors may be
+       used to endorse or promote products derived from this software without
+       specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
 plotly
-5.18.0
+5.21.0
 MIT License
 Chris P
 https://plotly.com/python/
 An open-source, interactive data visualization library for Python
-/opt/hostedtoolcache/Python/3.11.7/x64/lib/python3.11/site-packages/plotly-5.18.0.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/plotly-5.21.0.dist-info/LICENSE.txt
 The MIT License (MIT)
 
 Copyright (c) 2016-2018 Plotly, Inc
@@ -2708,12 +2806,12 @@ THE SOFTWARE.
 
 
 pyparsing
-3.1.1
+3.1.2
 MIT License
 Paul McGuire <ptmcg.gm+pyparsing@gmail.com>
 https://github.com/pyparsing/pyparsing/
 pyparsing module - Classes and methods to define and execute parsing grammars
-/opt/hostedtoolcache/Python/3.11.7/x64/lib/python3.11/site-packages/pyparsing-3.1.1.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/pyparsing-3.1.2.dist-info/LICENSE
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 "Software"), to deal in the Software without restriction, including
@@ -2734,13 +2832,43 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+pyproject_hooks
+1.0.0
+MIT License
+Thomas Kluyver <thomas@kluyver.me.uk>
+https://github.com/pypa/pyproject-hooks
+Wrappers to call pyproject.toml-based build backend hooks.
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/pyproject_hooks-1.0.0.dist-info/LICENSE
+The MIT License (MIT)
+
+Copyright (c) 2017 Thomas Kluyver
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
 python-dateutil
-2.8.2
+2.9.0.post0
 Apache Software License; BSD License
 Gustavo Niemeyer
 https://github.com/dateutil/dateutil
 Extensions to the standard Python datetime module
-/opt/hostedtoolcache/Python/3.11.7/x64/lib/python3.11/site-packages/python_dateutil-2.8.2.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/python_dateutil-2.9.0.post0.dist-info/LICENSE
 Copyright 2017- Paul Ganssle <paul@ganssle.io>
 Copyright 2017- dateutil contributors (see AUTHORS file)
 
@@ -2797,12 +2925,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 The above BSD License Applies to all code, even that also covered by Apache 2.0.
 
 pytz
-2023.3.post1
+2024.1
 MIT License
 Stuart Bishop
 http://pythonhosted.org/pytz
 World timezone definitions, modern and historical
-/opt/hostedtoolcache/Python/3.11.7/x64/lib/python3.11/site-packages/pytz-2023.3.post1.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/pytz-2024.1.dist-info/LICENSE.txt
 Copyright (c) 2003-2019 Stuart Bishop <stuart@stuartbishop.net>
 
 Permission is hereby granted, free of charge, to any person obtaining a
@@ -2825,13 +2953,13 @@ DEALINGS IN THE SOFTWARE.
 
 
 scipy
-1.11.4
+1.13.0
 BSD License
 UNKNOWN
 https://scipy.org/
 Fundamental algorithms for scientific computing in Python
-/opt/hostedtoolcache/Python/3.11.7/x64/lib/python3.11/site-packages/scipy-1.11.4.dist-info/LICENSE.txt
-Copyright (c) 2001-2002 Enthought, Inc. 2003-2023, SciPy Developers.
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/scipy-1.13.0.dist-info/LICENSE.txt
+Copyright (c) 2001-2002 Enthought, Inc. 2003-2024, SciPy Developers.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -3772,7 +3900,7 @@ BSD License
 Michael Waskom <mwaskom@gmail.com>
 https://github.com/mwaskom/seaborn
 Statistical data visualization
-/opt/hostedtoolcache/Python/3.11.7/x64/lib/python3.11/site-packages/seaborn-0.12.2.dist-info/LICENSE.md
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/seaborn-0.12.2.dist-info/LICENSE.md
 Copyright (c) 2012-2021, Michael L. Waskom
 All rights reserved.
 
@@ -3808,7 +3936,7 @@ MIT License
 Benjamin Peterson
 https://github.com/benjaminp/six
 Python 2 and 3 compatibility utilities
-/opt/hostedtoolcache/Python/3.11.7/x64/lib/python3.11/site-packages/six-1.16.0.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/six-1.16.0.dist-info/LICENSE
 Copyright (c) 2010-2020 Benjamin Peterson
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -3835,7 +3963,7 @@ Apache Software License
 Julien Danjou
 https://github.com/jd/tenacity
 Retry code until it succeeds
-/opt/hostedtoolcache/Python/3.11.7/x64/lib/python3.11/site-packages/tenacity-8.2.3.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/tenacity-8.2.3.dist-info/LICENSE
 
                                  Apache License
                            Version 2.0, January 2004
@@ -4040,12 +4168,12 @@ Retry code until it succeeds
    limitations under the License.
 
 tzdata
-2023.4
+2024.1
 Apache Software License
 Python Software Foundation
 https://github.com/python/tzdata
 Provider of IANA time zone data
-/opt/hostedtoolcache/Python/3.11.7/x64/lib/python3.11/site-packages/tzdata-2023.4.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/tzdata-2024.1.dist-info/LICENSE
 Apache Software License 2.0
 
 Copyright (c) 2020, Paul Ganssle (Google)
