@@ -1,13 +1,6 @@
 from __future__ import annotations
 
-from typing import (
-    Any,
-    Dict,
-    List,
-    Optional,
-    TYPE_CHECKING,
-    Tuple,
-)
+import typing as t
 
 import numpy as np
 from pandas import (
@@ -20,18 +13,18 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from scipy.stats import gaussian_kde
 
-if TYPE_CHECKING:
+if t.TYPE_CHECKING:
     from howso.engine.trainee import Reaction
 
 
 def plot_feature_importances(
     feature_importances: DataFrame,
     *,
-    num_features_to_plot: Optional[int] = None,
+    num_features_to_plot: t.Optional[int] = None,
     sort_values: bool = True,
-    title: Optional[str] = "Feature Importances",
-    xaxis_title: Optional[str] = "Feature",
-    yaxis_title: Optional[str] = "Importance",
+    title: t.Optional[str] = "Feature Importances",
+    xaxis_title: t.Optional[str] = "Feature",
+    yaxis_title: t.Optional[str] = "Importance",
 ) -> go.Figure:
     """
     Plot feature importances (either MDA or feature contributions) from :meth:`Trainee.get_prediction_stats`.
@@ -83,7 +76,7 @@ def plot_anomalies(
     num_cases_to_plot: int = 5,
     title: str = "Anomalies",
     xaxis_title: str = "Feature",
-    yaxis_title: Optional[str] = None,
+    yaxis_title: t.Optional[str] = None,
 ) -> go.Figure:
     """
     Plot anomalous cases using a heat map which shows conviction values for each feature.
@@ -159,14 +152,14 @@ def plot_dataset(
     y: str,
     *,
     alpha: float = 1.0,
-    boundary_cases: Optional[DataFrame] = None,
-    highlight_index: Optional[Any | List[Any]] = None,
-    highlight_label: Optional[str] = None,
-    highlight_selection_conditions: Optional[Dict[str, Any]] = None,
-    hue: Optional[str] = None,
-    most_similar_cases: Optional[DataFrame] = None,
-    size: Optional[str] = None,
-    title: Optional[str] = None,
+    boundary_cases: t.Optional[DataFrame] = None,
+    highlight_index: t.Optional[t.Any | list[t.Any]] = None,
+    highlight_label: t.Optional[str] = None,
+    highlight_selection_conditions: t.Optional[dict[str, t.Any]] = None,
+    hue: t.Optional[str] = None,
+    most_similar_cases: t.Optional[DataFrame] = None,
+    size: t.Optional[str] = None,
+    title: t.Optional[str] = None,
 ) -> go.Figure:
     """
     Create a figure which displays an entire dataset with certain cases being specifically highlighted.
@@ -192,12 +185,12 @@ def plot_dataset(
         The transparency to assign to each marker when plotting the dataset.
     boundary_cases: DataFrame, optional
         The boundary cases to plot, if any.
-    highlight_index : Any | List[Any], optional
+    highlight_index : Any or list of Any, optional
         The index of one or more individual cases to highlight. Takes priority over
         ``highlight_selection_conditions``.
     highlight_label : str, Optional
         The label to assign to the highlighted case.
-    highlight_selection_conditions : Dict[str, Any], optional
+    highlight_selection_conditions : dict of str -> Any, optional
         A mapping of feature names to feature values that describes conditions for selecting case(s)
         to highlight.
     hue : str, optional
@@ -332,7 +325,7 @@ def plot_drift(
     df: DataFrame,
     *,
     compute_rolling_mean: bool = True,
-    line_positions: List[int] = None,
+    line_positions: list[int] = None,
     rolling_window: int = 10,
     title: str = "Model Drift \u2014 Conviction Over Time",
     xaxis_title: str = "Case Index",
@@ -347,7 +340,7 @@ def plot_drift(
         A DataFrame containing the drift measures to plot.
     compute_rolling_mean : bool, default True
         Whether to compute the rolling mean for the variable to plot.
-    line_positions : List[int], optional
+    line_positions : list of int, optional
         Positions along the X axis to plot black lines.
     rolling_window : int, default 10
         The window to use when computing the rolling mean.
@@ -445,14 +438,14 @@ def plot_kl_divergence(
 def plot_interpretable_prediction(
     react: Reaction,
     *,
-    actual_value: Optional[float] = None,
-    generative_reacts: Optional[List[float]] = None,
-    residual: Optional[float] = None,
+    actual_value: t.Optional[float] = None,
+    generative_reacts: t.Optional[list[float]] = None,
+    residual: t.Optional[float] = None,
     secondary_yaxis_title: str = "Influence Weight",
-    title: Optional[str] = None,
-    xaxis_title: Optional[str] = None,
+    title: t.Optional[str] = None,
+    xaxis_title: t.Optional[str] = None,
     yaxis_title: str = "Density",
-) -> go.Figure | List[go.Figure]:
+) -> go.Figure | list[go.Figure]:
     """
     Plot a prediction with additional information for interpreting the result.
 
@@ -461,14 +454,14 @@ def plot_interpretable_prediction(
     react : Reaction
         The reaction predicting the action feature(s) to visualize. If this contains more than one action feature,
         each will be given its own plot.
-    generative_reacts : Optional[List[float]]
+    generative_reacts : list of float, optional
         An optional list of values for the action feature to visualize. This will be used to visualize a
         KDE plot to characterize the distribution of values around the predicted and actual values. If this is None,
         the distribution of influential cases in the react will be used instead, if present.
-    actual_value : Optional[float]
+    actual_value : float, optional
         The actual value for the point that was predicted. If this is None, only the predicted value will be
         visualized.
-    residual : Optional[float]
+    residual : float, optional
         The residual for the feature that was predicted, local or global. Used to display an error bar around the
         predicted value. If this is None, no error bar will be displayed
     secondary_yaxis_title : str, default "Influence Weight"
@@ -482,7 +475,7 @@ def plot_interpretable_prediction(
 
     Returns
     -------
-    Figure | List[Figure]
+    Figure or list of Figure
         The resultant `Plotly` figure(s).
     """
     figures = []
@@ -606,7 +599,7 @@ def plot_fairness_disparity(
     fairness_threshold : float, default 0.75
         Threshold for values to be classified as fair. Values below this threshold are colored red when
         graphing while values above are colored green.
-    x_tickangle : bool | float, default False
+    x_tickangle : bool or float, default False
         Whether to rotate the x-axis labels. If False, the labels will not be rotated. If True,
         the default angle is 45 degrees. If float, then that angle of rotation will be used.
     fair_color : str, default '#9BBf85'
@@ -666,7 +659,7 @@ def plot_fairness_disparity(
 
 
 def compose_figures(
-    figures: List[go.Figure],
+    figures: list[go.Figure],
     rows: int,
     cols: int,
     **make_subplots_kwargs,
@@ -688,10 +681,10 @@ def compose_figures(
 
     Returns
     -------
-    go.Figure
+    Figure
         The composed `Figure`.
     """
-    figure_trace_map: Dict[Tuple[int, int], List] = {}
+    figure_trace_map: dict[tuple[int, int], list] = {}
     subplot_titles = []
 
     if rows < 1 or cols < 1:
