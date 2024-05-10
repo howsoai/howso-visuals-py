@@ -57,7 +57,7 @@ def test_plot_interpretable_prediction_react(
 
     if do_residual:
         iris_trainee.react_into_trainee(residuals=True)
-        residual = iris_trainee.get_prediction_stats(stats=["mae"])[action_feature][0]
+        residual = iris_trainee.get_prediction_stats(stats=["mae"])[action_feature].iloc[0]
     else:
         residual = None
 
@@ -110,7 +110,7 @@ def test_plot_dataset(
     if do_most_similar_cases and highlight_cases is not None:
         most_similar_cases = iris_trainee.react(contexts=highlight_cases, details={"most_similar_cases": True})
         most_similar_cases = pd.concat(
-            [pd.DataFrame(mscs) for mscs in most_similar_cases["explanation"]["most_similar_cases"]]
+            [pd.DataFrame(mscs) for mscs in most_similar_cases["details"]["most_similar_cases"]]
         ).reset_index(drop=True)
         num_expected_traces += 1
 
@@ -124,7 +124,7 @@ def test_plot_dataset(
             details={"boundary_cases": True}
         )
         boundary_cases = pd.concat(
-            [pd.DataFrame(bcs) for bcs in boundary_cases["explanation"]["boundary_cases"]]
+            [pd.DataFrame(bcs) for bcs in boundary_cases["details"]["boundary_cases"]]
         ).reset_index(drop=True)
         num_expected_traces += 1
 
@@ -162,7 +162,6 @@ def outliers_convictions(iris_trainee, iris_features):
         preserve_feature_values=iris_features.get_names(),
         leave_case_out=True,
         details={
-            "robust_computation": True,
             "boundary_cases": True,
             "influential_cases": True,
             "global_case_feature_residual_convictions": True,
@@ -170,7 +169,7 @@ def outliers_convictions(iris_trainee, iris_features):
         }
     )
     convictions = pd.DataFrame(
-        convictions["explanation"]["global_case_feature_residual_convictions"]
+        convictions["details"]["global_case_feature_residual_convictions"]
     )
 
     yield outliers, convictions
