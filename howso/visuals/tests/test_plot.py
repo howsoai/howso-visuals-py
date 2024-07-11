@@ -7,7 +7,8 @@ from howso.visuals import (
     plot_dataset,
     plot_interpretable_prediction,
     plot_fairness_disparity,
-    plot_kl_divergence
+    plot_kl_divergence,
+    plot_umap,
 )
 from howso.visuals.visuals import plot_drift, plot_feature_importances
 
@@ -56,8 +57,8 @@ def test_plot_interpretable_prediction_react(
         generative_reacts = None
 
     if do_residual:
-        iris_trainee.react_into_trainee(residuals=True)
-        residual = iris_trainee.get_prediction_stats(stats=["mae"])[action_feature].iloc[0]
+        residual = iris_trainee.react_aggregate(details={"prediction_stats": True, "selected_prediction_stats": ["mae"]})
+        residual = residual[action_feature].iloc[0]
     else:
         residual = None
 
@@ -164,12 +165,12 @@ def outliers_convictions(iris_trainee, iris_features):
         details={
             "boundary_cases": True,
             "influential_cases": True,
-            "global_case_feature_residual_convictions": True,
-            "local_case_feature_residual_convictions": True,
+            "global_case_feature_residual_convictions_full": True,
+            "local_case_feature_residual_convictions_full": True,
         }
     )
     convictions = pd.DataFrame(
-        convictions["details"]["global_case_feature_residual_convictions"]
+        convictions["details"]["global_case_feature_residual_convictions_full"]
     )
 
     yield outliers, convictions
@@ -224,3 +225,14 @@ def test_plot_fairness_disparity(x_tickangle):
     fig = plot_fairness_disparity(fairness_results, reference_class='Male', x_tickangle=x_tickangle)
 
     assert fig is not None
+
+
+@pytest.mark.parametrize("n_cases", [None, 50])
+@pytest.mark.parametrize("data", ["iris_train", "iris_trainee"])
+def test_plot_umap(data, n_cases, request):
+    data = request.getfixturevalue(data)
+    fig = plot_umap(data, n_cases=n_cases)
+
+    assert fig is not None
+    if n_cases is not None:
+        assert len(fig.data[0].y) == n_cases

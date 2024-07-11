@@ -797,7 +797,7 @@ def plot_umap(
     case_indices = None
     if n_cases is not None:
         sampled_cases = t.get_cases(
-            features=[".session", ".session_training_index"] + list(features),
+            features=[".session", ".session_training_index"] + list(t.features),
             session=t.get_sessions()[0]["id"],
         ).sample(n_cases)
         case_indices = sampled_cases[[".session", ".session_training_index"]]
