@@ -5,7 +5,10 @@ import warnings
 
 import numpy.typing as npt
 from pandas import DataFrame
-import umap
+
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore")
+    import umap
 
 from howso.engine import Trainee
 from howso.utilities import infer_feature_attributes
