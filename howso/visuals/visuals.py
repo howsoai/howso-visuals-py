@@ -741,7 +741,7 @@ def compose_figures(
 
 
 def plot_umap(
-    data: DataFrame,
+    data: DataFrame | Trainee,
     *,
     color: t.Optional[str] = None,
     min_dist: t.Optional[float] = None,
@@ -759,8 +759,8 @@ def plot_umap(
 
     Parameters
     ----------
-    data : DataFrame
-        The data to transform.
+    data : DataFrame | Trainee
+        The data to transform or a :class:`Trainee` containing the data to transform.
     color : str, optional
         The name of the column in ``data`` to use for determining marker color.
     min_dist : float, optional
@@ -817,15 +817,20 @@ def plot_umap(
             n_neighbors=n_neighbors,
         ).fit_transform(distances)
     
-    fig = px.Scatter(
+    scatter_kwargs = {}
+    labels = {
+        "x": xaxis_title,
+        "y": yaxis_title,
+    }
+    if color is not None:
+        scatter_kwargs["color"] = (sampled_cases[color] if n_cases is not None else data[color]).astype(object)
+        labels["color"] = color
+
+    fig = px.scatter(
         x=points[:, 0],
         y=points[:, 1],
-        color=sampled_cases[color] if n_cases is not None else data[color],
         title=title,
-        labels={
-            "x": xaxis_title,
-            "y": yaxis_title,
-            "color": color,
-        }
+        labels=labels,
+        **scatter_kwargs
     )
     return fig
