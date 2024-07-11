@@ -16,15 +16,16 @@ classifiers = [
     "Programming Language :: Python :: 3"
 ]
 dependencies = [
-    "seaborn~=0.12.0",
+    "howso-engine~=25.0",
     "plotly",
-    "scipy"
+    "scipy",
+    "seaborn~=0.12.0",
+    "umap-learn[plot]~=0.5",
 ]
 
 [project.optional-dependencies]
 dev = [
     "flake8",
-    "howso-engine",
     "isort",
     "pytest",
     "pytest-cov",
