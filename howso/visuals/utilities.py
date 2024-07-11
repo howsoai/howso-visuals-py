@@ -63,12 +63,12 @@ def howso_umap_transform(
         sampled_cases = t.get_cases(
             features=[".session", ".session_training_index"] + list(features),
             session=t.get_sessions()[0]["id"],
-        )
+        ).sample(n_cases)
         case_indices = sampled_cases[[".session", ".session_training_index"]]
         case_indices = case_indices.values.tolist()
     
     distances = t.get_distances(case_indices=case_indices)["distances"]
-    hyperparameter_map = t.get_params(action_feature=".targetless")
+    hyperparameter_map = t.get_params(action_feature=".targetless")["hyperparameter_map"]
     
     n_neighbors = n_neighbors or hyperparameter_map["k"]
     p = hyperparameter_map["p"]
