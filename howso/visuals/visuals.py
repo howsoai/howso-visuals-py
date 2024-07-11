@@ -784,10 +784,15 @@ def plot_umap(
     Figure
         The resultant `Plotly` figure.
     """
-    features = infer_feature_attributes(data)
-    t = Trainee(features=features)
-    t.train(data, skip_auto_analyze=True)
-    t.analyze()
+    if isinstance(data, DataFrame):
+        features = infer_feature_attributes(data)
+        t = Trainee(features=features)
+        t.train(data, skip_auto_analyze=True)
+        t.analyze()
+    elif isinstance(data, Trainee):
+        t = data
+    else:
+        raise TypeError("`data` must be a Trainee or a DataFrame.")
 
     case_indices = None
     if n_cases is not None:
