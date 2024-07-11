@@ -7,6 +7,7 @@ from .visuals import (
     plot_feature_importances,
     plot_interpretable_prediction,
     plot_kl_divergence,
+    plot_umap,
 )
 
 __all__ = [
@@ -18,5 +19,5 @@ __all__ = [
     "plot_feature_importances",
     "plot_interpretable_prediction",
     "plot_kl_divergence",
-    "utilities"
+    "plot_umap",
 ]
