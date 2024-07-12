@@ -820,8 +820,8 @@ def plot_umap(
     distances = t.get_distances(
         case_indices=case_indices,
         action_feature=action_feature,
-        # use_case_weights=use_case_weights,
-        # weight_feature=weight_feature,
+        use_case_weights=use_case_weights,
+        weight_feature=weight_feature,
     )["distances"]
     hyperparameter_map = t.get_params(action_feature=".targetless")["hyperparameter_map"]
     
