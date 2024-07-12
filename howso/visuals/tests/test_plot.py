@@ -49,10 +49,12 @@ def test_plot_interpretable_prediction_react(
             action_features=[action_feature],
             contexts=predict_case[context_features],
             desired_conviction=5_000,
-            num_cases_to_generate=20
+            num_cases_to_generate=20,
+            generate_new_cases=False,
         )
         generative_reacts = result["action"].loc[:, action_feature].values.tolist()
         generative_reacts[0] = generative_reacts[0] + 0.2
+        generative_reacts[-1] = generative_reacts[-1] - 0.2
     else:
         generative_reacts = None
 
