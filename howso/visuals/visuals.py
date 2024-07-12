@@ -743,11 +743,14 @@ def compose_figures(
 def plot_umap(
     data: DataFrame | Trainee,
     *,
+    action_feature: t.Optional[str] = None,
     color: t.Optional[str] = None,
     min_dist: t.Optional[float] = None,
     n_cases: t.Optional[int] = None,
     n_neighbors: t.Optional[int] = None,
     title: str = "UMAP Representation",
+    use_case_weights: bool = False,
+    weight_feature: t.Optional[str] = None,
     xaxis_title: str = "Component 1",
     yaxis_title: str = "Component 2",
 ) -> go.Figure:
@@ -761,6 +764,8 @@ def plot_umap(
     ----------
     data : DataFrame | Trainee
         The data to transform or a :class:`Trainee` containing the data to transform.
+    action_feature : str, optional
+        The action feature to use when selecting hyperparameters for :meth:`Trainee.get_distances`.
     color : str, optional
         The name of the column in ``data`` to use for determining marker color.
     min_dist : float, optional
@@ -774,6 +779,10 @@ def plot_umap(
         selected by :meth:`Trainee.analyze`.
     title : str, default "UMAP Representation"
         The title for the figure.
+    use_case_weights : bool, default False
+        Whether to use case weights when selecting hyperparameters for :meth:`Trainee.get_distances`.
+    weight_feature: str, optional
+        The weight feature to use when selecting hyperparameters for :meth:`Trainee.get_distances`.
     xaxis_title : str, default "Component 1"
         The title for the x-axis.
     yaxis_title : str, default "Component 2"
@@ -802,15 +811,30 @@ def plot_umap(
         ).sample(n_cases)
         case_indices = sampled_cases[[".session", ".session_training_index"]]
         case_indices = case_indices.values.tolist()
+    else:
+        sampled_cases =  t.get_cases(
+            features=[".session", ".session_training_index"] + list(t.features),
+            session=t.get_sessions()[0]["id"],
+        )
     
-    distances = t.get_distances(case_indices=case_indices)["distances"]
+    distances = t.get_distances(
+        case_indices=case_indices,
+        action_feature=action_feature,
+        # use_case_weights=use_case_weights,
+        # weight_feature=weight_feature,
+    )["distances"]
     hyperparameter_map = t.get_params(action_feature=".targetless")["hyperparameter_map"]
     
     n_neighbors = n_neighbors or hyperparameter_map["k"]
     p = hyperparameter_map["p"]
 
     if min_dist is None:
-        residuals = t.react_aggregate(details={"feature_residuals_full": True})
+        residuals = t.react_aggregate(
+            action_feature=action_feature,
+            details={"feature_residuals_full": True},
+            use_case_weights=use_case_weights,
+            weight_feature=weight_feature,
+        )
         min_dist = float((residuals.values ** p).sum() ** (1 / p))
         min_dist = min(round(min_dist, 3), 1)
     
@@ -828,7 +852,7 @@ def plot_umap(
         "y": yaxis_title,
     }
     if color is not None:
-        scatter_kwargs["color"] = (sampled_cases[color] if n_cases is not None else data[color]).astype(object)
+        scatter_kwargs["color"] = sampled_cases[color].astype(object)
         labels["color"] = color
 
     fig = px.scatter(
