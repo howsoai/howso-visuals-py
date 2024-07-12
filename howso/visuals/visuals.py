@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import typing as t
+import warnings
 
 import numpy as np
+import numpy.typing as npt
 from pandas import (
     DataFrame,
     Series,
@@ -12,6 +14,14 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from scipy.stats import gaussian_kde
+
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore")
+    import umap
+
+from howso.engine import Trainee
+from howso.utilities import infer_feature_attributes
+
 
 if t.TYPE_CHECKING:
     from howso.engine.trainee import Reaction
@@ -728,3 +738,104 @@ def compose_figures(
             return_figure.update_traces(bingroup=f"subplot_{i},{j}", row=i, col=j)
 
     return return_figure
+
+
+def plot_umap(
+    data: DataFrame | Trainee,
+    *,
+    color: t.Optional[str] = None,
+    min_dist: t.Optional[float] = None,
+    n_cases: t.Optional[int] = None,
+    n_neighbors: t.Optional[int] = None,
+    title: str = "UMAP Representation",
+    xaxis_title: str = "Component 1",
+    yaxis_title: str = "Component 2",
+) -> go.Figure:
+    """
+    Transform data into a lower-dimensionality representation using Howso Engine and UMAP and then plot it.
+
+    Howso Engine computes pairwise distances which are then used with UMAP's ``precomputed``
+    metric.
+
+    Parameters
+    ----------
+    data : DataFrame | Trainee
+        The data to transform or a :class:`Trainee` containing the data to transform.
+    color : str, optional
+        The name of the column in ``data`` to use for determining marker color.
+    min_dist : float, optional
+        The ``min_dist`` parameter for ``umap.UMAP``. If None, this will be the :math:`p` norm
+        of the feature residuals, where :math:`p` is selected by :meth:`Trainee.analyze`.
+    n_cases : int, optional
+        The number of cases to compute pairwise distances for. If None, then all of the cases
+        are used.
+    n_neighbors : int, optional
+        The ``n_neighbors`` parameter for ``umap.UMAP``. If None, this will be the :math:`k`
+        selected by :meth:`Trainee.analyze`.
+    title : str, default "UMAP Representation"
+        The title for the figure.
+    xaxis_title : str, default "Component 1"
+        The title for the x-axis.
+    yaxis_title : str, default "Component 2"
+        The title for the y-axis.
+
+    Returns
+    -------
+    Figure
+        The resultant `Plotly` figure.
+    """
+    if isinstance(data, DataFrame):
+        features = infer_feature_attributes(data)
+        t = Trainee(features=features)
+        t.train(data, skip_auto_analyze=True)
+        t.analyze()
+    elif isinstance(data, Trainee):
+        t = data
+    else:
+        raise TypeError("`data` must be a Trainee or a DataFrame.")
+
+    case_indices = None
+    if n_cases is not None:
+        sampled_cases = t.get_cases(
+            features=[".session", ".session_training_index"] + list(t.features),
+            session=t.get_sessions()[0]["id"],
+        ).sample(n_cases)
+        case_indices = sampled_cases[[".session", ".session_training_index"]]
+        case_indices = case_indices.values.tolist()
+    
+    distances = t.get_distances(case_indices=case_indices)["distances"]
+    hyperparameter_map = t.get_params(action_feature=".targetless")["hyperparameter_map"]
+    
+    n_neighbors = n_neighbors or hyperparameter_map["k"]
+    p = hyperparameter_map["p"]
+
+    if min_dist is None:
+        residuals = t.react_aggregate(details={"feature_residuals_full": True})
+        min_dist = float((residuals.values ** p).sum() ** (1 / p))
+        min_dist = min(round(min_dist, 3), 1)
+    
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        points = umap.UMAP(
+            metric="precomputed",
+            min_dist=min_dist,
+            n_neighbors=n_neighbors,
+        ).fit_transform(distances)
+    
+    scatter_kwargs = {}
+    labels = {
+        "x": xaxis_title,
+        "y": yaxis_title,
+    }
+    if color is not None:
+        scatter_kwargs["color"] = (sampled_cases[color] if n_cases is not None else data[color]).astype(object)
+        labels["color"] = color
+
+    fig = px.scatter(
+        x=points[:, 0],
+        y=points[:, 1],
+        title=title,
+        labels=labels,
+        **scatter_kwargs
+    )
+    return fig
