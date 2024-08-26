@@ -1,10 +1,10 @@
 Faker
-26.3.0
+28.0.0
 MIT License
 joke2k
 https://github.com/joke2k/faker
 Faker is a Python package that generates fake data for you.
-/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/Faker-26.3.0.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/Faker-28.0.0.dist-info/LICENSE.txt
 Copyright (c) 2012 Daniele Faraglia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -633,12 +633,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 idna
-3.7
+3.8
 BSD License
 Kim Davies <kim+pypi@gumleaf.org>
 https://github.com/kjd/idna
 Internationalized Domain Names in Applications (IDNA)
-/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/idna-3.7.dist-info/LICENSE.md
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/idna-3.8.dist-info/LICENSE.md
 BSD 3-Clause License
 
 Copyright (c) 2013-2024, Kim Davies and contributors.
@@ -854,12 +854,12 @@ SOFTWARE.
 
 
 matplotlib
-3.9.1.post1
+3.9.2
 Python Software Foundation License
 John D. Hunter, Michael Droettboom
 https://matplotlib.org
 Python plotting package
-/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/matplotlib-3.9.1.post1.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/matplotlib-3.9.2.dist-info/LICENSE
 License agreement for matplotlib versions 1.3.0 and later
 =========================================================
 
@@ -1078,12 +1078,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 numpy
-2.0.1
+2.0.2
 BSD License
 Travis E. Oliphant et al.
 https://numpy.org
 Fundamental package for array computing in Python
-/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/numpy-2.0.1.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/numpy-2.0.2.dist-info/LICENSE.txt
 Copyright (c) 2005-2024, NumPy Developers.
 All rights reserved.
 
@@ -1155,7 +1155,7 @@ This binary distribution of NumPy also bundles the following software:
 
 
 Name: OpenBLAS
-Files: numpy.libs/libopenblas*.so
+Files: numpy.libs/libscipy_openblas*.so
 Description: bundled as a dynamically linked library
 Availability: https://github.com/OpenMathLib/OpenBLAS/
 License: BSD-3-Clause
@@ -1191,7 +1191,7 @@ License: BSD-3-Clause
 
 
 Name: LAPACK
-Files: numpy.libs/libopenblas*.so
+Files: numpy.libs/libscipy_openblas*.so
 Description: bundled in OpenBLAS
 Availability: https://github.com/OpenMathLib/OpenBLAS/
 License: BSD-3-Clause-Attribution
@@ -3594,12 +3594,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 pyparsing
-3.1.2
+3.1.4
 MIT License
 Paul McGuire <ptmcg.gm+pyparsing@gmail.com>
 https://github.com/pyparsing/pyparsing/
 pyparsing module - Classes and methods to define and execute parsing grammars
-/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/pyparsing-3.1.2.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/pyparsing-3.1.4.dist-info/LICENSE
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 "Software"), to deal in the Software without restriction, including
@@ -3904,12 +3904,12 @@ Python HTTP for Humans.
 
 
 rich
-13.7.1
+13.8.0
 MIT License
 Will McGugan
 https://github.com/Textualize/rich
 Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal
-/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/rich-13.7.1.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/rich-13.8.0.dist-info/LICENSE
 Copyright (c) 2020 Will McGugan
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -3941,12 +3941,12 @@ UNKNOWN
 UNKNOWN
 
 scipy
-1.14.0
+1.14.1
 BSD License
 UNKNOWN
 https://scipy.org/
 Fundamental algorithms for scientific computing in Python
-/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/scipy-1.14.0.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/scipy-1.14.1.dist-info/LICENSE.txt
 Copyright (c) 2001-2002 Enthought, Inc. 2003-2024, SciPy Developers.
 All rights reserved.
 
