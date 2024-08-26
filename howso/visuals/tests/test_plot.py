@@ -166,12 +166,11 @@ def outliers_convictions(iris_trainee, iris_features):
         details={
             "boundary_cases": True,
             "influential_cases": True,
-            "global_case_feature_residual_convictions_full": True,
-            "local_case_feature_residual_convictions_full": True,
+            "case_feature_residual_convictions_full": True,
         }
     )
     convictions = pd.DataFrame(
-        convictions["details"]["global_case_feature_residual_convictions_full"]
+        convictions["details"]["case_feature_residual_convictions_full"]
     )
 
     yield outliers, convictions
