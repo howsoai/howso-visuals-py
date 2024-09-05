@@ -19,7 +19,7 @@ dependencies = [
     "howso-engine~=29.0",
     "plotly",
     "scipy",
-    "seaborn~=0.12.0",
+    "seaborn",
     "umap-learn~=0.5",
 ]
 
