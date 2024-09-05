@@ -988,8 +988,9 @@ scipy==1.14.1 \
     #   pynndescent
     #   scikit-learn
     #   umap-learn
-seaborn @ https://github.com/mwaskom/seaborn/archive/refs/tags/v0.13.2.tar.gz \
-    --hash=sha256:16de5648993d8e74f9a0f000e5646c10b0c90c037d2625c55ae2c6955a5e6333
+seaborn==0.12.2 \
+    --hash=sha256:374645f36509d0dcab895cba5b47daf0586f77bfe3b36c97c607db7da5be0139 \
+    --hash=sha256:ebf15355a4dba46037dfd65b7350f014ceb1f13c05e814eda2c9f5fd731afc08
     # via howso-visuals (pyproject.toml)
 semantic-version==2.10.0 \
     --hash=sha256:bdabb6d336998cbb378d4b9db3a4b56a1e3235701dc05ea2690d9a997ed5041c \
