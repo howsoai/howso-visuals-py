@@ -418,9 +418,9 @@ fonttools==4.53.1 \
     --hash=sha256:f1f8758a2ad110bd6432203a344269f445a2907dc24ef6bccfd0ac4e14e0d71d \
     --hash=sha256:f677ce218976496a587ab17140da141557beb91d2a5c1a14212c994093f2eae2
     # via matplotlib
-howso-engine==29.0.7 \
-    --hash=sha256:3ed5d139238f42b256422a22a9d4b6b5887c6ab7f66a6ba8c56f0bedea773e1b \
-    --hash=sha256:4d1e79bc34b9bcd6a7899d8a44a18addf1b0955f40cae0d24028566553ae4a9c
+howso-engine==30.0.0 \
+    --hash=sha256:1871d2762d62daa8994b2c1fb75fc2387198009aef4317b0cfc692d892c15094 \
+    --hash=sha256:d93684c8d09ec4d8fd18948791778e72c94d5eb82035c4df0adeda9cb1fa28d5
     # via howso-visuals (pyproject.toml)
 humanize==4.10.0 \
     --hash=sha256:06b6eb0293e4b85e8d385397c5868926820db32b9b654b932f57fa41c23c9978 \
