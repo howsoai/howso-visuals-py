@@ -1,10 +1,10 @@
 Faker
-30.8.0
+30.8.1
 MIT License
 joke2k
 https://github.com/joke2k/faker
 Faker is a Python package that generates fake data for you.
-/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/Faker-30.8.0.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/Faker-30.8.1.dist-info/LICENSE.txt
 Copyright (c) 2012 Daniele Faraglia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -6487,12 +6487,12 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 tqdm
-4.66.5
+4.66.6
 MIT License; Mozilla Public License 2.0 (MPL 2.0)
 UNKNOWN
 https://tqdm.github.io
 Fast, Extensible Progress Meter
-/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/tqdm-4.66.5.dist-info/LICENCE
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/tqdm-4.66.6.dist-info/LICENCE
 `tqdm` is a product of collaborative work.
 Unless otherwise stated, all authors (see commit logs) retain copyright
 for their respective work, and release the work under the MIT licence
@@ -6857,12 +6857,12 @@ limitations under the License.
 
 
 umap-learn
-0.5.6
+0.5.7
 BSD
 UNKNOWN
 http://github.com/lmcinnes/umap
 Uniform Manifold Approximation and Projection
-/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/umap_learn-0.5.6.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.12.1/lib/python3.12/site-packages/umap_learn-0.5.7.dist-info/LICENSE.txt
 BSD 3-Clause License
 
 Copyright (c) 2017, Leland McInnes
