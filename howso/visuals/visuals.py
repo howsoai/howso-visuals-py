@@ -812,11 +812,11 @@ def plot_umap(
         case_indices = sampled_cases[[".session", ".session_training_index"]]
         case_indices = case_indices.values.tolist()
     else:
-        sampled_cases =  t.get_cases(
+        sampled_cases = t.get_cases(
             features=[".session", ".session_training_index"] + list(t.features),
             session=t.get_sessions()[0]["id"],
         )
-    
+
     distances = t.get_distances(
         case_indices=case_indices,
         action_feature=action_feature,
@@ -824,12 +824,12 @@ def plot_umap(
         weight_feature=weight_feature,
     )["distances"]
     hyperparameter_map = t.get_params(action_feature=".targetless")["hyperparameter_map"]
-    
+
     n_neighbors = n_neighbors or hyperparameter_map["k"]
     p = hyperparameter_map["p"]
 
     if min_dist is None:
-        residuals = t.react_aggregate(
+        residuals = t.get_prediction_stats(
             action_feature=action_feature,
             details={"feature_residuals_full": True},
             use_case_weights=use_case_weights,
