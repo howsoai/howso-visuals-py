@@ -4,14 +4,14 @@
 #
 #    pip-compile --allow-unsafe --extra=dev --generate-hashes --no-emit-index-url --output-file=requirements-3.10-dev.txt
 #
-amalgam-lang==13.0.1 \
-    --hash=sha256:25877ec0850c9b4225d1e6399c99c57ed0f2887b9206ebfbf4508636d5808e05 \
-    --hash=sha256:3ed7c9fa719da409ea0c3ac580e47f023aba32337521e43619a0330d364ea87b \
-    --hash=sha256:45b55dd59790538399230aeda187e47a5640501de9601e8ae2f0e63b78894a22 \
-    --hash=sha256:79af382954a57523a28b67409ce0512bd2fb3f3acf2d3373f3aa574739236bb0 \
-    --hash=sha256:7ca3be64c9c15973b727c187c73908e643e3533545ba22f44063b74d3adfde43 \
-    --hash=sha256:fd06971be4636de88fc7433fa87190e59e9afb91f38fd45ac6663b6bac8ed691 \
-    --hash=sha256:fe040ba2ee600565a59596b2f48ce0e727e9a7f3bc005a10b0ab60567d41e21e
+amalgam-lang==14.0.0 \
+    --hash=sha256:080c3dadb40db12d7d52c18df0e53d1259d40c0054bd528cb5e2309e9b7abf43 \
+    --hash=sha256:5d05af9f6ec3046153856755c6c91d46ba5104f5d51c05a81b96545e3b63a535 \
+    --hash=sha256:bada645cfd1a6bda6a6b8d02d6ca8dec69ff2459b43940a684bfa2619e75c10b \
+    --hash=sha256:c5db02c67c55d0703120d30d0b43eef5480a975bd80a2c2a6851ed728b6ef66d \
+    --hash=sha256:c9e5637b6d58b42725bebe6efa205d7fa5fbdefb2c0ad8d0c272fb08afdbaf89 \
+    --hash=sha256:d18bc24918f169cef15da5b999c251ff5fe8a5a58ee9e020ff9eef008b5d78a7 \
+    --hash=sha256:d613530d7fbf4e17553ee18b4671c8082f1ff97deecc3229a5c8b7f58ff6d439
     # via howso-engine
 certifi==2024.8.30 \
     --hash=sha256:922820b53db7a7257ffbda3f597266d435245903d80737e34f8a45ff3e3230d8 \
@@ -371,9 +371,9 @@ execnet==2.1.1 \
     --hash=sha256:26dee51f1b80cebd6d0ca8e74dd8745419761d3bef34163928cbebbdc4749fdc \
     --hash=sha256:5189b52c6121c24feae288166ab41b32549c7e2348652736540b9e6e7d4e72e3
     # via pytest-xdist
-faker==30.8.0 \
-    --hash=sha256:3608c7fcac2acde0eaa6da28dae97628f18f14d54eaa2a92b96ae006f1621bd7 \
-    --hash=sha256:4cd0c5ea4bc1e4c902967f6e662f5f5da69f1674d9a94f54e516d27f3c2a6a16
+faker==30.8.2 \
+    --hash=sha256:4a82b2908cd19f3bba1a4da2060cc4eb18a40410ccdf9350d071d79dc92fe3ce \
+    --hash=sha256:aa31b52cdae3673d6a78b4857c7bcdc0e98f201a5cb77d7827fa9e6b5876da94
     # via howso-engine
 flake8==7.1.1 \
     --hash=sha256:049d058491e228e03e67b390f311bbf88fce2dbaa8fa673e7aea87b7198b8d38 \
@@ -429,9 +429,9 @@ fonttools==4.54.1 \
     --hash=sha256:fda582236fee135d4daeca056c8c88ec5f6f6d88a004a79b84a02547c8f57386 \
     --hash=sha256:fdb062893fd6d47b527d39346e0c5578b7957dcea6d6a3b6794569370013d9ac
     # via matplotlib
-howso-engine==30.1.3 \
-    --hash=sha256:6fd5220ac32e1a38bca39df9b3a37076c28a43b4e0ce595c82b62b61dc64c1bd \
-    --hash=sha256:b4c79062e8c70e82ce7fd2015ee2c3cb132cca7d35379e97204d6b786c163ed0
+howso-engine==31.0.0 \
+    --hash=sha256:63512be6b2e9bb8a342a305b0f84afa2ca3d77112820f3f1bd0829ec5fc69fed \
+    --hash=sha256:c86c2b4ec87cd44530c267475728c722b1d0683a1421fb6bb9477ff4b5b263aa
     # via howso-visuals (pyproject.toml)
 humanize==4.11.0 \
     --hash=sha256:b53caaec8532bcb2fff70c8826f904c35943f8cecaca29d272d9df38092736c0 \
@@ -1011,9 +1011,9 @@ pytest==8.3.3 \
     #   howso-visuals (pyproject.toml)
     #   pytest-cov
     #   pytest-xdist
-pytest-cov==5.0.0 \
-    --hash=sha256:4f0764a1219df53214206bf1feea4633c3b558a2925c8b59f144f682861ce652 \
-    --hash=sha256:5837b58e9f6ebd335b0f8060eecce69b662415b16dc503883a02f45dfeb14857
+pytest-cov==6.0.0 \
+    --hash=sha256:eee6f1b9e61008bd34975a4d5bab25801eb31898b032dd55addc93e96fcaaa35 \
+    --hash=sha256:fde0b595ca248bb8e2d76f020b465f3b107c9632e6a1d1705f17834c89dcadc0
     # via howso-visuals (pyproject.toml)
 pytest-xdist==3.6.1 \
     --hash=sha256:9ed4adfb68a016610848639bb7e02c9352d5d9f03d04809919e2dafc3be4cca7 \
@@ -1089,9 +1089,9 @@ requests==2.32.3 \
     --hash=sha256:55365417734eb18255590a9ff9eb97e9e1da868d4ccd6402399eaf68af20a760 \
     --hash=sha256:70761cfe03c773ceb22aa2f671b4757976145175cdfca038c02654d061d6dcc6
     # via howso-engine
-rich==13.9.3 \
-    --hash=sha256:9836f5096eb2172c9e77df411c1b009bace4193d6a481d534fea75ebba758283 \
-    --hash=sha256:bc1e01b899537598cf02579d2b9f4a415104d3fc439313a7a2c165d76557a08e
+rich==13.9.4 \
+    --hash=sha256:439594978a49a09530cff7ebc4b5c7103ef57baf48d5ea3184f21d9a2befa098 \
+    --hash=sha256:6049d5e6ec054bf2779ab3358186963bac2ea89175919d699e378b99738c2a90
     # via howso-engine
 scikit-learn==1.5.2 \
     --hash=sha256:03b6158efa3faaf1feea3faa884c840ebd61b6484167c711548fce208ea09445 \
@@ -1189,9 +1189,9 @@ tomli==2.0.2 \
     #   coverage
     #   pytest
     #   yapf
-tqdm==4.66.5 \
-    --hash=sha256:90279a3770753eafc9194a0364852159802111925aa30eb3f9d85b0e805ac7cd \
-    --hash=sha256:e1020aef2e5096702d8a025ac7d16b1577279c9d63f8375b63083e9a5f0fcbad
+tqdm==4.67.0 \
+    --hash=sha256:0cd8af9d56911acab92182e88d763100d4788bdf421d251616040cc4d44863be \
+    --hash=sha256:fe5a6f95e6fe0b9755e9469b77b9c3cf850048224ecaa8293d7d2d31f97d869a
     # via umap-learn
 typing-extensions==4.12.2 \
     --hash=sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d \
@@ -1204,9 +1204,9 @@ tzdata==2024.2 \
     --hash=sha256:7d85cc416e9382e69095b7bdf4afd9e3880418a2413feec7069d533d6b4e31cc \
     --hash=sha256:a48093786cdcde33cad18c2555e8532f34422074448fbc874186f0abd79565cd
     # via pandas
-umap-learn==0.5.6 \
-    --hash=sha256:5b3917a862c23ba0fc83bfcd67a7b719dec85b3d9c01fdc7d894cce455df4e03 \
-    --hash=sha256:881cc0c2ee845b790bf0455aa1664f9f68b838d9d0fe12a1291b85c5a559c913
+umap-learn==0.5.7 \
+    --hash=sha256:6a7e0be2facfa365a5ed6588447102bdbef32a0ef449535c25c97ea7e680073c \
+    --hash=sha256:b2a97973e4c6ffcebf241100a8de589a4c84126a832ab40f296c6d9fcc5eb19e
     # via howso-visuals (pyproject.toml)
 urllib3==2.2.3 \
     --hash=sha256:ca899ca043dcb1bafa3e262d73aa25c465bfb49e0bd9dd5d59f1d0acba2f8fac \
