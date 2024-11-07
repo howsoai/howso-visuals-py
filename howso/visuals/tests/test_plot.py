@@ -58,7 +58,7 @@ def test_plot_interpretable_prediction_react(
         generative_reacts = None
 
     if do_residual:
-        residual = iris_trainee.react_aggregate(details={"prediction_stats": True, "selected_prediction_stats": ["mae"]})
+        residual = iris_trainee.get_prediction_stats(details={"prediction_stats": True, "selected_prediction_stats": ["mae"]})
         residual = residual[action_feature].iloc[0]
     else:
         residual = None
