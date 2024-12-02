@@ -551,7 +551,13 @@ def plot_interpretable_prediction(
         fig.update_yaxes(title_text=secondary_yaxis_title, color="green", secondary_y=True)
 
         if influential_cases is not None:
-            inf_case_hover_template = "Value: %{x}<br />Influence: %{y}<br /><br />%{customdata}"
+            inf_case_hover_template = (
+                "Value: %{x}<br />"
+                "Influence: %{y}<br />"
+                "<br />"
+                "Session: %{customdata[0]}<br />"
+                "Session Index: %{customdata[1]}"
+            )
 
             inf_case_values = []
             inf_case_weights = []
@@ -561,10 +567,7 @@ def plot_interpretable_prediction(
             for i in influential_cases:
                 inf_case_values.append(i[action_feature])
                 inf_case_weights.append(i[".influence_weight"])
-                inf_case_labels.append({
-                    "session": i[".session"],
-                    "index": i[".session_training_index"],
-                })
+                inf_case_labels.append([i[".session"], i[".session_training_index"]])
 
             fig.add_trace(
                 go.Scattergl(
@@ -837,7 +840,7 @@ def plot_umap(
         )
         min_dist = float((residuals.values ** p).sum() ** (1 / p))
         min_dist = min(round(min_dist, 3), 1)
-    
+
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         points = umap.UMAP(
@@ -845,7 +848,7 @@ def plot_umap(
             min_dist=min_dist,
             n_neighbors=n_neighbors,
         ).fit_transform(distances)
-    
+
     scatter_kwargs = {}
     labels = {
         "x": xaxis_title,
