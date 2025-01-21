@@ -208,9 +208,10 @@ def test_plot_drift(compute_rolling_mean, line_positions, rolling_window):
     assert len(list(fig.select_traces())) == 2
 
 
-def test_plot_feature_importances():
+@pytest.mark.parametrize("feature_residuals", [None, 0.5])
+def test_plot_feature_importances(feature_residuals):
     data = pd.DataFrame({"a": [0.5], "b": [0.2], "c": [0.1]})
-    fig = plot_feature_importances(data)
+    fig = plot_feature_importances(data, feature_residuals=feature_residuals)
 
     assert fig is not None
 
