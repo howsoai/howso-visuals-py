@@ -29,6 +29,7 @@ dev = [
     "isort",
     "pytest",
     "pytest-cov",
+    "pytest-rerunfailures",
     "pytest-xdist",
     "yapf",
 ]

@@ -1,10 +1,10 @@
 Faker
-33.1.0
+33.3.1
 MIT License
 joke2k
 https://github.com/joke2k/faker
 Faker is a Python package that generates fake data for you.
-/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/Faker-33.1.0.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/Faker-33.3.1.dist-info/LICENSE.txt
 Copyright (c) 2012 Daniele Faraglia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -86,12 +86,12 @@ SOFTWARE.
 
 
 Pygments
-2.18.0
+2.19.1
 BSD License
 Georg Brandl <georg@python.org>
 https://pygments.org
 Pygments is a syntax highlighting package written in Python.
-/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/pygments-2.18.0.dist-info/licenses/LICENSE
+/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/pygments-2.19.1.dist-info/licenses/LICENSE
 Copyright (c) 2006-2022 by the respective authors (see AUTHORS file).
 All rights reserved.
 
@@ -213,15 +213,15 @@ documentation is licensed as follows:
 
 
 charset-normalizer
-3.4.0
+3.4.1
 MIT License
-Ahmed TAHRI
-https://github.com/Ousret/charset_normalizer
+"Ahmed R. TAHRI" <tahri.ahmed@proton.me>
+https://github.com/jawah/charset_normalizer/blob/master/CHANGELOG.md
 The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet.
-/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/charset_normalizer-3.4.0.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/charset_normalizer-3.4.1.dist-info/LICENSE
 MIT License
 
-Copyright (c) 2019 TAHRI Ahmed R.
+Copyright (c) 2025 TAHRI Ahmed R.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -241,13 +241,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+
 click
-8.1.7
+8.1.8
 BSD License
 UNKNOWN
-https://palletsprojects.com/p/click/
+https://github.com/pallets/click/
 Composable command line interface toolkit
-/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/click-8.1.7.dist-info/LICENSE.rst
+/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/click-8.1.8.dist-info/LICENSE.txt
 Copyright 2014 Pallets
 
 Redistribution and use in source and binary forms, with or without
@@ -574,12 +575,12 @@ A library to handle automated deprecations
 
 
 fonttools
-4.55.3
+4.55.4
 MIT License
 Just van Rossum
 http://github.com/fonttools/fonttools
 Tools to manipulate font files
-/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/fonttools-4.55.3.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/fonttools-4.55.4.dist-info/LICENSE
 MIT License
 
 Copyright (c) 2017 Just van Rossum
@@ -711,12 +712,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 kiwisolver
-1.4.7
+1.4.8
 BSD License
 The Nucleic Development Team <sccolbert@gmail.com>
 https://github.com/nucleic/kiwi
 A fast implementation of the Cassowary constraint solver
-/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/kiwisolver-1.4.7.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/kiwisolver-1.4.8.dist-info/LICENSE
 =========================
  The Kiwi licensing terms
 =========================
@@ -791,12 +792,12 @@ to indicate the copyright and license terms:
 
 
 llvmlite
-0.43.0
+0.44.0
 BSD
 UNKNOWN
 http://llvmlite.readthedocs.io
 lightweight wrapper around basic LLVM functionality
-/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/llvmlite-0.43.0.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/llvmlite-0.44.0.dist-info/LICENSE
 Copyright (c) 2014-, Continuum Analytics, Inc.
 All rights reserved.
 
@@ -1045,12 +1046,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 numba
-0.60.0
+0.61.0
 BSD License
 UNKNOWN
 https://numba.pydata.org
 compiling Python code using LLVM
-/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/numba-0.60.0.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/numba-0.61.0.dist-info/LICENSE
 Copyright (c) 2012, Anaconda, Inc.
 All rights reserved.
 
@@ -1078,12 +1079,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 numpy
-2.0.2
+2.1.3
 BSD License
 Travis E. Oliphant et al.
 https://numpy.org
 Fundamental package for array computing in Python
-/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/numpy-2.0.2.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/numpy-2.1.3.dist-info/LICENSE.txt
 Copyright (c) 2005-2024, NumPy Developers.
 All rights reserved.
 
@@ -1148,6 +1149,11 @@ Name: spin
 Files: .spin/cmds.py
 License: BSD-3
   For license text, see .spin/LICENSE
+
+Name: tempita
+Files: numpy/_build_utils/tempita/*
+License: MIT
+  For details, see numpy/_build_utils/tempita/LICENCE.txt
 
 ----
 
@@ -3323,12 +3329,12 @@ third-party archives.
    limitations under the License.
 
 pillow
-11.0.0
+11.1.0
 CMU License (MIT-CMU)
 "Jeffrey A. Clark" <aclark@aclark.net>
-https://python-pillow.org
+https://python-pillow.github.io
 Python Imaging Library (Fork)
-/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/pillow-11.0.0.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/pillow-11.1.0.dist-info/LICENSE
 The Python Imaging Library (PIL) is
 
     Copyright © 1997-2011 by Secret Labs AB
@@ -3336,9 +3342,9 @@ The Python Imaging Library (PIL) is
 
 Pillow is the friendly PIL fork. It is
 
-    Copyright © 2010-2024 by Jeffrey A. Clark and contributors
+    Copyright © 2010 by Jeffrey A. Clark and contributors
 
-Like PIL, Pillow is licensed under the open source HPND License:
+Like PIL, Pillow is licensed under the open source MIT-CMU License:
 
 By obtaining, using, and/or copying this software and/or its associated
 documentation, you agree that you have read, understood, and will comply
@@ -4812,12 +4818,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 pyparsing
-3.2.0
+3.2.1
 MIT License
 Paul McGuire <ptmcg.gm+pyparsing@gmail.com>
 https://github.com/pyparsing/pyparsing/
 pyparsing module - Classes and methods to define and execute parsing grammars
-/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/pyparsing-3.2.0.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/pyparsing-3.2.1.dist-info/LICENSE
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 "Software"), to deal in the Software without restriction, including
@@ -5171,12 +5177,12 @@ SOFTWARE.
 
 
 scikit-learn
-1.6.0
+1.6.1
 BSD License
 UNKNOWN
 https://scikit-learn.org
 A set of python modules for machine learning and data mining
-/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/scikit_learn-1.6.0.dist-info/COPYING
+/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/scikit_learn-1.6.1.dist-info/COPYING
 BSD 3-Clause License
 
 Copyright (c) 2007-2024 The scikit-learn developers.
@@ -5292,12 +5298,12 @@ requirements of the license of GCC.
 
 
 scipy
-1.14.1
+1.15.1
 BSD License
 UNKNOWN
 https://scipy.org/
 Fundamental algorithms for scientific computing in Python
-/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/scipy-1.14.1.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/scipy-1.15.1.dist-info/LICENSE.txt
 Copyright (c) 2001-2002 Enthought, Inc. 2003-2024, SciPy Developers.
 All rights reserved.
 
@@ -5331,11 +5337,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ----
 
-This binary distribution of SciPy also bundles the following software:
+This binary distribution of SciPy can also bundle the following software
+(depending on the build):
 
 
 Name: OpenBLAS
-Files: scipy.libs/libopenblas*.so
+Files: scipy.libs/libscipy_openblas*.so
 Description: bundled as a dynamically linked library
 Availability: https://github.com/OpenMathLib/OpenBLAS/
 License: BSD-3-Clause-Attribution
@@ -5371,7 +5378,7 @@ License: BSD-3-Clause-Attribution
 
 
 Name: LAPACK
-Files: scipy.libs/libopenblas*.so
+Files: scipy.libs/libscipy_openblas*.so
 Description: bundled in OpenBLAS
 Availability: https://github.com/OpenMathLib/OpenBLAS/
 License: BSD-3-Clause-Attribution
@@ -6916,12 +6923,12 @@ PERFORMANCE OF THIS SOFTWARE.
 
 
 tzdata
-2024.2
+2025.1
 Apache Software License
 Python Software Foundation
 https://github.com/python/tzdata
 Provider of IANA time zone data
-/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/tzdata-2024.2.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/tzdata-2025.1.dist-info/LICENSE
 Apache Software License 2.0
 
 Copyright (c) 2020, Paul Ganssle (Google)
@@ -6978,12 +6985,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 urllib3
-2.2.3
+2.3.0
 MIT License
 Andrey Petrov <andrey.petrov@shazow.net>
 https://github.com/urllib3/urllib3/blob/main/CHANGES.rst
 HTTP library with thread-safe connection pooling, file post, and more.
-/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/urllib3-2.2.3.dist-info/licenses/LICENSE.txt
+/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/urllib3-2.3.0.dist-info/licenses/LICENSE.txt
 MIT License
 
 Copyright (c) 2008-2020 Andrey Petrov and contributors.
