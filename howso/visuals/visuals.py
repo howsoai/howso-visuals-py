@@ -67,12 +67,12 @@ def plot_feature_importances(
             by=feature_importances.index[0],
             axis=1,
             ascending=False,
-        )
+        ).iloc[0]
 
     if feature_residuals is not None:
-        error_value = feature_residuals / len(feature_importances.iloc[0])
+        error_value = feature_residuals / len(feature_importances)
         # Ensure error doesn't go below 0 for each bar
-        error_bars = [min(val, error_value) for val in feature_importances.iloc[0]]
+        error_bars = [min(val, error_value) for val in feature_importances]
         error_y = {
             "type": 'data',
             "array": error_bars,
@@ -83,9 +83,7 @@ def plot_feature_importances(
         error_y = None
 
     if num_features_to_plot:
-        feature_importances = feature_importances.iloc[0, :num_features_to_plot]
-    else:
-        feature_importances = feature_importances.iloc[0]
+        feature_importances = feature_importances[:num_features_to_plot]
 
     fig = make_subplots()
     fig.update_layout(title=dict(text=title), xaxis=dict(title=xaxis_title), yaxis=dict(title=yaxis_title))
