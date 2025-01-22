@@ -30,6 +30,7 @@ dev = [
     "pytest",
     "pytest-cov",
     "pytest-xdist",
+    "pytest-rerunfailures",
     "yapf",
 ]
 

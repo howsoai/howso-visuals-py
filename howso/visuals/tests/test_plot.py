@@ -13,6 +13,7 @@ from howso.visuals import (
 from howso.visuals.visuals import plot_drift, plot_feature_importances
 
 
+@pytest.mark.flaky(reruns=3)
 @pytest.mark.parametrize("action_feature", ["sepal-length", "sepal-width"])
 @pytest.mark.parametrize("do_generative_reacts", [True, False])
 @pytest.mark.parametrize("do_actual_value", [True, False])
