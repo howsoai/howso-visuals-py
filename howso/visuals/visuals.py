@@ -84,7 +84,8 @@ def plot_feature_importances(
 
     if num_features_to_plot:
         feature_importances = feature_importances[:num_features_to_plot]
-        error_y["array"] = error_bars[:num_features_to_plot]
+        if error_y is not None and error_bars is not None:
+            error_y["array"] = error_bars[:num_features_to_plot]
 
     fig = make_subplots()
     fig.update_layout(title=dict(text=title), xaxis=dict(title=xaxis_title), yaxis=dict(title=yaxis_title))
