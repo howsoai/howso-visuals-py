@@ -1,10 +1,10 @@
 Faker
-33.3.1
+35.0.0
 MIT License
 joke2k
 https://github.com/joke2k/faker
 Faker is a Python package that generates fake data for you.
-/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/Faker-33.3.1.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/Faker-35.0.0.dist-info/LICENSE.txt
 Copyright (c) 2012 Daniele Faraglia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -575,12 +575,12 @@ A library to handle automated deprecations
 
 
 fonttools
-4.55.4
+4.55.5
 MIT License
 Just van Rossum
 http://github.com/fonttools/fonttools
 Tools to manipulate font files
-/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/fonttools-4.55.4.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.12.8/lib/python3.12/site-packages/fonttools-4.55.5.dist-info/LICENSE
 MIT License
 
 Copyright (c) 2017 Just van Rossum
