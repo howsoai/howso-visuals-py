@@ -53,7 +53,7 @@ def plot_feature_importances(
         The robust feature deviations for calculating and plotting the feature importance error bars.
     feature_residuals_bounds : bool, default True
         If plotting with `feature_residuals`, whether to put a lower bound at 0. Generally set to True
-        when plotting feature importance and False when plotting feature MDA.
+        when plotting feature contributions and False when plotting feature mda.
     title : str, default "Feature Importances"
         The title for the figure.
     xaxis_title : str, default "Feature"
