@@ -32,7 +32,7 @@ def plot_feature_importances(
     *,
     num_features_to_plot: t.Optional[int] = None,
     sort_values: bool = True,
-    feature_residuals: t.Optional[t.SupportsFloat] = None,
+    feature_deviations: t.Optional[t.SupportsFloat] = None,
     feature_residuals_bounds: bool = True,
     title: t.Optional[str] = "Feature Importances",
     xaxis_title: t.Optional[str] = "Feature",
@@ -49,8 +49,8 @@ def plot_feature_importances(
         The number of features to plot importances for. If this is None, all features will be plotted.
     sort_values : bool, default True
         Whether to sort the values before plotting them.
-    feature_residuals : SupportsFloat, optional
-        The robust feature residuals for calculating and plotting the feature importance error bars.
+    feature_deviations : SupportsFloat, optional
+        The robust feature deviations for calculating and plotting the feature importance error bars.
     feature_residuals_bounds : bool, default True
         If plotting with `feature_residuals`, whether to put a lower bound at 0. Generally set to True
         when plotting feature importance and False when plotting feature MDA.
@@ -73,8 +73,8 @@ def plot_feature_importances(
             ascending=False,
         ).iloc[0]
 
-    if feature_residuals is not None:
-        error_value = feature_residuals / len(feature_importances)
+    if feature_deviations is not None:
+        error_value = feature_deviations / len(feature_importances)
         if feature_residuals_bounds:
             # Upper bound = value + error_value
             # Lower bound does not drop below zero
