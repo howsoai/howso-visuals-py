@@ -4,15 +4,15 @@
 #
 #    pip-compile --allow-unsafe --generate-hashes --no-emit-index-url --output-file=requirements-3.12.txt
 #
-amalgam-lang==18.0.0 \
-    --hash=sha256:11e7f17b7079d2dfa57974f069d7ae993ce061411db7071711638185cae962da \
-    --hash=sha256:122a73d56b258dd338f255ff20ab1fe891aeba259f6b9c438af5cda4797e158d \
-    --hash=sha256:29e5737d27b2dd3c0df60dd11bd2953015bf28ae79fa1ce7ac633cb2e7194159 \
-    --hash=sha256:6e91ad6cc46ba5d0fa86b772616326333638139e6f1915a2157071c5495751e1 \
-    --hash=sha256:7875a43450044adc142d6498433d83b17bcdf349742a68644d7cbdaf539db492 \
-    --hash=sha256:88f3a4a2c791541d4ec2c5efaee5da942d07e468616b919300599bd9d96990a0 \
-    --hash=sha256:de4a27c79b5456307749ca1fc25db3be160bec81ddee744db764e5a46578a5c2 \
-    --hash=sha256:e281dc26804c65c3507633249a772c93c8c562d9f55684886079b323b49595a5
+amalgam-lang==18.0.1 \
+    --hash=sha256:1d46c161ab296ee8a9a060a295337393527653b78bc68d783fd66409edd96334 \
+    --hash=sha256:7fb092b4d5411d16eed7d1a21407c71f7225a291256f2a83093bbfe8b04017eb \
+    --hash=sha256:9acff8312f96f83871cb8b1d2570225a23f9c21add2fd6150494d9e1894df2fa \
+    --hash=sha256:a6fb90377bee6750fde053c6a580e01fa4b0b01e82716782421cdd1edf2a7ed9 \
+    --hash=sha256:b6055ea039a7e8563717d9428ad2e8daa1122be26a8fc4454d7fa9883315b050 \
+    --hash=sha256:d6853c4afba8f7a28dc286d3f10ce2bffedb5745dba1f8d414c78153c3d41057 \
+    --hash=sha256:e81ce431766cccf591d37643f68b0ea5ba120d5480d600ebdc614ef83be7e659 \
+    --hash=sha256:ff9c71d7e43092abbb07fe7e3bf5f349044a040dcfae1b03879bd33ddc26f4ab
     # via howso-engine
 certifi==2025.1.31 \
     --hash=sha256:3d5da6925056f6f18f119200434a4780a94263f10d1c21d032a6f6b2baa20651 \
@@ -336,9 +336,9 @@ fonttools==4.56.0 \
     --hash=sha256:fa760e5fe8b50cbc2d71884a1eff2ed2b95a005f02dda2fa431560db0ddd927f \
     --hash=sha256:ffda9b8cd9cb8b301cae2602ec62375b59e2e2108a117746f12215145e3f786c
     # via matplotlib
-howso-engine==35.0.0 \
-    --hash=sha256:66d0478a7656f4b19c18679eaa70babcfdb9f0310b14de0eeda17fd2993dc3c7 \
-    --hash=sha256:fe26b344a49d04096d99862dabe4ca9e8d063f48a066668bc103cd5590f924b4
+howso-engine==35.0.1 \
+    --hash=sha256:18f68d25c83956a1810977f21f502a0e7e7144ed5981f95c6ad6d19fdbbd6cab \
+    --hash=sha256:46bb5de92802448b1a1a2509cc7fe5204b600e8529c03e904195da827272cac9
     # via howso-visuals (pyproject.toml)
 humanize==4.12.0 \
     --hash=sha256:106a7436a2d545d742c147c469716b3a08424aa143a82103630147c489a89f48 \
@@ -588,10 +588,6 @@ mmh3==5.1.0 \
     --hash=sha256:f29dc4efd99bdd29fe85ed6c81915b17b2ef2cf853abf7213a48ac6fb3eaabe1 \
     --hash=sha256:f6128b610b577eed1e89ac7177ab0c33d06ade2aba93f5c89306032306b5f1c6
     # via howso-engine
-narwhals==1.26.0 \
-    --hash=sha256:4af8bbdea9e45638bb9a981568a8dfa880e40eb7dcf740d19fd32aea79223c6f \
-    --hash=sha256:b9d7605bf1d97a9d87783a69748c39150964e2a1ab0e5a6fef3e59e56772639e
-    # via plotly
 numba==0.61.0 \
     --hash=sha256:074cd38c5b1f9c65a4319d1f3928165f48975ef0537ad43385b2bd908e6e2e35 \
     --hash=sha256:0ebbd4827091384ab8c4615ba1b3ca8bc639a3a000157d9c37ba85d34cd0da1b \
@@ -809,9 +805,9 @@ pillow==11.1.0 \
     --hash=sha256:f86d3a7a9af5d826744fabf4afd15b9dfef44fe69a98541f666f66fbb8d3fef9 \
     --hash=sha256:fbd43429d0d7ed6533b25fc993861b8fd512c42d04514a0dd6337fb3ccf22761
     # via matplotlib
-plotly==6.0.0 \
-    --hash=sha256:c4aad38b8c3d65e4a5e7dd308b084143b9025c2cc9d5317fc1f1d30958db87d3 \
-    --hash=sha256:f708871c3a9349a68791ff943a5781b1ec04de7769ea69068adcd9202e57653a
+plotly==5.24.1 \
+    --hash=sha256:dbc8ac8339d248a4bcc36e08a5659bacfe1b079390b8953533f4eb22169b4bae \
+    --hash=sha256:f67073a1e637eb0dc3e46324d9d51e2fe76e9727c892dde64ddf1e1b51f29089
     # via howso-visuals (pyproject.toml)
 pycparser==2.22 \
     --hash=sha256:491c8be9c040f5390f5bf44a5b07752bd07f56edf992381b05c701439eec10f6 \
@@ -998,6 +994,10 @@ six==1.17.0 \
     --hash=sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274 \
     --hash=sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81
     # via python-dateutil
+tenacity==9.0.0 \
+    --hash=sha256:807f37ca97d62aa361264d497b0e31e92b8027044942bfa756160d908320d73b \
+    --hash=sha256:93de0c98785b27fcf659856aa9f54bfbd399e29969b0621bc7f762bd441b4539
+    # via plotly
 threadpoolctl==3.5.0 \
     --hash=sha256:082433502dd922bf738de0d8bcc4fdcbf0979ff44c42bd40f5af8a282f6fa107 \
     --hash=sha256:56c1e26c150397e58c4926da8eeee87533b1e32bef131bd4bf6a2f45f3185467
