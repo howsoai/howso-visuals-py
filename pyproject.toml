@@ -16,8 +16,8 @@ classifiers = [
     "Programming Language :: Python :: 3"
 ]
 dependencies = [
-    "howso-engine~=34.0",
-    "plotly",
+    "howso-engine~=35.0",
+    "plotly~=5.0",
     "scipy",
     "seaborn",
     "umap-learn~=0.5",
