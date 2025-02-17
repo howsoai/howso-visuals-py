@@ -33,6 +33,7 @@ def plot_feature_importances(
     num_features_to_plot: t.Optional[int] = None,
     sort_values: bool = True,
     feature_residuals: t.Optional[t.SupportsFloat] = None,
+    feature_residuals_zero_bounds: bool = True,
     title: t.Optional[str] = "Feature Importances",
     xaxis_title: t.Optional[str] = "Feature",
     yaxis_title: t.Optional[str] = "Importance",
@@ -49,7 +50,10 @@ def plot_feature_importances(
     sort_values : bool, default True
         Whether to sort the values before plotting them.
     feature_residuals : SupportsFloat, optional
-        The robust feature residuals for calculating and plotting the feature importance error bars.
+        The robust feature deviations for calculating and plotting the feature importance error bars.
+    feature_residuals_zero_bounds : bool, default True
+        If plotting with `feature_residuals`, whether to put a lower bound at 0. Generally set to True
+        when plotting feature contributions and False when plotting feature MDA.
     title : str, default "Feature Importances"
         The title for the figure.
     xaxis_title : str, default "Feature"
@@ -71,21 +75,32 @@ def plot_feature_importances(
 
     if feature_residuals is not None:
         error_value = feature_residuals / len(feature_importances)
-        # Ensure error doesn't go below 0 for each bar
-        error_bars = [min(val, error_value) for val in feature_importances]
-        error_y = {
-            "type": 'data',
-            "array": error_bars,
-            "visible": True
-        }
+        if feature_residuals_zero_bounds:
+            # Upper bound = value + error_value
+            # Lower bound does not drop below zero
+            error_y = {
+                "type": "data",
+                "array": [error_value] * len(feature_importances),
+                # Ensure error doesn't go below 0 for each bar
+                "arrayminus": [min(val, error_value) for val in feature_importances],
+                "visible": True
+            }
+        else:
+            error_y = {
+                "type": "data",
+                "array": [error_value] * len(feature_importances),
+                "arrayminus": [error_value] * len(feature_importances),
+                "visible": True
+            }
     else:
-        error_bars = None
         error_y = None
 
     if num_features_to_plot:
         feature_importances = feature_importances[:num_features_to_plot]
-        if error_y is not None and error_bars is not None:
-            error_y["array"] = error_bars[:num_features_to_plot]
+        if error_y is not None:
+            error_y["array"] = error_y["array"][:num_features_to_plot]
+            if "arrayminus" in error_y:
+                error_y["arrayminus"] = error_y["arrayminus"][:num_features_to_plot]
 
     fig = make_subplots()
     fig.update_layout(title=dict(text=title), xaxis=dict(title=xaxis_title), yaxis=dict(title=yaxis_title))
