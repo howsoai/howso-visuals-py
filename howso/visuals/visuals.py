@@ -22,7 +22,6 @@ with warnings.catch_warnings():
 from howso.engine import Trainee
 from howso.utilities import infer_feature_attributes
 
-
 if t.TYPE_CHECKING:
     from howso.engine.trainee import Reaction
 
@@ -39,11 +38,11 @@ def plot_feature_importances(
     yaxis_title: t.Optional[str] = "Importance",
 ) -> go.Figure:
     """
-    Plot feature importances (either MDA or feature contributions) from :meth:`Trainee.get_prediction_stats`.
+    Plot feature importances (either accuracy contributions or prediction contributions).
 
     Parameters
     ----------
-    feature_contributions : DataFrame
+    feature_importances : DataFrame
         A DataFrame containing the feature importance information.
     num_features_to_plot : int, optional
         The number of features to plot importances for. If this is None, all features will be plotted.
@@ -53,7 +52,7 @@ def plot_feature_importances(
         The robust feature deviations for calculating and plotting the feature importance error bars.
     feature_residuals_zero_bounds : bool, default True
         If plotting with `feature_residuals`, whether to put a lower bound at 0. Generally set to True
-        when plotting feature contributions and False when plotting feature MDA.
+        when plotting prediction contributions and False when plotting accuracy contributions.
     title : str, default "Feature Importances"
         The title for the figure.
     xaxis_title : str, default "Feature"
@@ -871,7 +870,7 @@ def plot_umap(
     if min_dist is None:
         residuals = t.get_prediction_stats(
             action_feature=action_feature,
-            details={"feature_residuals_full": True},
+            details={"feature_full_residuals": True},
             use_case_weights=use_case_weights,
             weight_feature=weight_feature,
         )

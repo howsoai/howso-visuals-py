@@ -5,12 +5,15 @@ import pytest
 from howso.visuals import (
     plot_anomalies,
     plot_dataset,
-    plot_interpretable_prediction,
     plot_fairness_disparity,
+    plot_interpretable_prediction,
     plot_kl_divergence,
     plot_umap,
 )
-from howso.visuals.visuals import plot_drift, plot_feature_importances
+from howso.visuals.visuals import (
+    plot_drift,
+    plot_feature_importances,
+)
 
 
 @pytest.mark.flaky(reruns=3)
@@ -167,11 +170,11 @@ def outliers_convictions(iris_trainee, iris_features):
         details={
             "boundary_cases": True,
             "influential_cases": True,
-            "case_feature_residual_convictions_full": True,
+            "feature_full_residual_convictions_for_case": True,
         }
     )
     convictions = pd.DataFrame(
-        convictions["details"]["case_feature_residual_convictions_full"]
+        convictions["details"]["feature_full_residual_convictions_for_case"]
     )
 
     yield outliers, convictions
