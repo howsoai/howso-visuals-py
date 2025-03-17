@@ -102,7 +102,11 @@ def plot_feature_importances(
                 error_y["arrayminus"] = error_y["arrayminus"][:num_features_to_plot]
 
     fig = make_subplots()
-    fig.update_layout(title=dict(text=title), xaxis=dict(title=xaxis_title), yaxis=dict(title=yaxis_title))
+    fig.update_layout(
+        title=dict(text=title),
+        xaxis=dict(title=xaxis_title, tickangle=45),
+        yaxis=dict(title=yaxis_title)
+    )
     fig.add_trace(
         go.Bar(
             x=feature_importances.index,
