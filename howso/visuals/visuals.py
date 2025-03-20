@@ -869,6 +869,9 @@ def plot_umap(
     hyperparameter_map = t.get_params(action_feature=".targetless")["hyperparameter_map"]
 
     n_neighbors = n_neighbors or hyperparameter_map["k"]
+    if isinstance(n_neighbors, list):
+        n_neighbors = n_neighbors[-1]
+
     p = hyperparameter_map["p"]
 
     if min_dist is None:
