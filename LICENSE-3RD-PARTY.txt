@@ -1,10 +1,10 @@
 Faker
-37.1.0
+37.3.0
 MIT License
 joke2k
 https://github.com/joke2k/faker
 Faker is a Python package that generates fake data for you.
-/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/faker-37.1.0.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/faker-37.3.0.dist-info/licenses/LICENSE.txt
 Copyright (c) 2012 Daniele Faraglia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -149,12 +149,12 @@ DEALINGS IN THE SOFTWARE.
 
 
 certifi
-2025.1.31
+2025.4.26
 Mozilla Public License 2.0 (MPL 2.0)
 Kenneth Reitz
 https://github.com/certifi/python-certifi
 Python package for providing Mozilla's CA Bundle.
-/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/certifi-2025.1.31.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/certifi-2025.4.26.dist-info/licenses/LICENSE
 This package contains a modified version of ca-bundle.crt:
 
 ca-bundle.crt -- Bundle of CA Root Certificates
@@ -213,12 +213,12 @@ documentation is licensed as follows:
 
 
 charset-normalizer
-3.4.1
+3.4.2
 MIT License
 "Ahmed R. TAHRI" <tahri.ahmed@proton.me>
 https://github.com/jawah/charset_normalizer/blob/master/CHANGELOG.md
 The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet.
-/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/charset_normalizer-3.4.1.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/charset_normalizer-3.4.2.dist-info/licenses/LICENSE
 MIT License
 
 Copyright (c) 2025 TAHRI Ahmed R.
@@ -243,12 +243,12 @@ SOFTWARE.
 
 
 click
-8.1.8
-BSD License
+8.2.1
+UNKNOWN
 UNKNOWN
 https://github.com/pallets/click/
 Composable command line interface toolkit
-/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/click-8.1.8.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/click-8.2.1.dist-info/licenses/LICENSE.txt
 Copyright 2014 Pallets
 
 Redistribution and use in source and binary forms, with or without
@@ -318,12 +318,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 cryptography
-44.0.2
-Apache Software License; BSD License
+45.0.2
+Apache-2.0 OR BSD-3-Clause
 The cryptography developers <cryptography-dev@python.org>
 https://github.com/pyca/cryptography
 cryptography is a package which provides cryptographic recipes and primitives to Python developers.
-/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/cryptography-44.0.2.dist-info/licenses/LICENSE
+/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/cryptography-45.0.2.dist-info/licenses/LICENSE
 This software is made available under the terms of *either* of the licenses
 found in LICENSE.APACHE or LICENSE.BSD. Contributions to cryptography are made
 under the terms of *both* these licenses.
@@ -575,12 +575,12 @@ A library to handle automated deprecations
 
 
 fonttools
-4.57.0
-MIT License
+4.58.0
+MIT
 Just van Rossum
 http://github.com/fonttools/fonttools
 Tools to manipulate font files
-/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/fonttools-4.57.0.dist-info/licenses/LICENSE
+/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/fonttools-4.58.0.dist-info/licenses/LICENSE
 MIT License
 
 Copyright (c) 2017 Just van Rossum
@@ -605,12 +605,12 @@ SOFTWARE.
 
 
 humanize
-4.12.2
+4.12.3
 UNKNOWN
 Jason Moiron <jmoiron@jmoiron.net>
 https://github.com/python-humanize/humanize
 Python humanize utilities
-/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/humanize-4.12.2.dist-info/licenses/LICENCE
+/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/humanize-4.12.3.dist-info/licenses/LICENCE
 Copyright (c) 2010-2020 Jason Moiron and Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -674,12 +674,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 joblib
-1.4.2
+1.5.0
 BSD License
 Gael Varoquaux <gael.varoquaux@normalesup.org>
 https://joblib.readthedocs.io
 Lightweight pipelining with Python functions
-/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/joblib-1.4.2.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/joblib-1.5.0.dist-info/licenses/LICENSE.txt
 BSD 3-Clause License
 
 Copyright (c) 2008-2021, The joblib developers.
@@ -855,12 +855,12 @@ SOFTWARE.
 
 
 matplotlib
-3.10.1
+3.10.3
 Python Software Foundation License
 John D. Hunter, Michael Droettboom
 https://matplotlib.org
 Python plotting package
-/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/matplotlib-3.10.1.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/matplotlib-3.10.3.dist-info/LICENSE
 License agreement for matplotlib versions 1.3.0 and later
 =========================================================
 
@@ -1079,12 +1079,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 numpy
-2.2.5
+2.2.6
 BSD License
 Travis E. Oliphant et al.
 https://numpy.org
 Fundamental package for array computing in Python
-/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/numpy-2.2.5.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/numpy-2.2.6.dist-info/LICENSE.txt
 Copyright (c) 2005-2024, NumPy Developers.
 All rights reserved.
 
@@ -4953,12 +4953,12 @@ requirements of the license of GCC.
 
 
 scipy
-1.15.2
+1.15.3
 BSD License
 UNKNOWN
 https://scipy.org/
 Fundamental algorithms for scientific computing in Python
-/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/scipy-1.15.2.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.13.3/lib/python3.13/site-packages/scipy-1.15.3.dist-info/LICENSE.txt
 Copyright (c) 2001-2002 Enthought, Inc. 2003-2024, SciPy Developers.
 All rights reserved.
 
