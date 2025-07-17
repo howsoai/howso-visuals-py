@@ -17,7 +17,7 @@ classifiers = [
 ]
 dependencies = [
     "howso-engine~=40.0",
-    "plotly~=5.0",
+    "plotly[kaleido]~=6.0",
     "scipy",
     "seaborn",
     "umap-learn~=0.5",
