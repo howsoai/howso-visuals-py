@@ -4,9 +4,9 @@
 #
 #    pip-compile --allow-unsafe --extra=dev --no-emit-index-url --output-file=requirements-3.12-dev.txt
 #
-amalgam-lang==20.0.3
+amalgam-lang==20.1.1
     # via howso-engine
-certifi==2025.4.26
+certifi==2025.7.14
     # via
     #   howso-engine
     #   requests
@@ -14,11 +14,13 @@ cffi==1.17.1
     # via cryptography
 charset-normalizer==3.4.2
     # via requests
+choreographer==1.0.9
+    # via kaleido
 contourpy==1.3.2
     # via matplotlib
-coverage[toml]==7.9.1
+coverage[toml]==7.9.2
     # via pytest-cov
-cryptography==45.0.4
+cryptography==45.0.5
     # via howso-engine
 cycler==0.12.1
     # via matplotlib
@@ -26,13 +28,13 @@ deprecation==2.1.0
     # via howso-engine
 execnet==2.1.1
     # via pytest-xdist
-faker==37.4.0
+faker==37.4.2
     # via howso-engine
-flake8==7.2.0
+flake8==7.3.0
     # via howso-visuals (pyproject.toml)
-fonttools==4.58.4
+fonttools==4.59.0
     # via matplotlib
-howso-engine==40.0.0
+howso-engine==40.3.0
     # via howso-visuals (pyproject.toml)
 humanize==4.12.3
     # via howso-engine
@@ -46,12 +48,18 @@ joblib==1.5.1
     # via
     #   pynndescent
     #   scikit-learn
+kaleido==1.0.0
+    # via plotly
 kiwisolver==1.4.8
     # via matplotlib
 llvmlite==0.44.0
     # via
     #   numba
     #   pynndescent
+logistro==1.1.0
+    # via
+    #   choreographer
+    #   kaleido
 markdown-it-py==3.0.0
     # via rich
 matplotlib==3.10.3
@@ -62,6 +70,8 @@ mdurl==0.1.2
     # via markdown-it-py
 mmh3==5.1.0
     # via howso-engine
+narwhals==1.47.0
+    # via plotly
 numba==0.61.2
     # via
     #   pynndescent
@@ -77,34 +87,37 @@ numpy==2.2.6
     #   scipy
     #   seaborn
     #   umap-learn
+orjson==3.11.0
+    # via kaleido
 packaging==25.0
     # via
     #   deprecation
+    #   kaleido
     #   matplotlib
     #   plotly
     #   pytest
     #   pytest-rerunfailures
-pandas==2.3.0
+pandas==2.3.1
     # via
     #   howso-engine
     #   seaborn
-pillow==11.2.1
+pillow==11.3.0
     # via matplotlib
 platformdirs==4.3.8
     # via yapf
-plotly==5.24.1
+plotly[kaleido]==6.2.0
     # via howso-visuals (pyproject.toml)
 pluggy==1.6.0
     # via
     #   pytest
     #   pytest-cov
-pycodestyle==2.13.0
+pycodestyle==2.14.0
     # via flake8
 pycparser==2.22
     # via cffi
-pyflakes==3.3.2
+pyflakes==3.4.0
     # via flake8
-pygments==2.19.1
+pygments==2.19.2
     # via
     #   pytest
     #   rich
@@ -114,7 +127,7 @@ pynndescent==0.5.13
     # via umap-learn
 pyparsing==3.2.3
     # via matplotlib
-pytest==8.4.0
+pytest==8.4.1
     # via
     #   howso-visuals (pyproject.toml)
     #   pytest-cov
@@ -124,7 +137,7 @@ pytest-cov==6.2.1
     # via howso-visuals (pyproject.toml)
 pytest-rerunfailures==15.1
     # via howso-visuals (pyproject.toml)
-pytest-xdist==3.7.0
+pytest-xdist==3.8.0
     # via howso-visuals (pyproject.toml)
 python-dateutil==2.9.0.post0
     # via
@@ -142,7 +155,7 @@ scikit-learn==1.7.0
     # via
     #   pynndescent
     #   umap-learn
-scipy==1.15.3
+scipy==1.16.0
     # via
     #   howso-visuals (pyproject.toml)
     #   pynndescent
@@ -152,23 +165,23 @@ seaborn==0.13.2
     # via howso-visuals (pyproject.toml)
 semantic-version==2.10.0
     # via howso-engine
+simplejson==3.20.1
+    # via choreographer
 six==1.17.0
     # via python-dateutil
-tenacity==9.1.2
-    # via plotly
 threadpoolctl==3.6.0
     # via scikit-learn
 tqdm==4.67.1
     # via umap-learn
-typing-extensions==4.14.0
+typing-extensions==4.14.1
     # via howso-engine
 tzdata==2025.2
     # via
     #   faker
     #   pandas
-umap-learn==0.5.7
+umap-learn==0.5.9.post2
     # via howso-visuals (pyproject.toml)
-urllib3==2.4.0
+urllib3==2.5.0
     # via requests
 yapf==0.43.0
     # via howso-visuals (pyproject.toml)
