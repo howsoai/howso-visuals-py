@@ -17,7 +17,7 @@ classifiers = [
 ]
 dependencies = [
     "howso-engine~=40.0",
-    "plotly[kaleido] @ git+https://github.com/jdbeel/plotly.py@update-external-renderer-default",
+    "plotly[kaleido]~=6.0",
     "scipy",
     "seaborn",
     "umap-learn~=0.5",
