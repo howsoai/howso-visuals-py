@@ -89,7 +89,7 @@ pandas==2.3.1
     #   seaborn
 pillow==11.3.0
     # via matplotlib
-plotly[kaleido] @ git+https://github.com/jdbeel/plotly.py@update-external-renderer-default
+plotly[kaleido]==6.2.0
     # via howso-visuals (pyproject.toml)
 pycparser==2.22
     # via cffi
