@@ -36,7 +36,7 @@ flake8==7.3.0
     # via howso-visuals (pyproject.toml)
 fonttools==4.59.0
     # via matplotlib
-howso-engine==40.3.0
+howso-engine==40.4.0
     # via howso-visuals (pyproject.toml)
 humanize==4.12.3
     # via howso-engine
@@ -72,7 +72,7 @@ mdurl==0.1.2
     # via markdown-it-py
 mmh3==5.1.0
     # via howso-engine
-narwhals==1.47.0
+narwhals==1.48.0
     # via plotly
 numba==0.61.2
     # via
@@ -107,7 +107,7 @@ pillow==11.3.0
     # via matplotlib
 platformdirs==4.3.8
     # via yapf
-plotly[kaleido]==6.2.0
+plotly[kaleido] @ git+https://github.com/jdbeel/plotly.py@update-external-renderer-default
     # via howso-visuals (pyproject.toml)
 pluggy==1.6.0
     # via
@@ -153,7 +153,7 @@ requests==2.32.4
     # via howso-engine
 rich==14.0.0
     # via howso-engine
-scikit-learn==1.7.0
+scikit-learn==1.7.1
     # via
     #   pynndescent
     #   umap-learn

@@ -28,7 +28,7 @@ faker==37.4.2
     # via howso-engine
 fonttools==4.59.0
     # via matplotlib
-howso-engine==40.3.0
+howso-engine==40.4.0
     # via howso-visuals (pyproject.toml)
 humanize==4.12.3
     # via howso-engine
@@ -58,7 +58,7 @@ mdurl==0.1.2
     # via markdown-it-py
 mmh3==5.1.0
     # via howso-engine
-narwhals==1.47.0
+narwhals==1.48.0
     # via plotly
 numba==0.61.2
     # via
@@ -89,7 +89,7 @@ pandas==2.3.1
     #   seaborn
 pillow==11.3.0
     # via matplotlib
-plotly[kaleido]==6.2.0
+plotly[kaleido] @ git+https://github.com/jdbeel/plotly.py@update-external-renderer-default
     # via howso-visuals (pyproject.toml)
 pycparser==2.22
     # via cffi
@@ -113,7 +113,7 @@ requests==2.32.4
     # via howso-engine
 rich==14.0.0
     # via howso-engine
-scikit-learn==1.7.0
+scikit-learn==1.7.1
     # via
     #   pynndescent
     #   umap-learn
