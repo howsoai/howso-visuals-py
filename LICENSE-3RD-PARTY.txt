@@ -1160,12 +1160,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 narwhals
-1.47.0
+1.48.0
 MIT License
 Marco Gorelli <hello_narwhals@proton.me>
 https://github.com/narwhals-dev/narwhals
 Extremely lightweight compatibility layer between dataframe libraries
-/home/runner/.pyenv/versions/3.13.5/lib/python3.13/site-packages/narwhals-1.47.0.dist-info/licenses/LICENSE.md
+/home/runner/.pyenv/versions/3.13.5/lib/python3.13/site-packages/narwhals-1.48.0.dist-info/licenses/LICENSE.md
 MIT License
 
 Copyright (c) 2024, Marco Gorelli
@@ -5675,12 +5675,12 @@ SOFTWARE.
 
 
 scikit-learn
-1.7.0
-BSD License
+1.7.1
+UNKNOWN
 UNKNOWN
 https://scikit-learn.org
 A set of python modules for machine learning and data mining
-/home/runner/.pyenv/versions/3.13.5/lib/python3.13/site-packages/scikit_learn-1.7.0.dist-info/COPYING
+/home/runner/.pyenv/versions/3.13.5/lib/python3.13/site-packages/scikit_learn-1.7.1.dist-info/licenses/COPYING
 BSD 3-Clause License
 
 Copyright (c) 2007-2024 The scikit-learn developers.
