@@ -876,7 +876,7 @@ def plot_umap(
 
     if min_dist is None:
         residuals = t.get_prediction_stats(
-            action_feature=action_feature,
+            prediction_stats_action_feature=action_feature,
             details={"feature_full_residuals": True},
             use_case_weights=use_case_weights,
             weight_feature=weight_feature,
