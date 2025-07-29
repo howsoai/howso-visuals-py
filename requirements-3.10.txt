@@ -4,7 +4,7 @@
 #
 #    pip-compile --allow-unsafe --no-emit-index-url --output-file=requirements-3.10.txt
 #
-amalgam-lang==20.1.1
+amalgam-lang==21.1.1
     # via howso-engine
 certifi==2025.7.14
     # via
@@ -28,7 +28,7 @@ faker==37.4.2
     # via howso-engine
 fonttools==4.59.0
     # via matplotlib
-howso-engine==40.4.0
+howso-engine==41.0.0
     # via howso-visuals (pyproject.toml)
 humanize==4.12.3
     # via howso-engine
@@ -56,9 +56,9 @@ matplotlib==3.10.3
     # via seaborn
 mdurl==0.1.2
     # via markdown-it-py
-mmh3==5.1.0
+mmh3==5.2.0
     # via howso-engine
-narwhals==1.48.0
+narwhals==2.0.1
     # via plotly
 numba==0.61.2
     # via
@@ -75,7 +75,7 @@ numpy==2.2.6
     #   scipy
     #   seaborn
     #   umap-learn
-orjson==3.11.0
+orjson==3.11.1
     # via kaleido
 packaging==25.0
     # via
@@ -111,7 +111,7 @@ pyyaml==6.0.2
     # via howso-engine
 requests==2.32.4
     # via howso-engine
-rich==14.0.0
+rich==14.1.0
     # via howso-engine
 scikit-learn==1.7.1
     # via
@@ -136,9 +136,7 @@ threadpoolctl==3.6.0
 tqdm==4.67.1
     # via umap-learn
 typing-extensions==4.14.1
-    # via
-    #   howso-engine
-    #   rich
+    # via howso-engine
 tzdata==2025.2
     # via
     #   faker
