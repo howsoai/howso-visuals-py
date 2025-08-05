@@ -475,7 +475,7 @@ def plot_kl_divergence(
 
 
 def plot_interpretable_prediction(
-    react: Reaction,
+    react: "Reaction",
     *,
     actual_value: float | None = None,
     generative_reacts: list[float] | None = None,
