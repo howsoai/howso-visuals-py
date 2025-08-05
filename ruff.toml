@@ -75,16 +75,23 @@ select = [
 #   DOC -- pydoclint (only preview settings)
 ignore = [
     "ANN401",   # Dynamically typed expressions (typing.Any) are disallowed
+    "C408",     # Prefer dict literals over dict() calls (ignored since plotly conventions use dict() calls)
     "COM812",   # Missing trailing comma
     "D100",     # Missing docstring in public module
     "D104",     # Missing docstring in public package
     "D107",     # Missing docstring in __init__
-    "PD011",    # Prefer .array or .to_numpy() over .values because .values' type is ambiguous
+    "PD011",    # Prefer .array or .to_numpy() over .values because .values is type ambiguous
     "PD901",    # Don't name dataframe variables `df`
     "PLC0414",  # Allow `from .foo import Bar as Bar `to reexport things without needing `__all__`, then `__init__.py`
-    "PT007",     # Always use list of tuple for pytest fixture arguments
+    "PLR0913",  # Too many arguments in function definition
+    "PLR2004",  # Magic value used in comparison
+    "SLF001",   # Private member access
     "TID252",   # Allow relative imports
+    "TRY003",   # Avoid specifying long messages outside the exception class
+    "UP007",    # Prefer X | Y over typing.Union (ignored since some type-hint inspection breaks on 3.9)
     "UP038",    # Prefer X | Y over (X, Y) in isinstance (ignore since its slower)
+    "T201",     # Don't use print
+    "PT007",    # Always use list of tuple for pytest fixtures
 ]
 
 
@@ -111,10 +118,12 @@ max-complexity = 15
 [lint.per-file-ignores]
 "__init__.py" = ["F401"]
 "**/tests/**" = [
-    "B011", # Do not `assert False` (`python -O` removes these calls), raise `AssertionError()`Ruff
-    "D103", # undocumented-public-function (D103)
-    "PLR2004", # Magic value comparisons
-    "S101", # Use of `assert` detected
+    "D103",
+    "PLR2004",  # Magic value comparisons
+    "S101",  # Use of `assert` detected
+    "ANN001",
+    "ANN201",
+    "ANN202",
 ]
 [lint.pydocstyle]
 convention = "pep257"
