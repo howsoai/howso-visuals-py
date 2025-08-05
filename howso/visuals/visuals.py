@@ -1,6 +1,8 @@
-from __future__ import annotations
-
-import typing as t
+from typing import (
+    Any,
+    SupportsFloat,
+    TYPE_CHECKING,
+)
 import warnings
 
 import numpy as np
@@ -21,7 +23,7 @@ with warnings.catch_warnings():
 from howso.engine import Trainee
 from howso.utilities import infer_feature_attributes
 
-if t.TYPE_CHECKING:
+if TYPE_CHECKING:
     from howso.engine.trainee import Reaction
 
 
@@ -30,7 +32,7 @@ def plot_feature_importances(
     *,
     num_features_to_plot: int | None = None,
     sort_values: bool = True,
-    feature_residuals: t.SupportsFloat | None = None,
+    feature_residuals: SupportsFloat | None = None,
     feature_residuals_zero_bounds: bool = True,
     title: str | None = "Feature Importances",
     xaxis_title: str | None = "Feature",
@@ -196,9 +198,9 @@ def plot_dataset(
     *,
     alpha: float = 1.0,
     boundary_cases: DataFrame | None = None,
-    highlight_index: t.Any | list[t.Any] | None = None,
+    highlight_index: Any | list[Any] | None = None,
     highlight_label: str | None = None,
-    highlight_selection_conditions: dict[str, t.Any] | None = None,
+    highlight_selection_conditions: dict[str, Any] | None = None,
     hue: str | None = None,
     most_similar_cases: DataFrame | None = None,
     size: str | None = None,
@@ -705,7 +707,7 @@ def compose_figures(
     figures: list[go.Figure],
     rows: int,
     cols: int,
-    **make_subplots_kwargs: t.Any,
+    **make_subplots_kwargs: Any,
 ) -> go.Figure:
     """
     Compose one or more Plotly figures into a single figure with multiple traces.
