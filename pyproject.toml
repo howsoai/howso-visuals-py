@@ -27,10 +27,11 @@ dependencies = [
 dev = [
     "flake8",
     "isort",
-    "pytest",
     "pytest-cov",
     "pytest-rerunfailures",
     "pytest-xdist",
+    "pytest",
+    "ruff",
     "yapf",
 ]
 
@@ -44,17 +45,6 @@ exclude = ["howso.visuals.tests"]
 
 [tool.setuptools.dynamic]
 readme = {file = ["README.md"]}
-
-[tool.isort]
-profile = "google"
-known_first_party = ["howso"]
-line_length = 119
-group_by_package = true
-force_single_line = false
-use_parentheses = true
-multi_line_output = 3
-include_trailing_comma = true
-force_grid_wrap = 2
 
 [tool.coverage.run]
 source = ["howso.visuals"]
@@ -83,13 +73,6 @@ exclude_lines = [
     "@abstractmethod",
     "@abc.abstractmethod",
 ]
-
-[tool.yapf]
-based_on_style = "pep8"
-column_limit = 119
-dedent_closing_brackets = true
-split_penalty_after_opening_bracket = 100
-split_penalty_for_added_line_split = 300
 
 # version is managed by setuptools_scm
 [tool.setuptools_scm]
