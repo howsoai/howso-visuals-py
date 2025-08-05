@@ -7,7 +7,7 @@ name="howso-visuals"
 dynamic = ["version"]
 readme = "README.md"
 description = "Visualization utilities for use with Howso Engine."
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 keywords = ["machine", "learning", "artificial", "intelligence", "data", "visualization"]
 license = {file = "LICENSE.txt"}
 classifiers = [
