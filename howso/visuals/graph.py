@@ -10,15 +10,21 @@ LayoutMapping: TypeAlias = Mapping[Any, tuple[float, float]]
 
 
 def _create_edge_annotations(
-    G: nx.Graph, pos: LayoutMapping, edge_attr: str | None = None
-) -> list[go.layout.Annotation]:
+    G: nx.Graph,  # noqa: N803
+    pos: LayoutMapping,
+    edge_attr: str | None = None,
+) -> tuple[list[go.layout.Annotation], list[dict[str, Any]]]:
+    # Annotations are created to show the edges between nodes,
+    # while invisible shapes with labels are created to label them with the edge weight.
     annotations = []
+    shapes = []
     directed = nx.is_directed(G)
 
     widths = None
+    unscaled_widths = None
     if edge_attr is not None:
-        widths = [d[edge_attr] for _, _, d in G.edges(data=True)]
-        widths = minmax_scale(np.array(widths).reshape(-1, 1), (2, 5))
+        unscaled_widths = [d[edge_attr] for _, _, d in G.edges(data=True)]
+        widths = minmax_scale(np.array(unscaled_widths).reshape(-1, 1), (2, 5))
         widths = widths.reshape(-1)
 
     edge_blacklist = set()
@@ -29,10 +35,7 @@ def _create_edge_annotations(
 
         x0, y0 = pos[s]
         x1, y1 = pos[d]
-        if widths is not None:
-            width = widths[i]
-        else:
-            width = 2
+        width = widths[i] if widths is not None else 2
 
         if directed and G.has_edge(d, s):
             edge_blacklist.add((d, s))
@@ -62,7 +65,21 @@ def _create_edge_annotations(
             )
         )
 
-    return annotations
+        shapes.append(
+            dict(
+                type="line",
+                x0=x0,
+                y0=y0,
+                x1=x1,
+                y1=y1,
+                xref="x",
+                yref="y",
+                label=dict(text=f"{round(unscaled_widths[i], 4)}" if unscaled_widths is not None else None),
+                opacity=0,
+            )
+        )
+
+    return annotations, shapes
 
 
 def plot_graph(
@@ -82,7 +99,7 @@ def plot_graph(
             yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
         )
     )
-    pos = layout(G)
+    pos = layout(G, center=(1, 1))
 
     text = []
     node_x = []
@@ -117,8 +134,11 @@ def plot_graph(
         textfont=dict(color="white"),
     )
 
-    for a in _create_edge_annotations(G, pos, edge_attr):
+    annotations, shapes = _create_edge_annotations(G, pos, edge_attr)
+    for a in annotations:
         fig.add_annotation(a)
+    for s in shapes:
+        fig.add_shape(**s)
     fig.add_trace(node_trace)
 
     return fig
