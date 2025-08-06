@@ -6,7 +6,7 @@
 #
 amalgam-lang==21.1.1
     # via howso-engine
-certifi==2025.7.14
+certifi==2025.8.3
     # via
     #   howso-engine
     #   requests
@@ -24,11 +24,11 @@ cycler==0.12.1
     # via matplotlib
 deprecation==2.1.0
     # via howso-engine
-faker==37.4.2
+faker==37.5.3
     # via howso-engine
 fonttools==4.59.0
     # via matplotlib
-howso-engine==41.0.0
+howso-engine==41.0.2
     # via howso-visuals (pyproject.toml)
 humanize==4.12.3
     # via howso-engine
@@ -52,7 +52,7 @@ logistro==1.1.0
     #   kaleido
 markdown-it-py==3.0.0
     # via rich
-matplotlib==3.10.3
+matplotlib==3.10.5
     # via seaborn
 mdurl==0.1.2
     # via markdown-it-py

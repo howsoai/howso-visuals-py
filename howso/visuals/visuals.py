@@ -1,15 +1,16 @@
-from __future__ import annotations
-
-import typing as t
+from typing import (
+    Any,
+    SupportsFloat,
+    TYPE_CHECKING,
+)
 import warnings
 
 import numpy as np
-import numpy.typing as npt
+import pandas as pd
 from pandas import (
     DataFrame,
     Series,
 )
-import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -22,20 +23,20 @@ with warnings.catch_warnings():
 from howso.engine import Trainee
 from howso.utilities import infer_feature_attributes
 
-if t.TYPE_CHECKING:
+if TYPE_CHECKING:
     from howso.engine.trainee import Reaction
 
 
 def plot_feature_importances(
     feature_importances: DataFrame,
     *,
-    num_features_to_plot: t.Optional[int] = None,
+    num_features_to_plot: int | None = None,
     sort_values: bool = True,
-    feature_residuals: t.Optional[t.SupportsFloat] = None,
+    feature_residuals: SupportsFloat | None = None,
     feature_residuals_zero_bounds: bool = True,
-    title: t.Optional[str] = "Feature Importances",
-    xaxis_title: t.Optional[str] = "Feature",
-    yaxis_title: t.Optional[str] = "Importance",
+    title: str | None = "Feature Importances",
+    xaxis_title: str | None = "Feature",
+    yaxis_title: str | None = "Importance",
 ) -> go.Figure:
     """
     Plot feature importances (either accuracy contributions or prediction contributions).
@@ -82,14 +83,14 @@ def plot_feature_importances(
                 "array": [error_value] * len(feature_importances),
                 # Ensure error doesn't go below 0 for each bar
                 "arrayminus": [min(val, error_value) for val in feature_importances],
-                "visible": True
+                "visible": True,
             }
         else:
             error_y = {
                 "type": "data",
                 "array": [error_value] * len(feature_importances),
                 "arrayminus": [error_value] * len(feature_importances),
-                "visible": True
+                "visible": True,
             }
     else:
         error_y = None
@@ -103,17 +104,9 @@ def plot_feature_importances(
 
     fig = make_subplots()
     fig.update_layout(
-        title=dict(text=title),
-        xaxis=dict(title=xaxis_title, tickangle=45),
-        yaxis=dict(title=yaxis_title)
+        title=dict(text=title), xaxis=dict(title=xaxis_title, tickangle=45), yaxis=dict(title=yaxis_title)
     )
-    fig.add_trace(
-        go.Bar(
-            x=feature_importances.index,
-            y=feature_importances,
-            error_y=error_y
-        )
-    )
+    fig.add_trace(go.Bar(x=feature_importances.index, y=feature_importances, error_y=error_y))
 
     return fig
 
@@ -126,7 +119,7 @@ def plot_anomalies(
     num_cases_to_plot: int = 5,
     title: str = "Anomalies",
     xaxis_title: str = "Feature",
-    yaxis_title: t.Optional[str] = None,
+    yaxis_title: str | None = None,
 ) -> go.Figure:
     """
     Plot anomalous cases using a heat map which shows conviction values for each feature.
@@ -164,18 +157,20 @@ def plot_anomalies(
     convictions_to_plot = convictions.head(num_cases_to_plot)
     anomalies_to_plot = anomalies.head(num_cases_to_plot)
 
-    fig.add_trace(go.Heatmap(
-        z=convictions_to_plot,
-        x=convictions_to_plot.columns,
-        y=convictions_to_plot.index,
-        xgap=3,
-        ygap=3,
-        text=anomalies_to_plot.astype(str),
-        texttemplate="%{text}",
-        hovertemplate="Conviction=%{z}",
-        name="Outliers",
-        coloraxis="coloraxis",
-    ))
+    fig.add_trace(
+        go.Heatmap(
+            z=convictions_to_plot,
+            x=convictions_to_plot.columns,
+            y=convictions_to_plot.index,
+            xgap=3,
+            ygap=3,
+            text=anomalies_to_plot.astype(str),
+            texttemplate="%{text}",
+            hovertemplate="Conviction=%{z}",
+            name="Outliers",
+            coloraxis="coloraxis",
+        )
+    )
 
     fig.update_layout(
         coloraxis=dict(
@@ -186,7 +181,7 @@ def plot_anomalies(
                 tickvals=ticks,
                 ticktext=[str(t) for t in ticks[:-1]] + ["≥" + str(ticks[-1])],
                 title=colorbar_title,
-            )
+            ),
         ),
         title=dict(text=title),
         yaxis=dict(autorange="reversed", title=yaxis_title),
@@ -202,14 +197,14 @@ def plot_dataset(
     y: str,
     *,
     alpha: float = 1.0,
-    boundary_cases: t.Optional[DataFrame] = None,
-    highlight_index: t.Optional[t.Any | list[t.Any]] = None,
-    highlight_label: t.Optional[str] = None,
-    highlight_selection_conditions: t.Optional[dict[str, t.Any]] = None,
-    hue: t.Optional[str] = None,
-    most_similar_cases: t.Optional[DataFrame] = None,
-    size: t.Optional[str] = None,
-    title: t.Optional[str] = None,
+    boundary_cases: DataFrame | None = None,
+    highlight_index: Any | list[Any] | None = None,
+    highlight_label: str | None = None,
+    highlight_selection_conditions: dict[str, Any] | None = None,
+    hue: str | None = None,
+    most_similar_cases: DataFrame | None = None,
+    size: str | None = None,
+    title: str | None = None,
 ) -> go.Figure:
     """
     Create a figure which displays an entire dataset with certain cases being specifically highlighted.
@@ -263,9 +258,7 @@ def plot_dataset(
     )
 
     if title:
-        fig.update_layout(
-            title=dict(text=title)
-        )
+        fig.update_layout(title=dict(text=title))
     fig.update_layout(
         height=800,
         legend=dict(groupclick="toggleitem"),
@@ -281,7 +274,7 @@ def plot_dataset(
                 width=2,
             ),
             sizemin=7.5,
-            sizemode="area"
+            sizemode="area",
         ),
         legendgroup="cases",
         legendgrouptitle_text="Cases",
@@ -292,59 +285,49 @@ def plot_dataset(
 
     if hue is not None:
         for name, group in data.groupby(hue):
-            fig.add_trace(go.Scattergl(
-                name=name,
-                x=group[x],
-                y=group[y],
-                **primary_scatter_kwargs
-            ))
+            fig.add_trace(go.Scattergl(name=name, x=group[x], y=group[y], **primary_scatter_kwargs))
     else:
-        fig.add_trace(go.Scattergl(
-            name="Cases",
-            x=data[x],
-            y=data[y],
-            **primary_scatter_kwargs
-        ))
+        fig.add_trace(go.Scattergl(name="Cases", x=data[x], y=data[y], **primary_scatter_kwargs))
 
-    special_cases_kwargs = dict(
-        mode="markers",
-        legendgroup="special_cases",
-        legendgrouptitle_text="Special Cases"
-    )
+    special_cases_kwargs = dict(mode="markers", legendgroup="special_cases", legendgrouptitle_text="Special Cases")
     special_case_marker_kwargs = dict(
         opacity=0.75,
         size=20,
         line=dict(
             color="darkgrey",
             width=2,
-        )
+        ),
     )
 
     if most_similar_cases is not None and len(most_similar_cases):
-        fig.add_trace(go.Scattergl(
-            name="Most Similar Cases",
-            x=most_similar_cases[x],
-            y=most_similar_cases[y],
-            marker=dict(
-                symbol="square",
-                color="grey",
-                **special_case_marker_kwargs,
-            ),
-            **special_cases_kwargs,
-        ))
+        fig.add_trace(
+            go.Scattergl(
+                name="Most Similar Cases",
+                x=most_similar_cases[x],
+                y=most_similar_cases[y],
+                marker=dict(
+                    symbol="square",
+                    color="grey",
+                    **special_case_marker_kwargs,
+                ),
+                **special_cases_kwargs,
+            )
+        )
 
     if boundary_cases is not None and len(boundary_cases):
-        fig.add_trace(go.Scattergl(
-            name="Boundary Cases",
-            x=boundary_cases[x],
-            y=boundary_cases[y],
-            marker=dict(
-                symbol="pentagon",
-                color="brown",
-                **special_case_marker_kwargs,
-            ),
-            **special_cases_kwargs,
-        ))
+        fig.add_trace(
+            go.Scattergl(
+                name="Boundary Cases",
+                x=boundary_cases[x],
+                y=boundary_cases[y],
+                marker=dict(
+                    symbol="pentagon",
+                    color="brown",
+                    **special_case_marker_kwargs,
+                ),
+                **special_cases_kwargs,
+            )
+        )
 
     highlight_cases = None
     if highlight_index is not None:
@@ -352,21 +335,23 @@ def plot_dataset(
             highlight_index = [highlight_index]
         highlight_cases = data.loc[highlight_index, :]
     elif highlight_selection_conditions is not None:
-        highlight_query = " and ".join([f"{k} == {repr(v)}" for k, v in highlight_selection_conditions.items()])
+        highlight_query = " and ".join([f"{k} == {v!r}" for k, v in highlight_selection_conditions.items()])
         highlight_cases = data.query(highlight_query)
 
     if highlight_cases is not None and len(highlight_cases):
-        fig.add_trace(go.Scattergl(
-            name=highlight_label,
-            x=highlight_cases[x],
-            y=highlight_cases[y],
-            marker=dict(
-                symbol="triangle-up",
-                color="black",
-                **special_case_marker_kwargs,
-            ),
-            **special_cases_kwargs,
-        ))
+        fig.add_trace(
+            go.Scattergl(
+                name=highlight_label,
+                x=highlight_cases[x],
+                y=highlight_cases[y],
+                marker=dict(
+                    symbol="triangle-up",
+                    color="black",
+                    **special_case_marker_kwargs,
+                ),
+                **special_cases_kwargs,
+            )
+        )
 
     return fig
 
@@ -375,7 +360,7 @@ def plot_drift(
     df: DataFrame,
     *,
     compute_rolling_mean: bool = True,
-    line_positions: list[int] = None,
+    line_positions: list[int] | None = None,
     rolling_window: int = 10,
     title: str = "Model Drift \u2014 Conviction Over Time",
     xaxis_title: str = "Case Index",
@@ -413,19 +398,19 @@ def plot_drift(
 
     df = pd.melt(df.reset_index(names=["time"]), id_vars="time")
     for name, group in df.groupby("variable"):
-        fig.add_trace(go.Scattergl(
-            x=group.time, y=group.value, name=name,
-        ))
+        fig.add_trace(
+            go.Scattergl(
+                x=group.time,
+                y=group.value,
+                name=name,
+            )
+        )
 
     if line_positions:
         for line_pos in line_positions:
             fig.add_vline(x=line_pos, line=dict(color="black"))
 
-    fig.update_layout(
-        xaxis=dict(title=xaxis_title),
-        yaxis=dict(title=yaxis_title),
-        title=dict(text=title)
-    )
+    fig.update_layout(xaxis=dict(title=xaxis_title), yaxis=dict(title=yaxis_title), title=dict(text=title))
 
     return fig
 
@@ -462,19 +447,23 @@ def plot_kl_divergence(
     non_inf_rolling_y = min(round(len(non_inf_df) / 2), 5)
 
     fig = make_subplots()
-    fig.add_trace(go.Scattergl(
-        x=non_inf_df.index,
-        y=non_inf_df.rolling(non_inf_rolling_y).mean(),
-        name="KL Divergence",
-        hovertemplate="%{y}<extra></extra>"
-    ))
-    fig.add_trace(go.Scattergl(
-        x=inf_df.index,
-        y=[np.max(non_inf_df)] * len(inf_df),
-        marker=dict(color="black"),
-        name="Infinity",
-        hovertemplate="∞<extra></extra>"
-    ))
+    fig.add_trace(
+        go.Scattergl(
+            x=non_inf_df.index,
+            y=non_inf_df.rolling(non_inf_rolling_y).mean(),
+            name="KL Divergence",
+            hovertemplate="%{y}<extra></extra>",
+        )
+    )
+    fig.add_trace(
+        go.Scattergl(
+            x=inf_df.index,
+            y=[np.max(non_inf_df)] * len(inf_df),
+            marker=dict(color="black"),
+            name="Infinity",
+            hovertemplate="∞<extra></extra>",
+        )
+    )
 
     fig.update_layout(
         xaxis=dict(tickmode="linear", tick0=0, dtick=1.0, title=xaxis_title),
@@ -486,14 +475,14 @@ def plot_kl_divergence(
 
 
 def plot_interpretable_prediction(
-    react: Reaction,
+    react: "Reaction",
     *,
-    actual_value: t.Optional[float] = None,
-    generative_reacts: t.Optional[list[float]] = None,
-    residual: t.Optional[float] = None,
+    actual_value: float | None = None,
+    generative_reacts: list[float] | None = None,
+    residual: float | None = None,
     secondary_yaxis_title: str = "Influence Weight",
-    title: t.Optional[str] = None,
-    xaxis_title: t.Optional[str] = None,
+    title: str | None = None,
+    xaxis_title: str | None = None,
     yaxis_title: str = "Density",
 ) -> go.Figure | list[go.Figure]:
     """
@@ -561,32 +550,33 @@ def plot_interpretable_prediction(
         error_x = {"array": [residual]} if residual is not None else None
         fig.add_trace(
             go.Scattergl(
-                x=[predicted_value], y=[max_inf_weight * 1.05],
+                x=[predicted_value],
+                y=[max_inf_weight * 1.05],
                 name="Predicted Value",
-                mode="markers", marker={"size": 15, "color": "purple"},
+                mode="markers",
+                marker={"size": 15, "color": "purple"},
                 hovertemplate=case_hover_template,
-                error_x=error_x
+                error_x=error_x,
             ),
-            secondary_y=True
+            secondary_y=True,
         )
 
         if actual_value is not None:
             # Add actual value
             fig.add_trace(
                 go.Scattergl(
-                    x=[actual_value], y=[max_inf_weight * 1.05],
+                    x=[actual_value],
+                    y=[max_inf_weight * 1.05],
                     name="Actual Value",
-                    mode='markers', marker=dict(size=15, color="orange"),
-                    hovertemplate=case_hover_template
+                    mode="markers",
+                    marker=dict(size=15, color="orange"),
+                    hovertemplate=case_hover_template,
                 ),
-                secondary_y=True
+                secondary_y=True,
             )
 
         # Update axes, hover mode
-        fig.update_xaxes(
-            title_text=xaxis_title or action_feature,
-            autorange=True
-        )
+        fig.update_xaxes(title_text=xaxis_title or action_feature, autorange=True)
         fig.update_yaxes(title_text=yaxis_title, color="blue", secondary_y=False)
         fig.update_yaxes(title_text=secondary_yaxis_title, color="green", secondary_y=True)
 
@@ -616,9 +606,10 @@ def plot_interpretable_prediction(
                     name="Influential Case",
                     hovertemplate=inf_case_hover_template,
                     customdata=inf_case_labels,
-                    mode="markers", marker=dict(color="green")
+                    mode="markers",
+                    marker=dict(color="green"),
                 ),
-                secondary_y=True
+                secondary_y=True,
             )
 
         if title is not None:
@@ -628,6 +619,7 @@ def plot_interpretable_prediction(
 
     if len(figures) == 1:
         return figures[0]
+    return figures
 
 
 def plot_fairness_disparity(
@@ -638,10 +630,10 @@ def plot_fairness_disparity(
     x_tickangle: bool | float = False,
     fair_color: str = "#9BBf85",
     unfair_color: str = "#B3589A",
-    reference_class_color: str = 'grey',
-):
+    reference_class_color: str = "grey",
+) -> go.Figure:
     """
-    Helper function for plotting fairness disparity results.
+    Plot fairness disparity results.
 
     Parameters
     ----------
@@ -689,17 +681,17 @@ def plot_fairness_disparity(
     for i, (_, results) in enumerate(fairness_results.items(), 1):
         sorted_data = {key: results[key] for key in sorted(results, key=lambda x: (x != reference_class, x))}
         for key, value in sorted_data.items():
-            color = reference_class_color if key == reference_class else (
-                unfair_color if value < fairness_threshold else fair_color
+            color = (
+                reference_class_color
+                if key == reference_class
+                else (unfair_color if value < fairness_threshold else fair_color)
             )
-            key_value = key if key != reference_class else f'{reference_class} (ref)'
+            key_value = key if key != reference_class else f"{reference_class} (ref)"
 
-            fig.add_trace(
-                go.Bar(x=[key_value], y=[value], marker_color=color, name=key_value),
-                row=1, col=i
+            fig.add_trace(go.Bar(x=[key_value], y=[value], marker_color=color, name=key_value), row=1, col=i)
+            fig.add_annotation(
+                x=key_value, y=value / 2, text=str(round(value, 2)), showarrow=False, xref=f"x{i}", yref=f"y{i}"
             )
-            fig.add_annotation(x=key_value, y=value / 2, text=str(round(value, 2)), showarrow=False,
-                               xref=f"x{i}", yref=f"y{i}")
 
     fig.update_layout(showlegend=False)
 
@@ -715,10 +707,10 @@ def compose_figures(
     figures: list[go.Figure],
     rows: int,
     cols: int,
-    **make_subplots_kwargs,
+    **make_subplots_kwargs: Any,
 ) -> go.Figure:
     """
-    Helper function for composing several plotly `Figure`s.
+    Compose one or more Plotly figures into a single figure with multiple traces.
 
     This is particularly useful for `Figure`s created by ``plotly.express``. Any
     unspecified keyword arguments are passed to ``plotly.subplots.make_subplots``.
@@ -752,16 +744,14 @@ def compose_figures(
     fig_counter = 0
     for i in range(1, rows + 1):
         for j in range(1, cols + 1):
-            figure_trace_map[(i, j)] = [
-                t for t in figures[fig_counter]["data"]
-            ]
+            figure_trace_map[(i, j)] = list(figures[fig_counter]["data"])
             subplot_titles.append(figures[fig_counter]["layout"]["title"]["text"])
             fig_counter += 1
 
             if fig_counter == len(figures):
                 break
 
-    for k in {"rows", "cols", "subplot_titles"}:
+    for k in ("rows", "cols", "subplot_titles"):
         make_subplots_kwargs.pop(k, None)
 
     return_figure = make_subplots(rows=rows, cols=cols, subplot_titles=subplot_titles, **make_subplots_kwargs)
@@ -786,14 +776,14 @@ def compose_figures(
 def plot_umap(
     data: DataFrame | Trainee,
     *,
-    action_feature: t.Optional[str] = None,
-    color: t.Optional[str] = None,
-    min_dist: t.Optional[float] = None,
-    n_cases: t.Optional[int] = None,
-    n_neighbors: t.Optional[int] = None,
+    action_feature: str | None = None,
+    color: str | None = None,
+    min_dist: float | None = None,
+    n_cases: int | None = None,
+    n_neighbors: int | None = None,
     title: str = "UMAP Representation",
     use_case_weights: bool = False,
-    weight_feature: t.Optional[str] = None,
+    weight_feature: str | None = None,
     xaxis_title: str = "Component 1",
     yaxis_title: str = "Component 2",
 ) -> go.Figure:
@@ -849,14 +839,14 @@ def plot_umap(
     case_indices = None
     if n_cases is not None:
         sampled_cases = t.get_cases(
-            features=[".session", ".session_training_index"] + list(t.features),
+            features=[".session", ".session_training_index", *t.features],
             session=t.get_sessions()[0]["id"],
         ).sample(n_cases)
         case_indices = sampled_cases[[".session", ".session_training_index"]]
         case_indices = case_indices.values.tolist()
     else:
         sampled_cases = t.get_cases(
-            features=[".session", ".session_training_index"] + list(t.features),
+            features=[".session", ".session_training_index", *t.features],
             session=t.get_sessions()[0]["id"],
         )
 
@@ -881,7 +871,7 @@ def plot_umap(
             use_case_weights=use_case_weights,
             weight_feature=weight_feature,
         )
-        min_dist = float((residuals.values ** p).sum() ** (1 / p))
+        min_dist = float((residuals.values**p).sum() ** (1 / p))
         min_dist = min(round(min_dist, 3), 1)
 
     with warnings.catch_warnings():
@@ -901,11 +891,4 @@ def plot_umap(
         scatter_kwargs["color"] = sampled_cases[color].astype(object)
         labels["color"] = color
 
-    fig = px.scatter(
-        x=points[:, 0],
-        y=points[:, 1],
-        title=title,
-        labels=labels,
-        **scatter_kwargs
-    )
-    return fig
+    return px.scatter(x=points[:, 0], y=points[:, 1], title=title, labels=labels, **scatter_kwargs)
