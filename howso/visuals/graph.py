@@ -64,6 +64,7 @@ def _create_edge_annotations(
                 arrowwidth=width,
                 opacity=0.8,
                 captureevents=True,
+                clicktoshow="onoff",
             )
         )
 
@@ -94,23 +95,40 @@ def _create_edge_annotations(
 def plot_graph(
     G: nx.Graph,  # noqa: N803
     *,
-    layout: Callable[[nx.Graph], LayoutMapping] = nx.spring_layout,
-    edge_attr: str | None = None,
     edge_attr_sigfigs: SupportsInt | None = 4,
-    node_color: list[float],
-    title: str = "Causal Graph",
+    edge_attr: str | None = None,
+    layout: Callable[[nx.Graph], LayoutMapping] = nx.spring_layout,
+    node_color: list[float] | None = None,
     subtitle: str | None = None,
+    title: str = "Causal Graph",
 ) -> go.Figure:
-    fig = go.Figure(
-        layout=go.Layout(
-            title=dict(text="<br>Network graph made with Python", font=dict(size=16)),
-            showlegend=False,
-            hovermode="closest",
-            margin=dict(b=20, l=5, r=5, t=40),
-            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, constrain="domain"),
-            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, constrain="domain"),
-        )
-    )
+    """
+    Plot a ``networkx`` graph using `Plotly`.
+
+    Parameters
+    ----------
+    G : nx.Graph
+        The graph to plot.
+    edge_attr : str, optional
+        The name of the edge attribute to use when scaling the size of the edges. This should
+        be an attribute that is contained within ``G``.
+    edge_attr_sigfigs : SupportsInt | None, default 4
+        The number of significant figures to round to when labelling each edge. If None, no rounding
+        will be performed.
+    layout : Callable[nx.Graph, Mapping[Any, tuple[float, float]]]
+        A callable which generates a mapping of nodes to ``(x, y)`` coordinates.
+    node_color : list[float], optional
+        The data to use when determining the color for each node.
+    title : str, default "Causal Graph"
+        The title of the plot.
+    subtitle : str, optional
+        The subtitle of the plot.
+
+    Returns
+    -------
+    go.Figure
+        The resultant `Plotly` figure.
+    """
     pos = layout(G, center=(1, 1), weight=edge_attr)
 
     text = []
@@ -151,8 +169,18 @@ def plot_graph(
     )
 
     annotations, shapes = _create_edge_annotations(G, pos, edge_attr=edge_attr, edge_attr_sigfigs=edge_attr_sigfigs)
-    for a in annotations:
-        fig.add_annotation(a)
+    fig = go.Figure(
+        layout=go.Layout(
+            title=dict(text="<br>Network graph made with Python", font=dict(size=16)),
+            showlegend=False,
+            hovermode="closest",
+            margin=dict(b=20, l=5, r=5, t=40),
+            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, constrain="domain"),
+            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, constrain="domain"),
+            annotations=annotations,
+        )
+    )
+
     for s in shapes:
         fig.add_shape(**s)
     fig.add_trace(node_trace)
