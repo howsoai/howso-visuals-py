@@ -97,7 +97,7 @@ def plot_graph(
     *,
     edge_attr_sigfigs: SupportsInt | None = 4,
     edge_attr: str | None = None,
-    layout: Callable[[nx.Graph], LayoutMapping] = nx.spring_layout,
+    layout: Callable[[nx.Graph], LayoutMapping] = nx.shell_layout,
     node_color: list[float] | None = None,
     subtitle: str | None = None,
     title: str = "Causal Graph",
@@ -115,7 +115,7 @@ def plot_graph(
     edge_attr_sigfigs : SupportsInt | None, default 4
         The number of significant figures to round to when labelling each edge. If None, no rounding
         will be performed.
-    layout : Callable[nx.Graph, Mapping[Any, tuple[float, float]]]
+    layout : Callable[nx.Graph, Mapping[Any, tuple[float, float]]], default nx.shell_layout
         A callable which generates a mapping of nodes to ``(x, y)`` coordinates.
     node_color : list[float], optional
         The data to use when determining the color for each node.
@@ -129,7 +129,7 @@ def plot_graph(
     go.Figure
         The resultant `Plotly` figure.
     """
-    pos = layout(G, center=(1, 1), weight=edge_attr)
+    pos = layout(G, center=(1, 1))
 
     text = []
     node_x = []
