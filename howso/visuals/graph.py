@@ -1,5 +1,5 @@
 from collections.abc import Callable, Mapping
-from typing import Any, TypeAlias
+from typing import Any, SupportsInt, TypeAlias
 
 import networkx as nx
 import numpy as np
@@ -13,6 +13,7 @@ def _create_edge_annotations(
     G: nx.Graph,  # noqa: N803
     pos: LayoutMapping,
     edge_attr: str | None = None,
+    edge_attr_sigfigs: SupportsInt | None = 4,
 ) -> tuple[list[go.layout.Annotation], list[dict[str, Any]]]:
     # Annotations are created to show the edges between nodes,
     # while invisible shapes with labels are created to label them with the edge weight.
@@ -62,8 +63,16 @@ def _create_edge_annotations(
                 arrowside=arrowside,
                 arrowwidth=width,
                 opacity=0.8,
+                captureevents=True,
             )
         )
+
+        if edge_attr_sigfigs is not None and unscaled_widths is not None:
+            shape_label = f"{round(unscaled_widths[i], edge_attr_sigfigs)}"
+        elif unscaled_widths is not None:
+            shape_label = f"{unscaled_widths[i]}"
+        else:
+            shape_label = ""
 
         shapes.append(
             dict(
@@ -74,7 +83,7 @@ def _create_edge_annotations(
                 y1=y1,
                 xref="x",
                 yref="y",
-                label=dict(text=f"{round(unscaled_widths[i], 4)}" if unscaled_widths is not None else None),
+                label=dict(text=shape_label, xanchor="left"),
                 opacity=0,
             )
         )
@@ -85,9 +94,12 @@ def _create_edge_annotations(
 def plot_graph(
     G: nx.Graph,  # noqa: N803
     *,
-    layout: Callable[[nx.Graph], LayoutMapping] = nx.shell_layout,
+    layout: Callable[[nx.Graph], LayoutMapping] = nx.spring_layout,
     edge_attr: str | None = None,
+    edge_attr_sigfigs: SupportsInt | None = 4,
     node_color: list[float],
+    title: str = "Causal Graph",
+    subtitle: str | None = None,
 ) -> go.Figure:
     fig = go.Figure(
         layout=go.Layout(
@@ -95,11 +107,11 @@ def plot_graph(
             showlegend=False,
             hovermode="closest",
             margin=dict(b=20, l=5, r=5, t=40),
-            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, constrain="domain"),
+            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, constrain="domain"),
         )
     )
-    pos = layout(G, center=(1, 1))
+    pos = layout(G, center=(1, 1), weight=edge_attr)
 
     text = []
     node_x = []
@@ -110,6 +122,7 @@ def plot_graph(
         node_x.append(x)
         node_y.append(y)
 
+    # This places a 1px black border around the node labels.
     text = [
         f'<span style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">{t}</span>'
         for t in text
@@ -132,13 +145,17 @@ def plot_graph(
         ),
         zorder=999,
         textfont=dict(color="white"),
+        name="Nodes",
+        customdata=[[x] for x in node_color],
+        hovertemplate=("<b>%{text}</b><br>Destination MIR: %{customdata[0]:.4f}</br>"),
     )
 
-    annotations, shapes = _create_edge_annotations(G, pos, edge_attr)
+    annotations, shapes = _create_edge_annotations(G, pos, edge_attr=edge_attr, edge_attr_sigfigs=edge_attr_sigfigs)
     for a in annotations:
         fig.add_annotation(a)
     for s in shapes:
         fig.add_shape(**s)
     fig.add_trace(node_trace)
 
+    fig.update_layout(title=dict(text=title, subtitle=dict(text=subtitle)))
     return fig
