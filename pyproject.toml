@@ -27,6 +27,7 @@ dependencies = [
 dev = [
     "flake8",
     "isort",
+    "networkx",
     "pytest-cov",
     "pytest-rerunfailures",
     "pytest-xdist",
