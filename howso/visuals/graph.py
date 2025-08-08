@@ -64,7 +64,6 @@ def _create_edge_annotations(
                 arrowwidth=width,
                 opacity=0.8,
                 captureevents=True,
-                clicktoshow="onoff",
             )
         )
 
@@ -75,6 +74,11 @@ def _create_edge_annotations(
         else:
             shape_label = ""
 
+        shape_label = (
+            '<span style="text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;">'
+            f"{shape_label}</span>"
+        )
+
         shapes.append(
             dict(
                 type="line",
@@ -84,7 +88,7 @@ def _create_edge_annotations(
                 y1=y1,
                 xref="x",
                 yref="y",
-                label=dict(text=shape_label, xanchor="left"),
+                label=dict(text=shape_label),
                 opacity=0,
             )
         )
@@ -152,13 +156,8 @@ def plot_graph(
         textposition="middle center",
         mode="markers+text",
         marker=dict(
-            showscale=True,
-            reversescale=True,
             color=node_color,
-            colorscale="Bluered_r",
-            cmin=3,
-            cmax=30,
-            cmid=15,
+            coloraxis="coloraxis",
             size=75,
         ),
         zorder=999,
@@ -179,6 +178,18 @@ def plot_graph(
             yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, constrain="domain"),
             annotations=annotations,
         )
+    )
+    fig.update_layout(
+        coloraxis=dict(
+            colorscale="Bluered_r",
+            cmin=1,
+            cmax=30,
+            cmid=15,
+            colorbar=dict(
+                title="Missing Information Ratio", tickvals=[1, 3, 15, 30], ticktext=["1", "3", "15", "≥30"]
+            ),
+            reversescale=True,
+        ),
     )
 
     for s in shapes:
