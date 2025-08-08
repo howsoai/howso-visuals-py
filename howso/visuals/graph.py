@@ -149,6 +149,10 @@ def plot_graph(
         f'<span style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">{t}</span>'
         for t in text
     ]
+    hovertemplate = "<b>%{text}</b>"
+    if node_color is not None:
+        hovertemplate += "<br>Destination MIR: %{customdata[0]:.4f}</br>"
+
     node_trace = go.Scatter(
         x=node_x,
         y=node_y,
@@ -163,8 +167,8 @@ def plot_graph(
         zorder=999,
         textfont=dict(color="white"),
         name="Nodes",
-        customdata=[[x] for x in node_color],
-        hovertemplate=("<b>%{text}</b><br>Destination MIR: %{customdata[0]:.4f}</br>"),
+        customdata=[[x] for x in node_color] if node_color is not None else None,
+        hovertemplate=hovertemplate,
     )
 
     annotations, shapes = _create_edge_annotations(G, pos, edge_attr=edge_attr, edge_attr_sigfigs=edge_attr_sigfigs)
@@ -196,5 +200,9 @@ def plot_graph(
         fig.add_shape(**s)
     fig.add_trace(node_trace)
 
-    fig.update_layout(title=dict(text=title, subtitle=dict(text=subtitle)))
+    fig.update_layout(
+        title=dict(text=title, subtitle=dict(text=subtitle)),
+        width=1000,
+        height=750,
+    )
     return fig
