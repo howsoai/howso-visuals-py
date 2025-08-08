@@ -17,33 +17,27 @@ def iris() -> pd.DataFrame:
     iris_path = iris_path.resolve()
 
     df = pd.read_csv(iris_path / "iris.csv")
-    df = df.sample(frac=1).reset_index(drop=True)
-
-    yield df
+    return df.sample(frac=1).reset_index(drop=True)
 
 
 @pytest.fixture(scope="session")
 def iris_train(iris) -> pd.DataFrame:
-    iris_train = iris.truncate(after=75)
-
-    yield iris_train
+    return iris.truncate(after=75)
 
 
 @pytest.fixture(scope="session")
 def iris_test(iris, iris_train) -> pd.DataFrame:
-    iris_test = iris[~iris.index.isin(iris_train.index)]
-
-    yield iris_test
+    return iris[~iris.index.isin(iris_train.index)]
 
 
 @pytest.fixture(scope="session")
 def iris_features(iris_train) -> FeatureAttributesBase:
     features = infer_feature_attributes(iris_train)
-    for _, f_value in features.items():
+    for f_value in features.values():
         if f_value["type"] in ["nominal", "ordinal"]:
             f_value["non_sensitive"] = True
 
-    yield features
+    return features
 
 
 @pytest.fixture(scope="session")
@@ -52,4 +46,4 @@ def iris_trainee(iris_train, iris_features) -> Trainee:
     t.train(iris_train)
     t.analyze()
 
-    yield t
+    return t
