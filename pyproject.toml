@@ -17,6 +17,7 @@ classifiers = [
 ]
 dependencies = [
     "howso-engine~=41.0",
+    "networkx",
     "plotly[kaleido]~=6.0",
     "scipy",
     "seaborn",
@@ -27,7 +28,6 @@ dependencies = [
 dev = [
     "flake8",
     "isort",
-    "networkx",
     "pytest-cov",
     "pytest-rerunfailures",
     "pytest-xdist",
