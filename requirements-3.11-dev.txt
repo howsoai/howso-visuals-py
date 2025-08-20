@@ -34,7 +34,7 @@ flake8==7.3.0
     # via howso-visuals (pyproject.toml)
 fonttools==4.59.1
     # via matplotlib
-howso-engine==42.0.0
+howso-engine==42.0.1
     # via howso-visuals (pyproject.toml)
 humanize==4.12.3
     # via howso-engine
@@ -72,6 +72,8 @@ mmh3==5.2.0
     # via howso-engine
 narwhals==2.1.2
     # via plotly
+networkx==3.5
+    # via howso-visuals (pyproject.toml)
 numba==0.61.2
     # via
     #   pynndescent
