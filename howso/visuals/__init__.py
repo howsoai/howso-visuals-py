@@ -1,3 +1,4 @@
+from . import graph
 from .visuals import (
     compose_figures,
     plot_anomalies,
@@ -12,6 +13,7 @@ from .visuals import (
 
 __all__ = [
     "compose_figures",
+    "graph",
     "plot_anomalies",
     "plot_dataset",
     "plot_drift",

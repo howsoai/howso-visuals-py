@@ -37,9 +37,7 @@ def test_plot_interpretable_prediction_react(
     react = iris_trainee.react(
         action_features=[action_feature],
         contexts=predict_case[context_features],
-        details={
-            "influential_cases": True
-        },
+        details={"influential_cases": True},
     )
 
     if do_actual_value:
@@ -62,7 +60,9 @@ def test_plot_interpretable_prediction_react(
         generative_reacts = None
 
     if do_residual:
-        residual = iris_trainee.get_prediction_stats(details={"prediction_stats": True, "selected_prediction_stats": ["mae"]})
+        residual = iris_trainee.get_prediction_stats(
+            details={"prediction_stats": True, "selected_prediction_stats": ["mae"]}
+        )
         residual = residual[action_feature].iloc[0]
     else:
         residual = None
@@ -125,9 +125,7 @@ def test_plot_dataset(
     if do_boundary_cases and highlight_cases is not None:
         context_features = iris_features.get_names(without=["target"])
         boundary_cases = iris_trainee.react(
-            contexts=highlight_cases[context_features],
-            action_features=["target"],
-            details={"boundary_cases": True}
+            contexts=highlight_cases[context_features], action_features=["target"], details={"boundary_cases": True}
         )
         boundary_cases = pd.concat(
             [pd.DataFrame(bcs) for bcs in boundary_cases["details"]["boundary_cases"]]
@@ -141,7 +139,9 @@ def test_plot_dataset(
         num_expected_traces += 1
 
     fig = plot_dataset(
-        iris_test, x, y,
+        iris_test,
+        x,
+        y,
         boundary_cases=boundary_cases,
         most_similar_cases=most_similar_cases,
         highlight_index=highlight_index,
@@ -157,12 +157,16 @@ def outliers_convictions(iris_trainee, iris_features):
     iris_trainee.react_into_features(familiarity_conviction_addition=True, distance_contribution=True)
     outliers = iris_trainee.get_cases(
         session=iris_trainee.active_session,
-        features=iris_features.get_names() + [
-            "familiarity_conviction_addition", ".session_training_index", ".session", "distance_contribution"
-        ]
+        features=[
+            *iris_features.get_names(),
+            "familiarity_conviction_addition",
+            ".session_training_index",
+            ".session",
+            "distance_contribution",
+        ],
     )
 
-    outliers_indices = outliers[['.session', '.session_training_index']].values
+    outliers_indices = outliers[[".session", ".session_training_index"]].values
     convictions = iris_trainee.react(
         case_indices=outliers_indices,
         preserve_feature_values=iris_features.get_names(),
@@ -171,20 +175,15 @@ def outliers_convictions(iris_trainee, iris_features):
             "boundary_cases": True,
             "influential_cases": True,
             "feature_full_residual_convictions_for_case": True,
-        }
+        },
     )
-    convictions = pd.DataFrame(
-        convictions["details"]["feature_full_residual_convictions_for_case"]
-    )
+    convictions = pd.DataFrame(convictions["details"]["feature_full_residual_convictions_for_case"])
 
-    yield outliers, convictions
+    return outliers, convictions
 
 
 @pytest.mark.parametrize("num_cases_to_plot", [1, 5, 10])
-def test_plot_anomalies(
-    outliers_convictions,
-    num_cases_to_plot
-):
+def test_plot_anomalies(outliers_convictions, num_cases_to_plot):
     outliers, convictions = outliers_convictions
     fig = plot_anomalies(outliers, convictions, num_cases_to_plot=num_cases_to_plot)
     assert len(fig.data[0].y) == num_cases_to_plot
@@ -223,11 +222,11 @@ def test_plot_feature_importances(feature_residuals):
 @pytest.mark.parametrize("x_tickangle", [True, False, 45])
 def test_plot_fairness_disparity(x_tickangle):
     fairness_results = {
-        'Dataset1': {'Male': 0.8, 'Female': 0.7, 'Other': 0.9},
-        'Dataset2': {'Male': 0.6, 'Female': 0.9, 'Other': 0.5},
-        'Dataset3': {'Male': 0.7, 'Female': 0.4, 'Other': 0.6}
+        "Dataset1": {"Male": 0.8, "Female": 0.7, "Other": 0.9},
+        "Dataset2": {"Male": 0.6, "Female": 0.9, "Other": 0.5},
+        "Dataset3": {"Male": 0.7, "Female": 0.4, "Other": 0.6},
     }
-    fig = plot_fairness_disparity(fairness_results, reference_class='Male', x_tickangle=x_tickangle)
+    fig = plot_fairness_disparity(fairness_results, reference_class="Male", x_tickangle=x_tickangle)
 
     assert fig is not None
 
