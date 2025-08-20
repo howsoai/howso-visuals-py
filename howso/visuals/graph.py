@@ -14,6 +14,7 @@ def _create_edge_annotations(
     pos: LayoutMapping,
     edge_attr: str | None = None,
     edge_attr_sigfigs: SupportsInt | None = 4,
+    label_edges: bool = True,
 ) -> tuple[list[go.layout.Annotation], list[dict[str, Any]]]:
     # Annotations are created to show the edges between nodes,
     # while invisible shapes with labels are created to label them with the edge weight.
@@ -67,10 +68,13 @@ def _create_edge_annotations(
             )
         )
 
-        if edge_attr_sigfigs is not None and unscaled_widths is not None:
-            shape_label = f"{round(unscaled_widths[i], edge_attr_sigfigs)}"
-        elif unscaled_widths is not None:
-            shape_label = f"{unscaled_widths[i]}"
+        if label_edges:
+            if edge_attr_sigfigs is not None and unscaled_widths is not None:
+                shape_label = f"{round(unscaled_widths[i], edge_attr_sigfigs)}"
+            elif unscaled_widths is not None:
+                shape_label = f"{unscaled_widths[i]}"
+            else:
+                shape_label = ""
         else:
             shape_label = ""
 
@@ -101,6 +105,7 @@ def plot_graph(
     *,
     edge_attr_sigfigs: SupportsInt | None = 4,
     edge_attr: str | None = None,
+    label_edges: bool = True,
     layout: Callable[[nx.Graph], LayoutMapping] = nx.shell_layout,
     node_color: list[float] | None = None,
     subtitle: str | None = None,
@@ -119,6 +124,8 @@ def plot_graph(
     edge_attr_sigfigs : SupportsInt | None, default 4
         The number of significant figures to round to when labelling each edge. If None, no rounding
         will be performed.
+    label_edges : bool, default True
+        Whether to label plotted edges.
     layout : Callable[nx.Graph, Mapping[Any, tuple[float, float]]], default nx.shell_layout
         A callable which generates a mapping of nodes to ``(x, y)`` coordinates.
     node_color : list[float], optional
@@ -171,7 +178,13 @@ def plot_graph(
         hovertemplate=hovertemplate,
     )
 
-    annotations, shapes = _create_edge_annotations(G, pos, edge_attr=edge_attr, edge_attr_sigfigs=edge_attr_sigfigs)
+    annotations, shapes = _create_edge_annotations(
+        G,
+        pos,
+        edge_attr=edge_attr,
+        edge_attr_sigfigs=edge_attr_sigfigs,
+        label_edges=label_edges,
+        )
     fig = go.Figure(
         layout=go.Layout(
             title=dict(text="<br>Network graph made with Python", font=dict(size=16)),
