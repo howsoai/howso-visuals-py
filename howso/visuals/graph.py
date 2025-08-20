@@ -31,7 +31,7 @@ def _create_edge_annotations(
 
     edge_blacklist = set()
 
-    for i, (s, d) in enumerate(G.edges(data=True)):
+    for i, (s, d) in enumerate(G.edges()):
         if (s, d) in edge_blacklist:
             continue
 
