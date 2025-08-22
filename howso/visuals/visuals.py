@@ -865,12 +865,12 @@ def plot_umap(
     p = hyperparameter_map["p"]
 
     if min_dist is None:
-        residuals = pd.DataFrame(t.react_group(
+        residuals = t.react_aggregate(
             prediction_stats_action_feature=action_feature,
             details={"feature_full_residuals": True},
             use_case_weights=use_case_weights,
             weight_feature=weight_feature,
-        )).T
+        )
         min_dist = float((residuals.values**p).sum() ** (1 / p))
         min_dist = min(round(min_dist, 3), 1)
 
