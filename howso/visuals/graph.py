@@ -103,6 +103,7 @@ def _create_edge_annotations(
 def plot_graph(
     G: nx.Graph,  # noqa: N803
     *,
+    cscale_tuple: tuple[float, float, float] = None,
     edge_attr_sigfigs: SupportsInt | None = 4,
     edge_attr: str | None = None,
     label_edges: bool = True,
@@ -118,6 +119,7 @@ def plot_graph(
     ----------
     G : nx.Graph
         The graph to plot.
+    cscale_tuple : tuple[float, float, float], optional
     edge_attr : str, optional
         The name of the edge attribute to use when scaling the size of the edges. This should
         be an attribute that is contained within ``G``.
@@ -196,14 +198,19 @@ def plot_graph(
             annotations=annotations,
         )
     )
+    
+    if cscale_tuple is None:
+        cmin = 3
+        cmid = 15
+        cmax = 30
     fig.update_layout(
         coloraxis=dict(
             colorscale="Bluered_r",
-            cmin=1,
-            cmax=30,
-            cmid=15,
+            cmin=cmin,
+            cmid=cmid,
+            cmax=cmax,
             colorbar=dict(
-                title="Missing Information Ratio", tickvals=[1, 3, 15, 30], ticktext=["1", "3", "15", "≥30"]
+                title="Missing Information Ratio", tickvals=[cmin, cmid, cmax], ticktext=[f"{cmin}", f"{cmid}", f"≥{cmax}"]
             ),
             reversescale=True,
         ),
