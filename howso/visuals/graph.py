@@ -203,6 +203,11 @@ def plot_graph(
         cmin = 3
         cmid = 15
         cmax = 30
+    else:
+        cmin = cscale_tuple[0]
+        cmid = cscale_tuple[1]
+        cmax = cscale_tuple[2]
+
     fig.update_layout(
         coloraxis=dict(
             colorscale="Bluered_r",
