@@ -4,7 +4,7 @@
 #
 #    pip-compile --allow-unsafe --extra=dev --no-emit-index-url --output-file=requirements-3.10-dev.txt
 #
-amalgam-lang==22.0.3
+amalgam-lang==24.0.0
     # via howso-engine
 certifi==2025.8.3
     # via
@@ -14,11 +14,11 @@ cffi==1.17.1
     # via cryptography
 charset-normalizer==3.4.3
     # via requests
-choreographer==1.0.9
+choreographer==1.0.10
     # via kaleido
 contourpy==1.3.2
     # via matplotlib
-coverage[toml]==7.10.4
+coverage[toml]==7.10.6
     # via pytest-cov
 cryptography==45.0.6
     # via howso-engine
@@ -30,15 +30,15 @@ exceptiongroup==1.3.0
     # via pytest
 execnet==2.1.1
     # via pytest-xdist
-faker==37.5.3
+faker==37.6.0
     # via howso-engine
 flake8==7.3.0
     # via howso-visuals (pyproject.toml)
-fonttools==4.59.1
+fonttools==4.59.2
     # via matplotlib
-howso-engine==42.0.1
+howso-engine==43.0.0
     # via howso-visuals (pyproject.toml)
-humanize==4.12.3
+humanize==4.13.0
     # via howso-engine
 idna==3.10
     # via requests
@@ -46,7 +46,7 @@ iniconfig==2.1.0
     # via pytest
 isort==6.0.1
     # via howso-visuals (pyproject.toml)
-joblib==1.5.1
+joblib==1.5.2
     # via
     #   pynndescent
     #   scikit-learn
@@ -72,7 +72,7 @@ mdurl==0.1.2
     # via markdown-it-py
 mmh3==5.2.0
     # via howso-engine
-narwhals==2.1.2
+narwhals==2.2.0
     # via plotly
 networkx==3.4.2
     # via howso-visuals (pyproject.toml)
@@ -91,7 +91,7 @@ numpy==2.2.6
     #   scipy
     #   seaborn
     #   umap-learn
-orjson==3.11.2
+orjson==3.11.3
     # via kaleido
 packaging==25.0
     # via
@@ -101,13 +101,13 @@ packaging==25.0
     #   plotly
     #   pytest
     #   pytest-rerunfailures
-pandas==2.3.1
+pandas==2.3.2
     # via
     #   howso-engine
     #   seaborn
 pillow==11.3.0
     # via matplotlib
-platformdirs==4.3.8
+platformdirs==4.4.0
     # via yapf
 plotly[kaleido]==6.3.0
     # via howso-visuals (pyproject.toml)
@@ -139,7 +139,7 @@ pytest==8.4.1
     #   pytest-xdist
 pytest-cov==6.2.1
     # via howso-visuals (pyproject.toml)
-pytest-rerunfailures==15.1
+pytest-rerunfailures==16.0
     # via howso-visuals (pyproject.toml)
 pytest-xdist==3.8.0
     # via howso-visuals (pyproject.toml)
@@ -155,7 +155,7 @@ requests==2.32.5
     # via howso-engine
 rich==14.1.0
     # via howso-engine
-ruff==0.12.9
+ruff==0.12.11
     # via howso-visuals (pyproject.toml)
 scikit-learn==1.7.1
     # via
@@ -184,7 +184,7 @@ tomli==2.2.1
     #   yapf
 tqdm==4.67.1
     # via umap-learn
-typing-extensions==4.14.1
+typing-extensions==4.15.0
     # via
     #   exceptiongroup
     #   howso-engine
