@@ -120,6 +120,7 @@ def plot_graph(
     G : nx.Graph
         The graph to plot.
     cscale_tuple : tuple[float, float, float], optional
+        The tuple of values to use for the colorscale. If None, (3, 15, 30) will be used.
     edge_attr : str, optional
         The name of the edge attribute to use when scaling the size of the edges. This should
         be an attribute that is contained within ``G``.
@@ -200,10 +201,12 @@ def plot_graph(
     )
     
     if cscale_tuple is None:
+        cbot = 1
         cmin = 3
         cmid = 15
         cmax = 30
     else:
+        cbot = 1
         cmin = cscale_tuple[0]
         cmid = cscale_tuple[1]
         cmax = cscale_tuple[2]
@@ -211,11 +214,13 @@ def plot_graph(
     fig.update_layout(
         coloraxis=dict(
             colorscale="Bluered_r",
-            cmin=cmin,
+            cmin=cbot,
             cmid=cmid,
             cmax=cmax,
             colorbar=dict(
-                title="Missing Information Ratio", tickvals=[cmin, cmid, cmax], ticktext=[f"{cmin}", f"{cmid}", f"≥{cmax}"]
+                title="Missing Information Ratio",
+                tickvals=[cbot, cmin, cmid, cmax],
+                ticktext=[f"{cbot}", f"{cmin}", f"{cmid}", f"≥{cmax}"],
             ),
             reversescale=True,
         ),
