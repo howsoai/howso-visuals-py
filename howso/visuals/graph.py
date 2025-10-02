@@ -16,6 +16,7 @@ def _create_edge_annotations(
     edge_attr_sigfigs: SupportsInt | None = 4,
     label_edges: bool = True,
     uncertain_edges: Collection[tuple[str, str]] | None = None,
+    uncertain_edge_opacity: float = 0.3,
 ) -> tuple[list[go.layout.Annotation], list[dict[str, Any]]]:
     # Annotations are created to show the edges between nodes,
     # while invisible shapes with labels are created to label them with the edge weight.
@@ -119,6 +120,7 @@ def plot_graph(
     subtitle: str | None = None,
     title: str = "Causal Graph",
     uncertain_edges: Collection[tuple[str, str]] | None = None,
+    uncertain_edge_opacity: float = 0.3,
 ) -> go.Figure:
     """
     Plot a ``networkx`` graph using `Plotly`.
@@ -145,7 +147,11 @@ def plot_graph(
         The subtitle of the plot.
     title : str, default "Causal Graph"
         The title of the plot.
-    uncertain_edges : 
+    uncertain_edges : Collection[tuple[str, str]], optional
+        Edges that are deemed uncertain by the caller. These will be plotted with an opacity equal to
+        ``uncertain_edge_opacity`` and will not have directional arrows.
+    uncertain_edge_opacity : float, default 0.3
+        The opacity use when plotting edges contained in ``uncertain_edges``.
 
     Returns
     -------
