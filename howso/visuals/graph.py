@@ -49,8 +49,8 @@ def _create_edge_annotations(
         else:
             arrowside = "end"
         
-        if (s, d) in uncertain_edges or (d, s) in uncertain_edges:
-            opacity = 0.3
+        if uncertain_edges and ((s, d) in uncertain_edges or (d, s) in uncertain_edges):
+            opacity = uncertain_edge_opacity
             arrowside = "none"
         else:
             opacity = 0.8
