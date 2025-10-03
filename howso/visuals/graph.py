@@ -243,7 +243,6 @@ def plot_graph(
                 tickvals=[cbot, cmin, cmid, cmax],
                 ticktext=[f"{cbot}", f"{cmin}", f"{cmid}", f"≥{cmax}"],
             ),
-            reversescale=True,
         ),
     )
 
