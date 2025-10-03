@@ -111,7 +111,7 @@ def _create_edge_annotations(
 def plot_graph(
     G: nx.Graph,  # noqa: N803
     *,
-    colorscale: str | Sequence[tuple[float, str]] = "Bluered_r",
+    colorscale: str | Sequence[tuple[float, str]] = "Bluered",
     cscale_tuple: tuple[float, float, float] = None,
     edge_attr_sigfigs: SupportsInt | None = 4,
     edge_attr: str | None = None,
@@ -130,7 +130,7 @@ def plot_graph(
     ----------
     G : nx.Graph
         The graph to plot.
-    colorscale : str | Sequence[tuple[float, str]], default "Bluered_r"
+    colorscale : str | Sequence[tuple[float, str]], default "Bluered"
         The colorscale to use when plotting nodes using ``node_color``. Defaults to `Plotly`'s reversed "Bluered"
         colorscale.
     cscale_tuple : tuple[float, float, float], optional
@@ -243,7 +243,6 @@ def plot_graph(
                 tickvals=[cbot, cmin, cmid, cmax],
                 ticktext=[f"{cbot}", f"{cmin}", f"{cmid}", f"≥{cmax}"],
             ),
-            reversescale=True,
         ),
     )
 
