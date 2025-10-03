@@ -1,4 +1,4 @@
-from collections.abc import Callable, Collection, Mapping
+from collections.abc import Callable, Collection, Mapping, Sequence
 from typing import Any, SupportsInt, TypeAlias
 
 import networkx as nx
@@ -111,6 +111,7 @@ def _create_edge_annotations(
 def plot_graph(
     G: nx.Graph,  # noqa: N803
     *,
+    colorscale: str | Sequence[tuple[float, str]] = "Bluered_r",
     cscale_tuple: tuple[float, float, float] = None,
     edge_attr_sigfigs: SupportsInt | None = 4,
     edge_attr: str | None = None,
@@ -129,8 +130,11 @@ def plot_graph(
     ----------
     G : nx.Graph
         The graph to plot.
+    colorscale : str | Sequence[tuple[float, str]], default "Bluered_r"
+        The colorscale to use when plotting nodes using ``node_color``. Defaults to `Plotly`'s reversed "Bluered"
+        colorscale.
     cscale_tuple : tuple[float, float, float], optional
-        The tuple of values to use for the colorscale. If None, (3, 15, 30) will be used.
+        The tuple of values (``cmin``, ``cmid``, ``cmax``) to use for the colorscale. If None, ``(3, 15, 30)`` will be used.
     edge_attr : str, optional
         The name of the edge attribute to use when scaling the size of the edges. This should
         be an attribute that is contained within ``G``.
@@ -230,7 +234,7 @@ def plot_graph(
 
     fig.update_layout(
         coloraxis=dict(
-            colorscale="Bluered_r",
+            colorscale=colorscale,
             cmin=cbot,
             cmid=cmid,
             cmax=cmax,
