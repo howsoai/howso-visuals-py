@@ -5,6 +5,7 @@ import networkx as nx
 import numpy as np
 import plotly.graph_objects as go
 from sklearn.preprocessing import minmax_scale
+from matplotlib.colors import TwoSlopeNorm
 
 LayoutMapping: TypeAlias = Mapping[Any, tuple[float, float]]
 
@@ -201,7 +202,7 @@ def plot_graph(
         pos,
         edge_attr=edge_attr,
         edge_attr_sigfigs=edge_attr_sigfigs,
-        label_edges=label_edges,
+        label_edges=label_edges,    
         uncertain_edges=uncertain_edges,
         uncertain_edge_opacity=uncertain_edge_opacity,
         )
@@ -227,10 +228,19 @@ def plot_graph(
         cmin = cscale_tuple[0]
         cmid = cscale_tuple[1]
         cmax = cscale_tuple[2]
+    
+    norm = TwoSlopeNorm(vmin=1, vcenter=cmid, vmax=cmax)
+    lower = norm(cmin)
+    color_scale = [
+        (0.0, "blue"),
+        (lower, "purple"),
+        (0.5, "darkred"),
+        (1.0, "red"),
+    ]
 
     fig.update_layout(
         coloraxis=dict(
-            colorscale="Bluered_r",
+            colorscale=color_scale,
             cmin=cbot,
             cmid=cmid,
             cmax=cmax,
