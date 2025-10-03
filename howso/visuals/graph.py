@@ -205,7 +205,7 @@ def plot_graph(
         pos,
         edge_attr=edge_attr,
         edge_attr_sigfigs=edge_attr_sigfigs,
-        label_edges=label_edges,    
+        label_edges=label_edges,
         uncertain_edges=uncertain_edges,
         uncertain_edge_opacity=uncertain_edge_opacity,
         )
