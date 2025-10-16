@@ -582,11 +582,10 @@ def plot_interpretable_prediction(
 
         if influential_cases is not None:
             inf_case_hover_template = (
-                "Value: %{x}<br />"
-                "Influence: %{y}<br />"
-                "<br />"
-                "Session: %{customdata[0]}<br />"
-                "Session Index: %{customdata[1]}"
+                "Value: %{x}<br>"
+                "Influence: %{y}<br>"
+                "Case Index: %{customdata[1]}<br>"
+                "Session: %{customdata[0]}<br>"
             )
 
             inf_case_values = []
@@ -906,26 +905,26 @@ def plot_umap(
         "<b>Case Index:</b> %{customdata[0]:,}<br>"
     )
     hover_data = [
-        sampled_cases[".session_training_index"].tolist(),
-        sessions.tolist(),
+        sampled_cases[".session_training_index"],
+        sessions,
     ]
 
     # If we have more than one session, also include the session id
     if sessions.shape[0] > 0 and not (sessions.iloc[0] == sessions).all():
         hover_template += "<b>Session:</b> %{customdata[1]}<br>"
 
+    # Add additional features to hover data
+    for feature in tooltip_features:
+        if feature not in {".session", ".session_training_index"}:
+            hover_data.append(sampled_cases[feature].fillna(pd.NA).astype(str))
+            idx = len(hover_data) - 1
+            hover_template += f"<b>{feature}:</b> %{{customdata[{idx}]}}<br>"
+
     # Color cases by feature value
     if color is not None:
         scatter_kwargs["color"] = sampled_cases[color].astype(object)
         labels["color"] = color
-        hover_template = f"<b>{color}:</b> %{{fullData.name}}<br>" + hover_template
-
-    # Add additional features to hover data
-    for feature in tooltip_features:
-        if feature not in {color, ".session", ".session_training_index"}:
-            hover_data.append(sampled_cases[feature].tolist())
-            idx = len(hover_data) - 1
-            hover_template += f"<b>{feature}:</b> %{{customdata[{idx}]}}<br>"
+        hover_template += "<extra>%{fullData.name}</extra>"
 
     fig = px.scatter(
         x=points[:, 0],
@@ -935,6 +934,6 @@ def plot_umap(
         hover_data=hover_data,
         **scatter_kwargs,
     )
-    fig.update_traces(hovertemplate=hover_template + "<extra></extra>")
+    fig.update_traces(hovertemplate=hover_template)
 
     return fig
