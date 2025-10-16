@@ -781,7 +781,9 @@ def plot_umap(
     min_dist: float | None = None,
     n_cases: int | None = None,
     n_neighbors: int | None = None,
+    session: str | None = None,
     title: str = "UMAP Representation",
+    tooltip_features: list[str] | None = None,
     use_case_weights: bool = False,
     weight_feature: str | None = None,
     xaxis_title: str = "Component 1",
@@ -810,8 +812,12 @@ def plot_umap(
     n_neighbors : int, optional
         The ``n_neighbors`` parameter for ``umap.UMAP``. If None, this will be the :math:`k`
         selected by :meth:`Trainee.analyze`.
+    session : str, optional
+        The training session to plot cases from. When None, pulls cases across all sessions.
     title : str, default "UMAP Representation"
         The title for the figure.
+    tooltip_features : list[str], optional
+        Additional features to include in the tooltip when hovering over a case in the plot.
     use_case_weights : bool, default False
         Whether to use case weights when selecting hyperparameters for :meth:`Trainee.get_distances`.
     weight_feature: str, optional
@@ -836,19 +842,26 @@ def plot_umap(
     else:
         raise TypeError("`data` must be a Trainee or a DataFrame.")
 
+    # Filter to features that actually exist in the data
+    feature_attributes = t.features
+    tooltip_features = [f for f in (tooltip_features or []) if f in feature_attributes]
+
+    # Only pull features from engine that will be plotted
+    request_features = {".session", ".session_training_index", *tooltip_features}
+    if color is not None:
+        request_features.add(color)
+
+    sampled_cases = t.get_cases(features=list(request_features), session=session)
+    sessions = sampled_cases[".session"]
     case_indices = None
-    if n_cases is not None:
-        sampled_cases = t.get_cases(
-            features=[".session", ".session_training_index", *t.features],
-            session=t.get_sessions()[0]["id"],
-        ).sample(n_cases)
+
+    if n_cases is not None and len(sampled_cases) > n_cases:
+        sampled_cases = sampled_cases.sample(n_cases)
         case_indices = sampled_cases[[".session", ".session_training_index"]]
         case_indices = case_indices.values.tolist()
-    else:
-        sampled_cases = t.get_cases(
-            features=[".session", ".session_training_index", *t.features],
-            session=t.get_sessions()[0]["id"],
-        )
+    elif session is not None:
+        case_indices = sampled_cases[[".session", ".session_training_index"]]
+        case_indices = case_indices.values.tolist()
 
     distances = t.get_distances(
         case_indices=case_indices,
@@ -887,8 +900,41 @@ def plot_umap(
         "x": xaxis_title,
         "y": yaxis_title,
     }
+    hover_template = (
+        "<b>%{xaxis.title.text}:</b> %{x}<br>"
+        "<b>%{yaxis.title.text}:</b> %{y}<br>"
+        "<b>Case Index:</b> %{customdata[0]:,}<br>"
+    )
+    hover_data = [
+        sampled_cases[".session_training_index"].tolist(),
+        sessions.tolist(),
+    ]
+
+    # If we have more than one session, also include the session id
+    if sessions.shape[0] > 0 and not (sessions.iloc[0] == sessions).all():
+        hover_template += "<b>Session:</b> %{customdata[1]}<br>"
+
+    # Color cases by feature value
     if color is not None:
         scatter_kwargs["color"] = sampled_cases[color].astype(object)
         labels["color"] = color
+        hover_template = f"<b>{color}:</b> %{{fullData.name}}<br>" + hover_template
 
-    return px.scatter(x=points[:, 0], y=points[:, 1], title=title, labels=labels, **scatter_kwargs)
+    # Add additional features to hover data
+    for feature in tooltip_features:
+        if feature not in {color, ".session", ".session_training_index"}:
+            hover_data.append(sampled_cases[feature].tolist())
+            idx = len(hover_data) - 1
+            hover_template += f"<b>{feature}:</b> %{{customdata[{idx}]}}<br>"
+
+    fig = px.scatter(
+        x=points[:, 0],
+        y=points[:, 1],
+        title=title,
+        labels=labels,
+        hover_data=hover_data,
+        **scatter_kwargs,
+    )
+    fig.update_traces(hovertemplate=hover_template + "<extra></extra>")
+
+    return fig
