@@ -1,3 +1,4 @@
+from collections.abc import Collection
 from typing import (
     Any,
     SupportsFloat,
@@ -482,6 +483,7 @@ def plot_interpretable_prediction(
     residual: float | None = None,
     secondary_yaxis_title: str = "Influence Weight",
     title: str | None = None,
+    tooltip_features: Collection[str] | None = None,
     xaxis_title: str | None = None,
     yaxis_title: str = "Density",
 ) -> go.Figure | list[go.Figure]:
@@ -504,9 +506,11 @@ def plot_interpretable_prediction(
         The residual for the feature that was predicted, local or global. Used to display an error bar around the
         predicted value. If this is None, no error bar will be displayed
     secondary_yaxis_title : str, default "Influence Weight"
-        The title for thefigure's secondary y axis.
+        The title for the figure's secondary y axis.
     title : str, optional
         The title for the figure.
+    tooltip_features : Collection[str], optional
+        Additional features to include in the tooltip when hovering over an influential case in the plot.
     xaxis_title : str, optional
         The title for the figure's x axis. If None, the action feature will be used.
     yaxis_title : str, default "Density"
@@ -518,6 +522,8 @@ def plot_interpretable_prediction(
         The resultant `Plotly` figure(s).
     """
     figures = []
+    tooltip_features = list(tooltip_features) if tooltip_features is not None else []
+
     for action_feature in react["action"].columns:
         predicted_value = react["action"][action_feature].iloc[0]
 
@@ -539,7 +545,8 @@ def plot_interpretable_prediction(
         fig.add_trace(
             go.Scattergl(x=density_x, y=density_y, fill="tonexty", name="Distribution", hoverinfo="skip", mode="lines")
         )
-        case_hover_template = "Value: %{x}<br />Influence: N/A"
+        case_hover_template = "<b>Value:</b> %{x}<br><b>Influence:</b> N/A"
+        predicted_case_hover_template = case_hover_template
 
         if influential_cases is not None:
             max_inf_weight = max([ic[".influence_weight"] for ic in influential_cases])
@@ -547,7 +554,10 @@ def plot_interpretable_prediction(
             max_inf_weight = None
 
         # Add predicted value
-        error_x = {"array": [residual]} if residual is not None else None
+        error_x = None
+        if residual is not None:
+            error_x = {"array": [residual]}
+            predicted_case_hover_template += f"<br><b>Residual:</b> {residual}"
         fig.add_trace(
             go.Scattergl(
                 x=[predicted_value],
@@ -555,7 +565,7 @@ def plot_interpretable_prediction(
                 name="Predicted Value",
                 mode="markers",
                 marker={"size": 15, "color": "purple"},
-                hovertemplate=case_hover_template,
+                hovertemplate=predicted_case_hover_template,
                 error_x=error_x,
             ),
             secondary_y=True,
@@ -580,13 +590,16 @@ def plot_interpretable_prediction(
         fig.update_yaxes(title_text=yaxis_title, color="blue", secondary_y=False)
         fig.update_yaxes(title_text=secondary_yaxis_title, color="green", secondary_y=True)
 
-        if influential_cases is not None:
+        if influential_cases is not None and len(influential_cases):
             inf_case_hover_template = (
-                "Value: %{x}<br>"
-                "Influence: %{y}<br>"
-                "Case Index: %{customdata[1]}<br>"
-                "Session: %{customdata[0]}<br>"
+                "<b>Value:</b> %{x}<br>"
+                "<b>Influence:</b> %{y}<br>"
+                "<b>Case Index:</b> %{customdata[1]}<br>"
+                "<b>Session:</b> %{customdata[0]}<br>"
             )
+            for i, f in enumerate(tooltip_features):
+                if f in influential_cases[0]:
+                    inf_case_hover_template += f"<b>{f}:</b> %{{customdata[{i + 2}]}}<br>"
 
             inf_case_values = []
             inf_case_weights = []
@@ -596,7 +609,8 @@ def plot_interpretable_prediction(
             for i in influential_cases:
                 inf_case_values.append(i[action_feature])
                 inf_case_weights.append(i[".influence_weight"])
-                inf_case_labels.append([i[".session"], i[".session_training_index"]])
+                inf_case_features = [str(i[f]) for f in tooltip_features if f in i]
+                inf_case_labels.append([i[".session"], i[".session_training_index"], *inf_case_features])
 
             fig.add_trace(
                 go.Scattergl(
@@ -611,8 +625,9 @@ def plot_interpretable_prediction(
                 secondary_y=True,
             )
 
-        if title is not None:
-            fig.update_layout(title=dict(text=title))
+        if title is None:
+            title = f"Interpretable Prediction for: {action_feature}"
+        fig.update_layout(title=dict(text=title))
 
         figures.append(fig)
 
@@ -782,7 +797,7 @@ def plot_umap(
     n_neighbors: int | None = None,
     session: str | None = None,
     title: str = "UMAP Representation",
-    tooltip_features: list[str] | None = None,
+    tooltip_features: Collection[str] | None = None,
     use_case_weights: bool = False,
     weight_feature: str | None = None,
     xaxis_title: str = "Component 1",
@@ -815,7 +830,7 @@ def plot_umap(
         The training session to plot cases from. When None, pulls cases across all sessions.
     title : str, default "UMAP Representation"
         The title for the figure.
-    tooltip_features : list[str], optional
+    tooltip_features : Collection[str], optional
         Additional features to include in the tooltip when hovering over a case in the plot.
     use_case_weights : bool, default False
         Whether to use case weights when selecting hyperparameters for :meth:`Trainee.get_distances`.
@@ -843,7 +858,7 @@ def plot_umap(
 
     # Filter to features that actually exist in the data
     feature_attributes = t.features
-    tooltip_features = [f for f in (tooltip_features or []) if f in feature_attributes]
+    tooltip_features = [f for f in tooltip_features if f in feature_attributes] if tooltip_features is not None else []
 
     # Only pull features from engine that will be plotted
     request_features = {".session", ".session_training_index", *tooltip_features}
