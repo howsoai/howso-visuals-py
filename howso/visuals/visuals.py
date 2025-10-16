@@ -866,7 +866,6 @@ def plot_umap(
         request_features.add(color)
 
     sampled_cases = t.get_cases(features=list(request_features), session=session)
-    sessions = sampled_cases[".session"]
     case_indices = None
 
     if n_cases is not None and len(sampled_cases) > n_cases:
@@ -909,6 +908,7 @@ def plot_umap(
             n_neighbors=n_neighbors,
         ).fit_transform(distances)
 
+    sessions = sampled_cases[".session"]
     scatter_kwargs = {}
     labels = {
         "x": xaxis_title,
