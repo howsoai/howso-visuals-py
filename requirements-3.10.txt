@@ -30,7 +30,7 @@ faker==37.11.0
     # via howso-engine
 fonttools==4.60.1
     # via matplotlib
-howso-engine==48.2.0
+howso-engine==48.2.1
     # via howso-visuals (pyproject.toml)
 humanize==4.14.0
     # via howso-engine
