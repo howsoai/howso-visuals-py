@@ -4,7 +4,7 @@
 #
 #    pip-compile --allow-unsafe --cert=None --client-cert=None --index-url=None --no-emit-index-url --output-file=requirements-3.10.txt --pip-args=None
 #
-amalgam-lang==24.0.6
+amalgam-lang==24.0.7
     # via howso-engine
 certifi==2025.10.5
     # via
@@ -30,7 +30,7 @@ faker==37.12.0
     # via howso-engine
 fonttools==4.60.1
     # via matplotlib
-howso-engine==49.1.1
+howso-engine==49.1.2
     # via howso-visuals (pyproject.toml)
 humanize==4.14.0
     # via howso-engine
@@ -62,7 +62,7 @@ mdurl==0.1.2
     # via markdown-it-py
 mmh3==5.2.0
     # via howso-engine
-narwhals==2.9.0
+narwhals==2.10.1
     # via plotly
 networkx==3.4.2
     # via howso-visuals (pyproject.toml)
