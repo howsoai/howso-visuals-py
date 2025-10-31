@@ -4,7 +4,7 @@
 #
 #    pip-compile --allow-unsafe --cert=None --client-cert=None --extra=dev --index-url=None --no-emit-index-url --output-file=requirements-3.12-dev.txt --pip-args=None
 #
-amalgam-lang==24.0.6
+amalgam-lang==24.0.7
     # via howso-engine
 certifi==2025.10.5
     # via
@@ -34,7 +34,7 @@ flake8==7.3.0
     # via howso-visuals (pyproject.toml)
 fonttools==4.60.1
     # via matplotlib
-howso-engine==49.1.1
+howso-engine==49.1.2
     # via howso-visuals (pyproject.toml)
 humanize==4.14.0
     # via howso-engine
@@ -70,7 +70,7 @@ mdurl==0.1.2
     # via markdown-it-py
 mmh3==5.2.0
     # via howso-engine
-narwhals==2.9.0
+narwhals==2.10.1
     # via plotly
 networkx==3.5
     # via howso-visuals (pyproject.toml)
@@ -156,13 +156,13 @@ requests==2.32.5
     # via howso-engine
 rich==14.2.0
     # via howso-engine
-ruff==0.14.2
+ruff==0.14.3
     # via howso-visuals (pyproject.toml)
 scikit-learn==1.7.2
     # via
     #   pynndescent
     #   umap-learn
-scipy==1.16.2
+scipy==1.16.3
     # via
     #   howso-visuals (pyproject.toml)
     #   pynndescent

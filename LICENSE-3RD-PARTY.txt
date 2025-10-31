@@ -1232,12 +1232,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 narwhals
-2.9.0
+2.10.1
 MIT License
 Marco Gorelli <hello_narwhals@proton.me>
 https://github.com/narwhals-dev/narwhals
 Extremely lightweight compatibility layer between dataframe libraries
-/home/runner/.pyenv/versions/3.13.9/lib/python3.13/site-packages/narwhals-2.9.0.dist-info/licenses/LICENSE.md
+/home/runner/.pyenv/versions/3.13.9/lib/python3.13/site-packages/narwhals-2.10.1.dist-info/licenses/LICENSE.md
 MIT License
 
 Copyright (c) 2024, Marco Gorelli
@@ -6041,12 +6041,12 @@ requirements of the license of GCC.
 
 
 scipy
-1.16.2
+1.16.3
 BSD License
 UNKNOWN
 https://scipy.org/
 Fundamental algorithms for scientific computing in Python
-/home/runner/.pyenv/versions/3.13.9/lib/python3.13/site-packages/scipy-1.16.2.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.13.9/lib/python3.13/site-packages/scipy-1.16.3.dist-info/LICENSE.txt
 Copyright (c) 2001-2002 Enthought, Inc. 2003, SciPy Developers.
 All rights reserved.
 
