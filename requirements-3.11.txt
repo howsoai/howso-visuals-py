@@ -4,9 +4,9 @@
 #
 #    pip-compile --allow-unsafe --cert=None --client-cert=None --index-url=None --no-emit-index-url --output-file=requirements-3.11.txt --pip-args=None
 #
-amalgam-lang==24.0.7
+amalgam-lang==25.0.2
     # via howso-engine
-certifi==2025.10.5
+certifi==2025.11.12
     # via
     #   howso-engine
     #   requests
@@ -14,7 +14,7 @@ cffi==2.0.0
     # via cryptography
 charset-normalizer==3.4.4
     # via requests
-choreographer==1.2.0
+choreographer==1.2.1
     # via kaleido
 contourpy==1.3.3
     # via matplotlib
@@ -24,11 +24,11 @@ cycler==0.12.1
     # via matplotlib
 deprecation==2.1.0
     # via howso-engine
-faker==37.12.0
+faker==38.0.0
     # via howso-engine
 fonttools==4.60.1
     # via matplotlib
-howso-engine==49.1.2
+howso-engine==50.1.0
     # via howso-visuals (pyproject.toml)
 humanize==4.14.0
     # via howso-engine
@@ -40,7 +40,7 @@ joblib==1.5.2
     # via
     #   pynndescent
     #   scikit-learn
-kaleido==1.1.0
+kaleido==1.2.0
     # via plotly
 kiwisolver==1.4.9
     # via matplotlib
@@ -48,7 +48,7 @@ llvmlite==0.45.1
     # via
     #   numba
     #   pynndescent
-logistro==2.0.0
+logistro==2.0.1
     # via
     #   choreographer
     #   kaleido
@@ -60,7 +60,7 @@ mdurl==0.1.2
     # via markdown-it-py
 mmh3==5.2.0
     # via howso-engine
-narwhals==2.10.1
+narwhals==2.11.0
     # via plotly
 networkx==3.5
     # via howso-visuals (pyproject.toml)
@@ -94,7 +94,7 @@ pandas==2.3.3
     #   seaborn
 pillow==12.0.0
     # via matplotlib
-plotly[kaleido]==6.3.1
+plotly[kaleido]==6.4.0
     # via howso-visuals (pyproject.toml)
 pluggy==1.6.0
     # via pytest
@@ -110,7 +110,7 @@ pynndescent==0.5.13
     # via umap-learn
 pyparsing==3.2.5
     # via matplotlib
-pytest==8.4.2
+pytest==9.0.1
     # via pytest-timeout
 pytest-timeout==2.4.0
     # via kaleido
