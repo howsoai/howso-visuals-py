@@ -239,7 +239,7 @@ def plot_graph(
             cmid=cmid,
             cmax=cmax,
             colorbar=dict(
-                title="Missing Information Ratio",
+                title="Missing Information",
                 tickvals=[cbot, cmin, cmid, cmax],
                 ticktext=[f"{cbot}", f"{cmin}", f"{cmid}", f"≥{cmax}"],
             ),
