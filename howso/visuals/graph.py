@@ -48,7 +48,7 @@ def _create_edge_annotations(
             arrowside = "none"
         else:
             arrowside = "end"
-        
+
         if uncertain_edges and ((s, d) in uncertain_edges or (d, s) in uncertain_edges):
             opacity = uncertain_edge_opacity
             arrowside = "none"
@@ -208,7 +208,7 @@ def plot_graph(
         label_edges=label_edges,
         uncertain_edges=uncertain_edges,
         uncertain_edge_opacity=uncertain_edge_opacity,
-        )
+    )
     fig = go.Figure(
         layout=go.Layout(
             title=dict(text="<br>Network graph made with Python", font=dict(size=16)),
@@ -220,14 +220,14 @@ def plot_graph(
             annotations=annotations,
         )
     )
-    
+
     if cscale_tuple is None:
-        cbot = 1
-        cmin = 3
-        cmid = 15
-        cmax = 30
+        cbot = 0
+        cmin = 1
+        cmid = 3
+        cmax = 10
     else:
-        cbot = 1
+        cbot = 0
         cmin = cscale_tuple[0]
         cmid = cscale_tuple[1]
         cmax = cscale_tuple[2]
