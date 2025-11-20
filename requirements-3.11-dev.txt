@@ -4,7 +4,7 @@
 #
 #    pip-compile --allow-unsafe --cert=None --client-cert=None --extra=dev --index-url=None --no-emit-index-url --output-file=requirements-3.11-dev.txt --pip-args=None
 #
-amalgam-lang==25.0.2
+amalgam-lang==25.1.0
     # via howso-engine
 certifi==2025.11.12
     # via
@@ -34,7 +34,7 @@ flake8==7.3.0
     # via howso-visuals (pyproject.toml)
 fonttools==4.60.1
     # via matplotlib
-howso-engine==50.2.0
+howso-engine==50.2.1
     # via howso-visuals (pyproject.toml)
 humanize==4.14.0
     # via howso-engine
