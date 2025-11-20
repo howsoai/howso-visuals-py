@@ -24,11 +24,11 @@ cycler==0.12.1
     # via matplotlib
 deprecation==2.1.0
     # via howso-engine
-faker==38.0.0
+faker==38.2.0
     # via howso-engine
 fonttools==4.60.1
     # via matplotlib
-howso-engine==50.1.0
+howso-engine==50.2.0
     # via howso-visuals (pyproject.toml)
 humanize==4.14.0
     # via howso-engine
@@ -60,7 +60,7 @@ mdurl==0.1.2
     # via markdown-it-py
 mmh3==5.2.0
     # via howso-engine
-narwhals==2.11.0
+narwhals==2.12.0
     # via plotly
 networkx==3.5
     # via howso-visuals (pyproject.toml)
@@ -94,7 +94,7 @@ pandas==2.3.3
     #   seaborn
 pillow==12.0.0
     # via matplotlib
-plotly[kaleido]==6.4.0
+plotly[kaleido]==6.5.0
     # via howso-visuals (pyproject.toml)
 pluggy==1.6.0
     # via pytest
