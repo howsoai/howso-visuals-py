@@ -107,6 +107,7 @@ def plot_feature_importances(
     fig.update_layout(
         title=dict(text=title), xaxis=dict(title=xaxis_title, tickangle=45), yaxis=dict(title=yaxis_title)
     )
+    fig.update_xaxes(tickangle="auto")
     fig.add_trace(go.Bar(x=feature_importances.index, y=feature_importances, error_y=error_y))
 
     return fig
