@@ -549,7 +549,7 @@ def plot_interpretable_prediction(
         else:
             action_distribution = None
 
-        if action_distribution:
+        if action_distribution is not None:
             action_kde = gaussian_kde(action_distribution)
             density_x = np.linspace(
                 min(action_distribution) * 0.6,
