@@ -479,10 +479,11 @@ def plot_interpretable_prediction(
     react: "Reaction",
     *,
     actual_value: float | None = None,
-    generative_reacts: list[float] | None = None,
+    generative_reacts: pd.DataFrame | None = None,
     residual: float | None = None,
     secondary_yaxis_title: str = "Influence Weight",
-    title: str | None = None,
+    subplot_titles: list[str] | None = None,
+    title: str = "Interpretable Predictions",
     tooltip_features: Collection[str] | None = None,
     xaxis_title: str | None = None,
     yaxis_title: str = "Density",
@@ -495,10 +496,10 @@ def plot_interpretable_prediction(
     react : Reaction
         The reaction predicting the action feature(s) to visualize. If this contains more than one action feature,
         each will be given its own plot.
-    generative_reacts : list of float, optional
-        An optional list of values for the action feature to visualize. This will be used to visualize a
-        KDE plot to characterize the distribution of values around the predicted and actual values. If this is None,
-        the distribution of influential cases in the react will be used instead, if present.
+    generative_reacts : DataFrame, optional
+        Ann optional `DataFrame` of generative reactions which will be used to visualize a KDE around
+        the predicted value. If this is None, the distribution of influential cases in the react will
+        be used instead, if present.
     actual_value : float, optional
         The actual value for the point that was predicted. If this is None, only the predicted value will be
         visualized.
@@ -507,7 +508,9 @@ def plot_interpretable_prediction(
         predicted value. If this is None, no error bar will be displayed
     secondary_yaxis_title : str, default "Influence Weight"
         The title for the figure's secondary y axis.
-    title : str, optional
+    subplot_titles : list[str], optional
+        A list of titles to use for subplots. If this is None, titles will be auto-generated.
+    title : str, default "Interpretable Prediction"
         The title for the figure.
     tooltip_features : Collection[str], optional
         Additional features to include in the tooltip when hovering over an influential case in the plot.
@@ -521,31 +524,52 @@ def plot_interpretable_prediction(
     Figure or list of Figure
         The resultant `Plotly` figure(s).
     """
-    figures = []
     tooltip_features = list(tooltip_features) if tooltip_features is not None else []
+    action_features = react["action"].columns
+    num_rows = len(action_features)
+    subplot_titles = subplot_titles or [f"Interpretable Prediction for: {af}" for af in action_features]
+    case_hover_template = "<b>Value:</b> %{x}<br><b>Influence:</b> N/A"
+    fig = make_subplots(
+        rows=num_rows,
+        specs=[[{"secondary_y": True}]] * num_rows,
+        subplot_titles=subplot_titles,
+    )
 
-    for action_feature in react["action"].columns:
+    for row, action_feature in enumerate(action_features):
         predicted_value = react["action"][action_feature].iloc[0]
+        legend = "legend" if row == 0 else f"legend{row + 1}"
 
         influential_cases = react.get("details", {}).get("influential_cases")
         influential_cases = influential_cases[0] if influential_cases else None
 
         if generative_reacts is not None:
-            action_distribution = generative_reacts
-        else:
+            action_distribution = generative_reacts[action_feature]
+        elif influential_cases is not None:
             action_distribution = [c[action_feature] for c in influential_cases]
-        action_kde = gaussian_kde(action_distribution)
-        density_x = np.linspace(
-            min(action_distribution) * 0.6,
-            max(action_distribution) * 1.4,
-            len(action_distribution),
-        )
-        density_y = action_kde(density_x)
-        fig = make_subplots(specs=[[{"secondary_y": True}]])
-        fig.add_trace(
-            go.Scattergl(x=density_x, y=density_y, fill="tonexty", name="Distribution", hoverinfo="skip", mode="lines")
-        )
-        case_hover_template = "<b>Value:</b> %{x}<br><b>Influence:</b> N/A"
+        else:
+            action_distribution = None
+
+        if action_distribution:
+            action_kde = gaussian_kde(action_distribution)
+            density_x = np.linspace(
+                min(action_distribution) * 0.6,
+                max(action_distribution) * 1.4,
+                len(action_distribution),
+            )
+            density_y = action_kde(density_x)
+            fig.add_trace(
+                go.Scattergl(
+                    x=density_x,
+                    y=density_y,
+                    fill="tonexty",
+                    name="Distribution",
+                    hoverinfo="skip",
+                    mode="lines",
+                    legend=legend,
+                ),
+                row=row + 1,
+                col=1,
+            )
         predicted_case_hover_template = case_hover_template
 
         if influential_cases is not None:
@@ -561,14 +585,17 @@ def plot_interpretable_prediction(
         fig.add_trace(
             go.Scattergl(
                 x=[predicted_value],
-                y=[max_inf_weight * 1.05],
+                y=[max_inf_weight * 1.05] if max_inf_weight else 1,
                 name="Predicted Value",
                 mode="markers",
                 marker={"size": 15, "color": "purple"},
                 hovertemplate=predicted_case_hover_template,
                 error_x=error_x,
+                legend=legend,
             ),
             secondary_y=True,
+            row=row + 1,
+            col=1,
         )
 
         if actual_value is not None:
@@ -576,19 +603,22 @@ def plot_interpretable_prediction(
             fig.add_trace(
                 go.Scattergl(
                     x=[actual_value],
-                    y=[max_inf_weight * 1.05],
+                    y=[max_inf_weight * 1.05] if max_inf_weight else 1,
                     name="Actual Value",
                     mode="markers",
                     marker=dict(size=15, color="orange"),
                     hovertemplate=case_hover_template,
+                    legend=legend,
                 ),
                 secondary_y=True,
+                row=row + 1,
+                col=1,
             )
 
         # Update axes, hover mode
-        fig.update_xaxes(title_text=xaxis_title or action_feature, autorange=True)
-        fig.update_yaxes(title_text=yaxis_title, color="blue", secondary_y=False)
-        fig.update_yaxes(title_text=secondary_yaxis_title, color="green", secondary_y=True)
+        fig.update_xaxes(title_text=xaxis_title or action_feature, autorange=True, row=row + 1, col=1)
+        fig.update_yaxes(title_text=yaxis_title, color="blue", secondary_y=False, row=row + 1, col=1)
+        fig.update_yaxes(title_text=secondary_yaxis_title, color="green", secondary_y=True, row=row + 1, col=1)
 
         if influential_cases is not None and len(influential_cases):
             inf_case_hover_template = (
@@ -621,19 +651,24 @@ def plot_interpretable_prediction(
                     customdata=inf_case_labels,
                     mode="markers",
                     marker=dict(color="green"),
+                    legend=legend,
                 ),
                 secondary_y=True,
+                row=row + 1,
+                col=1,
             )
 
-        if title is None:
-            title = f"Interpretable Prediction for: {action_feature}"
-        fig.update_layout(title=dict(text=title))
+    # Increase height based on the number of rows
+    fig.update_layout(height=300 * num_rows)
+    # Place a legend to the right of each subplot.
+    for i, yaxis in enumerate(fig.select_yaxes(secondary_y=False), 1):
+        legend_name = f"legend{i}"
+        fig.update_layout({legend_name: dict(y=yaxis.domain[1], yanchor="top")}, showlegend=True)
+        fig.update_traces(row=i, legend=legend_name)
 
-        figures.append(fig)
-
-    if len(figures) == 1:
-        return figures[0]
-    return figures
+    title = title or "Interpretable Predictions"
+    fig.update_layout(title=title)
+    return fig
 
 
 def plot_fairness_disparity(
