@@ -545,7 +545,7 @@ def plot_interpretable_prediction(
         if generative_reacts is not None:
             action_distribution = generative_reacts[action_feature]
         elif influential_cases is not None:
-            action_distribution = [c[action_feature] for c in influential_cases]
+            action_distribution = influential_cases[action_feature]
         else:
             action_distribution = None
 
@@ -573,7 +573,7 @@ def plot_interpretable_prediction(
         predicted_case_hover_template = case_hover_template
 
         if influential_cases is not None:
-            max_inf_weight = max([ic[".influence_weight"] for ic in influential_cases])
+            max_inf_weight = influential_cases[".influence_weight"].max()
         else:
             max_inf_weight = None
 
@@ -636,6 +636,7 @@ def plot_interpretable_prediction(
             inf_case_labels = []
 
             # Add influential cases
+            influential_cases = influential_cases.to_dict("records")
             for i in influential_cases:
                 inf_case_values.append(i[action_feature])
                 inf_case_weights.append(i[".influence_weight"])
