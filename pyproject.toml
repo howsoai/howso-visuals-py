@@ -16,7 +16,7 @@ classifiers = [
     "Programming Language :: Python :: 3"
 ]
 dependencies = [
-    "howso-engine>=45.0",
+    "howso-engine>=51.0",
     "networkx",
     "plotly[kaleido]~=6.0",
     "scipy",
