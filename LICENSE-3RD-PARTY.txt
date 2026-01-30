@@ -1,10 +1,10 @@
 Faker
-40.1.0
+40.1.2
 MIT License
 joke2k
 https://github.com/joke2k/faker
 Faker is a Python package that generates fake data for you.
-/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/faker-40.1.0.dist-info/licenses/LICENSE.txt
+/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/faker-40.1.2.dist-info/licenses/LICENSE.txt
 Copyright (c) 2012 Daniele Faraglia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -372,12 +372,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 cryptography
-46.0.3
+46.0.4
 Apache-2.0 OR BSD-3-Clause
 The Python Cryptographic Authority and individual contributors <cryptography-dev@python.org>
 https://github.com/pyca/cryptography
 cryptography is a package which provides cryptographic recipes and primitives to Python developers.
-/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/cryptography-46.0.3.dist-info/licenses/LICENSE
+/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/cryptography-46.0.4.dist-info/licenses/LICENSE
 This software is made available under the terms of *either* of the licenses
 found in LICENSE.APACHE or LICENSE.BSD. Contributions to cryptography are made
 under the terms of *both* these licenses.
@@ -2032,13 +2032,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 numpy
-2.2.6
+2.3.5
 BSD License
 Travis E. Oliphant et al.
 https://numpy.org
 Fundamental package for array computing in Python
-/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/numpy-2.2.6.dist-info/LICENSE.txt
-Copyright (c) 2005-2024, NumPy Developers.
+/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/numpy-2.3.5.dist-info/LICENSE.txt
+Copyright (c) 2005-2025, NumPy Developers.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -2153,7 +2153,7 @@ Name: LAPACK
 Files: numpy.libs/libscipy_openblas*.so
 Description: bundled in OpenBLAS
 Availability: https://github.com/OpenMathLib/OpenBLAS/
-License: BSD-3-Clause-Attribution
+License: BSD-3-Clause-Open-MPI
   Copyright (c) 1992-2013 The University of Tennessee and The University
                           of Tennessee Research Foundation.  All rights
                           reserved.
@@ -2208,7 +2208,7 @@ Name: GCC runtime library
 Files: numpy.libs/libgfortran*.so
 Description: dynamically linked to files compiled with gcc
 Availability: https://gcc.gnu.org/git/?p=gcc.git;a=tree;f=libgfortran
-License: GPL-3.0-with-GCC-exception
+License: GPL-3.0-or-later WITH GCC-exception-3.1
   Copyright (C) 2002-2017 Free Software Foundation, Inc.
 
   Libgfortran is free software; you can redistribute it and/or modify
@@ -2242,7 +2242,7 @@ GCC RUNTIME LIBRARY EXCEPTION
 
 Version 3.1, 31 March 2009
 
-Copyright (C) 2009 Free Software Foundation, Inc. <http://fsf.org/>
+Copyright (C) 2009 Free Software Foundation, Inc. <https://fsf.org/>
 
 Everyone is permitted to copy and distribute verbatim copies of this
 license document, but changing it is not allowed.
@@ -2316,7 +2316,7 @@ requirements of the license of GCC.
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
- Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
+ Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  Everyone is permitted to copy and distribute verbatim copies
  of this license document, but changing it is not allowed.
 
@@ -2960,7 +2960,7 @@ the "copyright" line and a pointer to where the full notice is found.
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Also add information on how to contact you by electronic and paper mail.
 
@@ -2979,14 +2979,14 @@ might be different; for a GUI interface, you would use an "about box".
   You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary.
 For more information on this, and how to apply and follow the GNU GPL, see
-<http://www.gnu.org/licenses/>.
+<https://www.gnu.org/licenses/>.
 
   The GNU General Public License does not permit incorporating your program
 into proprietary programs.  If your program is a subroutine library, you
 may consider it more useful to permit linking proprietary applications with
 the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
-<http://www.gnu.org/philosophy/why-not-lgpl.html>.
+<https://www.gnu.org/licenses/why-not-lgpl.html>.
 
 Name: libquadmath
 Files: numpy.libs/libquadmath*.so
@@ -3012,12 +3012,12 @@ License: LGPL-2.1-or-later
 
 
 orjson
-3.11.5
-Apache-2.0 OR MIT
+3.11.6
+MPL-2.0 AND (Apache-2.0 OR MIT)
 UNKNOWN
 https://github.com/ijl/orjson
 Fast, correct Python JSON library supporting dataclasses, datetimes, and numpy
-/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/orjson-3.11.5.dist-info/licenses/LICENSE-APACHE
+/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/orjson-3.11.6.dist-info/licenses/LICENSE-APACHE
                               Apache License
                         Version 2.0, January 2004
                      http://www.apache.org/licenses/
@@ -3222,12 +3222,12 @@ limitations under the License.
 
 
 packaging
-25.0
-Apache Software License; BSD License
+26.0
+Apache-2.0 OR BSD-2-Clause
 Donald Stufft <donald@stufft.io>
 https://github.com/pypa/packaging
 Core utilities for Python packages
-/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/packaging-25.0.dist-info/licenses/LICENSE
+/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/packaging-26.0.dist-info/licenses/LICENSE
 This software is made available under the terms of *either* of the licenses
 found in LICENSE.APACHE or LICENSE.BSD. Contributions to this software is made
 under the terms of *both* these licenses.
@@ -6061,12 +6061,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 plotly
-6.5.1
+6.5.2
 MIT License
 Chris P <chris@plot.ly>
 https://plotly.com/python/
 An open-source interactive data visualization library for Python
-/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/plotly-6.5.1.dist-info/licenses/LICENSE.txt
+/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/plotly-6.5.2.dist-info/licenses/LICENSE.txt
 MIT License
 
 Copyright (c) 2016-2024 Plotly Technologies Inc.
@@ -6121,12 +6121,12 @@ SOFTWARE.
 
 
 psutil
-7.2.1
+7.2.2
 BSD-3-Clause
 Giampaolo Rodola
 https://github.com/giampaolo/psutil
 Cross-platform lib for process and system monitoring.
-/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/psutil-7.2.1.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/psutil-7.2.2.dist-info/LICENSE
 BSD 3-Clause License
 
 Copyright (c) 2009, Jay Loden, Dave Daeschler, Giampaolo Rodola
@@ -6159,12 +6159,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 pycparser
-2.23
-BSD License
-Eli Bendersky
+3.0
+BSD-3-Clause
+Eli Bendersky <eliben@gmail.com>
 https://github.com/eliben/pycparser
 C parser in Python
-/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/pycparser-2.23.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/pycparser-3.0.dist-info/licenses/LICENSE
 pycparser -- A C parser in Python
 
 Copyright (c) 2008-2022, Eli Bendersky
@@ -6229,12 +6229,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 pyparsing
-3.3.1
+3.3.2
 MIT
 Paul McGuire <ptmcg.gm+pyparsing@gmail.com>
 https://github.com/pyparsing/pyparsing/
 pyparsing - Classes and methods to define and execute parsing grammars
-/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/pyparsing-3.3.1.dist-info/licenses/LICENSE
+/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/pyparsing-3.3.2.dist-info/licenses/LICENSE
 Copyright (c) 2003-2025  Paul McGuire
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -6439,12 +6439,12 @@ DEALINGS IN THE SOFTWARE.
 
 
 regex
-2025.11.3
+2026.1.15
 Apache-2.0 AND CNRI-Python
 Matthew Barnett <regex@mrabarnett.plus.com>
 https://github.com/mrabarnett/mrab-regex
 Alternative regular expression module, to replace re.
-/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/regex-2025.11.3.dist-info/licenses/LICENSE.txt
+/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/regex-2026.1.15.dist-info/licenses/LICENSE.txt
 This work was derived from the 're' module of CPython 2.6 and CPython 3.1,
 copyright (c) 1998-2001 by Secret Labs AB and licensed under CNRI's Python 1.6
 license.
@@ -6840,12 +6840,12 @@ Python HTTP for Humans.
 
 
 rich
-14.2.0
+14.3.1
 MIT License
 Will McGugan
 https://github.com/Textualize/rich
 Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal
-/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/rich-14.2.0.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.13.11/lib/python3.13/site-packages/rich-14.3.1.dist-info/LICENSE
 Copyright (c) 2020 Will McGugan
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
