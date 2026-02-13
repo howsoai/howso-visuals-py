@@ -19,6 +19,7 @@ concurrency:
 jobs:
 
   gen-requirements:
+    if: github.event.review.state == 'approved'
     uses: "howsoai/.github/.github/workflows/compile-requirements.yml@main"
     secrets: inherit
     with:
@@ -39,11 +40,18 @@ jobs:
     with:
       upstream-packages: 'amalgam-lang-py howso-engine-py'
 
-  # This job is here to have only one final step to add for "Status Checks"
-  # in GitHub, instead of adding every leaf test from 'build-test-package'
   final-check:
     needs: ['build', 'gen-requirements', 'xray']
-    if: always() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled'))
+    if: always()
     runs-on: ubuntu-latest
     steps:
-      - run: exit 1
+      - name: Verify all jobs succeeded
+        run: |
+          # This will fail if any job didn't succeed
+          if [[ ! "${{ needs.build.result }}" == "success" ]] || \
+            [[ ! "${{ needs.gen-requirements.result }}" == "success" ]] || \
+            [[ ! "${{ needs.xray.result }}" == "success" ]]; then
+            echo "Not all required jobs succeeded"
+            exit 1
+          fi
+          echo "All required jobs succeeded!"
