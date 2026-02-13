@@ -49,8 +49,8 @@ readme = {file = ["README.md"]}
 
 [tool.coverage.run]
 source = ["howso.visuals"]
-branch = true
 omit = ["*/tests/*"]
+branch = true
 
 [tool.coverage.html]
 directory = ".htmlcov"
