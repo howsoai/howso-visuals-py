@@ -2,6 +2,8 @@ name: Build PR
 run-name: "PR Build: #${{ github.event.pull_request.number }} (${{ github.run_attempt }}.${{ github.run_number }}) - ${{ github.event.pull_request.title }}"
 
 on:
+  pull_request_review:
+    types: [submitted]
   pull_request:
     branches:
       - "main"
@@ -23,6 +25,7 @@ jobs:
       upstream-packages: 'amalgam-lang-py howso-engine-py'
 
   build:
+    if: github.event.review.state == 'approved'
     needs: ['gen-requirements']
     uses: "./.github/workflows/build.yml"
     secrets: inherit

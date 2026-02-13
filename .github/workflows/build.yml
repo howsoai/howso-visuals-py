@@ -95,6 +95,7 @@ jobs:
       upstream-details: ${{ needs.metadata.outputs.upstream-details }}
 
   pytest-linux-3-10-st:
+    if: inputs.build-type != 'release'
     needs: ["metadata", "build"]
     uses: howsoai/.github/.github/workflows/pytest.yml@main
     secrets: inherit
@@ -109,6 +110,7 @@ jobs:
       upstream-details: ${{ needs.metadata.outputs.upstream-details }}
 
   pytest-linux-3-12-mt:
+    if: inputs.build-type != 'release'
     needs: ["metadata", "build"]
     uses: howsoai/.github/.github/workflows/pytest.yml@main
     secrets: inherit
@@ -122,6 +124,7 @@ jobs:
       upstream-details: ${{ needs.metadata.outputs.upstream-details }}
 
   pytest-windows-3-12-mt:
+    if: inputs.build-type != 'release'
     needs: ["metadata", "build"]
     uses: howsoai/.github/.github/workflows/pytest.yml@main
     secrets: inherit
@@ -135,6 +138,7 @@ jobs:
       upstream-details: ${{ needs.metadata.outputs.upstream-details }}
 
   pytest-macos-3-12-mt:
+    if: inputs.build-type != 'release'
     needs: ["metadata", "build"]
     uses: howsoai/.github/.github/workflows/pytest.yml@main
     secrets: inherit
@@ -160,10 +164,6 @@ jobs:
       - metadata
       - build
       - generate-changelog
-      - pytest-linux-3-10-st
-      - pytest-linux-3-12-mt
-      - pytest-windows-3-12-mt
-      - pytest-macos-3-12-mt
     runs-on: ubuntu-latest
     environment:
       name: pypi
