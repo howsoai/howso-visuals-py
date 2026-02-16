@@ -5,6 +5,8 @@ on:
   pull_request:
     branches:
       - "main"
+  pull_request_review:
+    types: [submitted]
 
 defaults:
   run:
@@ -16,14 +18,7 @@ concurrency:
 
 jobs:
 
-  gen-requirements:
-    uses: "howsoai/.github/.github/workflows/compile-requirements.yml@main"
-    secrets: inherit
-    with:
-      upstream-packages: 'amalgam-lang-py howso-engine-py'
-
   check-approval:
-    needs: ['gen-requirements']  # Building requirements.txt before approval is OK
     runs-on: ubuntu-latest
     steps:
       - name: Check if PR is approved
@@ -43,8 +38,15 @@ jobs:
               console.log(`PR has ${approvals.length} approval(s)`);
             }
 
+  gen-requirements:
+    needs: ['check-approval']
+    uses: "howsoai/.github/.github/workflows/compile-requirements.yml@main"
+    secrets: inherit
+    with:
+      upstream-packages: 'amalgam-lang-py howso-engine-py'
+
   build:
-    needs: ['check-approval', 'gen-requirements']
+    needs: ['gen-requirements']
     uses: "./.github/workflows/build.yml"
     secrets: inherit
     with:
