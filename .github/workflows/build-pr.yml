@@ -3,10 +3,9 @@ run-name: "PR Build: #${{ github.event.pull_request.number }} (${{ github.run_at
 
 on:
   pull_request_review:
-    types: [submitted]
+    types: [submitted]    # Triggers when a PR is approved
   pull_request:
-    branches:
-      - "main"
+    types: [synchronize]  # Triggers when a new commit is pushed and a workflow is interrupted
 
 defaults:
   run:
@@ -19,14 +18,15 @@ concurrency:
 jobs:
 
   gen-requirements:
-    if: github.event.review.state == 'approved'
+    if:
+      github.event.review.state == 'approved' ||
+      (github.event_name == 'pull_request' && github.event.pull_request.state == 'open')
     uses: "howsoai/.github/.github/workflows/compile-requirements.yml@main"
     secrets: inherit
     with:
       upstream-packages: 'amalgam-lang-py howso-engine-py'
 
   build:
-    if: github.event.review.state == 'approved'
     needs: ['gen-requirements']
     uses: "./.github/workflows/build.yml"
     secrets: inherit
