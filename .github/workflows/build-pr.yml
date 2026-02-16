@@ -35,7 +35,7 @@ jobs:
             if (approvals.length === 0) {
               core.setFailed('PR not yet approved, skipping build');
             } else {
-              console.log(`PR has ${approvals.length} approval(s)`);
+              console.log('PR has approval(s)');
             }
 
   gen-requirements:
