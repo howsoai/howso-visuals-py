@@ -1,10 +1,10 @@
 Faker
-40.4.0
+40.5.1
 MIT License
 joke2k
 https://github.com/joke2k/faker
 Faker is a Python package that generates fake data for you.
-/home/runner/.pyenv/versions/3.13.12/lib/python3.13/site-packages/faker-40.4.0.dist-info/licenses/LICENSE.txt
+/home/runner/.pyenv/versions/3.13.12/lib/python3.13/site-packages/faker-40.5.1.dist-info/licenses/LICENSE.txt
 Copyright (c) 2012 Daniele Faraglia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -149,12 +149,12 @@ DEALINGS IN THE SOFTWARE.
 
 
 certifi
-2026.1.4
+2026.2.25
 Mozilla Public License 2.0 (MPL 2.0)
 Kenneth Reitz
 https://github.com/certifi/python-certifi
 Python package for providing Mozilla's CA Bundle.
-/home/runner/.pyenv/versions/3.13.12/lib/python3.13/site-packages/certifi-2026.1.4.dist-info/licenses/LICENSE
+/home/runner/.pyenv/versions/3.13.12/lib/python3.13/site-packages/certifi-2026.2.25.dist-info/licenses/LICENSE
 This package contains a modified version of ca-bundle.crt:
 
 ca-bundle.crt -- Bundle of CA Root Certificates
@@ -1923,12 +1923,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 narwhals
-2.16.0
+2.17.0
 MIT License
 Marco Gorelli <hello_narwhals@proton.me>
 https://github.com/narwhals-dev/narwhals
 Extremely lightweight compatibility layer between dataframe libraries
-/home/runner/.pyenv/versions/3.13.12/lib/python3.13/site-packages/narwhals-2.16.0.dist-info/licenses/LICENSE.md
+/home/runner/.pyenv/versions/3.13.12/lib/python3.13/site-packages/narwhals-2.17.0.dist-info/licenses/LICENSE.md
 MIT License
 
 Copyright (c) 2024, Marco Gorelli
@@ -1999,12 +1999,12 @@ NetworkX is distributed with the 3-clause BSD license.
 
 
 numba
-0.63.1
+0.64.0
 BSD License
 UNKNOWN
 https://numba.pydata.org
 compiling Python code using LLVM
-/home/runner/.pyenv/versions/3.13.12/lib/python3.13/site-packages/numba-0.63.1.dist-info/licenses/LICENSE
+/home/runner/.pyenv/versions/3.13.12/lib/python3.13/site-packages/numba-0.64.0.dist-info/licenses/LICENSE
 Copyright (c) 2012, Anaconda, Inc.
 All rights reserved.
 
@@ -2032,12 +2032,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 numpy
-2.3.5
-BSD License
+2.4.2
+BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0
 Travis E. Oliphant et al.
 https://numpy.org
 Fundamental package for array computing in Python
-/home/runner/.pyenv/versions/3.13.12/lib/python3.13/site-packages/numpy-2.3.5.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.13.12/lib/python3.13/site-packages/numpy-2.4.2.dist-info/licenses/LICENSE.txt
 Copyright (c) 2005-2025, NumPy Developers.
 All rights reserved.
 
@@ -2071,42 +2071,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ----
 
-The NumPy repository and source distributions bundle several libraries that are
-compatibly licensed.  We list these here.
-
-Name: lapack-lite
-Files: numpy/linalg/lapack_lite/*
-License: BSD-3-Clause
-  For details, see numpy/linalg/lapack_lite/LICENSE.txt
-
-Name: dragon4
-Files: numpy/_core/src/multiarray/dragon4.c
-License: MIT
-  For license text, see numpy/_core/src/multiarray/dragon4.c
-
-Name: libdivide
-Files: numpy/_core/include/numpy/libdivide/*
-License: Zlib
-  For license text, see numpy/_core/include/numpy/libdivide/LICENSE.txt
-
-
-Note that the following files are vendored in the repository and sdist but not
-installed in built numpy packages:
-
-Name: Meson
-Files: vendored-meson/meson/*
-License: Apache 2.0
-  For license text, see vendored-meson/meson/COPYING
-
-Name: spin
-Files: .spin/cmds.py
-License: BSD-3
-  For license text, see .spin/LICENSE
-
-Name: tempita
-Files: numpy/_build_utils/tempita/*
-License: MIT
-  For details, see numpy/_build_utils/tempita/LICENCE.txt
 
 ----
 
@@ -6439,12 +6403,12 @@ DEALINGS IN THE SOFTWARE.
 
 
 regex
-2026.1.15
+2026.2.19
 Apache-2.0 AND CNRI-Python
 Matthew Barnett <regex@mrabarnett.plus.com>
 https://github.com/mrabarnett/mrab-regex
 Alternative regular expression module, to replace re.
-/home/runner/.pyenv/versions/3.13.12/lib/python3.13/site-packages/regex-2026.1.15.dist-info/licenses/LICENSE.txt
+/home/runner/.pyenv/versions/3.13.12/lib/python3.13/site-packages/regex-2026.2.19.dist-info/licenses/LICENSE.txt
 This work was derived from the 're' module of CPython 2.6 and CPython 3.1,
 copyright (c) 1998-2001 by Secret Labs AB and licensed under CNRI's Python 1.6
 license.
@@ -6840,12 +6804,12 @@ Python HTTP for Humans.
 
 
 rich
-14.3.2
+14.3.3
 MIT License
 Will McGugan
 https://github.com/Textualize/rich
 Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal
-/home/runner/.pyenv/versions/3.13.12/lib/python3.13/site-packages/rich-14.3.2.dist-info/LICENSE
+/home/runner/.pyenv/versions/3.13.12/lib/python3.13/site-packages/rich-14.3.3.dist-info/licenses/LICENSE
 Copyright (c) 2020 Will McGugan
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -7019,12 +6983,12 @@ requirements of the license of GCC.
 
 
 scipy
-1.17.0
+1.17.1
 BSD License
 UNKNOWN
 https://scipy.org/
 Fundamental algorithms for scientific computing in Python
-/home/runner/.pyenv/versions/3.13.12/lib/python3.13/site-packages/scipy-1.17.0.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.13.12/lib/python3.13/site-packages/scipy-1.17.1.dist-info/LICENSE.txt
 Copyright (c) 2001-2002 Enthought, Inc. 2003, SciPy Developers.
 All rights reserved.
 
