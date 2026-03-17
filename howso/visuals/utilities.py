@@ -4,15 +4,15 @@ from typing import Literal
 import plotly.graph_objects as go
 
 
-def nice_range(minimum: float, maximum: float) -> tuple[float, float]:
+def nice_range(lower: float, upper: float) -> tuple[float, float]:
     """
     Expand a value interval to rounded bounds.
 
     Parameters
     ----------
-    minimum : float
+    lower : float
         The lower bound of the data range.
-    maximum : float
+    upper : float
         The upper bound of the data range.
 
     Returns
@@ -20,12 +20,12 @@ def nice_range(minimum: float, maximum: float) -> tuple[float, float]:
     tuple of float
         A (nice_min, nice_max) pair suitable for use as an axis range.
     """
-    if maximum < minimum:
-        minimum, maximum = maximum, minimum
+    if upper < lower:
+        lower, upper = upper, lower
 
-    span = maximum - minimum
+    span = upper - lower
     if span == 0:
-        return minimum, maximum
+        return lower, upper
 
     # Find power of 10 of span
     power = math.floor(math.log10(span))
@@ -38,8 +38,8 @@ def nice_range(minimum: float, maximum: float) -> tuple[float, float]:
     elif error < 5:
         step /= 2
 
-    nice_min = math.floor(minimum / step) * step
-    nice_max = math.ceil(maximum / step) * step
+    nice_min = math.floor(lower / step) * step
+    nice_max = math.ceil(upper / step) * step
 
     return nice_min, nice_max
 
