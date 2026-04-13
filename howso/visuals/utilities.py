@@ -1,7 +1,85 @@
 import math
-from typing import Literal
+from typing import Literal, SupportsFloat, SupportsInt
 
 import plotly.graph_objects as go
+
+SI_PREFIXES = [
+    (1e30, "Q"),  # quetta
+    (1e27, "R"),  # ronna
+    (1e24, "Y"),  # yotta
+    (1e21, "Z"),  # zetta
+    (1e18, "E"),  # exa
+    (1e15, "P"),  # peta
+    (1e12, "T"),  # tera
+    (1e9, "B"),  # giga (use B for billion over G)
+    (1e6, "M"),  # mega
+    (1e3, "k"),  # kilo
+    (1e0, ""),  # base
+    (1e-3, "m"),  # milli
+    (1e-6, "µ"),  # micro
+    (1e-9, "n"),  # nano
+    (1e-12, "p"),  # pico
+    (1e-15, "f"),  # femto
+    (1e-18, "a"),  # atto
+    (1e-21, "z"),  # zepto
+    (1e-24, "y"),  # yocto
+    (1e-27, "r"),  # ronto
+    (1e-30, "q"),  # quecto
+]
+
+
+def compact_number(value: SupportsFloat, digits: SupportsInt = 3) -> str:
+    """
+    Format a number to specified digits with SI prefix.
+
+    Parameters
+    ----------
+    value : float
+        The value to format.
+    digits : int, default 3
+        The number of digits to format to.
+
+    Returns
+    -------
+    str
+        The formatted number.
+    """
+    value = float(value)
+    digits = int(digits)
+    abs_value = abs(value)
+
+    if value == 0:
+        return "0"
+
+    exp = math.floor(math.log10(abs_value))
+
+    # Fallback to sci notation if we run out of SI prefix
+    if abs(exp) > 30:
+        return f"{value:.{digits}g}"
+
+    # Don't use SI prefix if decimal places can fit it
+    if -digits <= exp < 0:
+        rounded = round(value, digits)
+        if rounded != 0:
+            formatted = f"{rounded:.{digits}f}"
+            return formatted.rstrip("0")
+
+    # Use SI prefix
+    exp_si = (exp // 3) * 3  # Snap down to nearest SI prefix boundary
+    scaled = value / 10**exp_si
+
+    if math.floor(math.log10(abs(round(scaled)))) >= 3:
+        # Move up to next prefix if rounding pushes scaled to 1000
+        exp_si += 3
+        scaled = value / 10**exp_si
+
+    index = (30 - exp_si) // 3
+    prefix = SI_PREFIXES[index][1]
+    formatted = f"{scaled:.{digits}g}"
+    if "e" in formatted:
+        # fallback if cant fit in digits and g produces sci notation
+        formatted = f"{scaled:.0f}"
+    return f"{formatted}{prefix}"
 
 
 def nice_range(lower: float, upper: float) -> tuple[float, float]:
