@@ -361,6 +361,8 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
 
         if fig.data == tuple():
             # Render empty plot
+            sub.update_xaxes(range=[0, 1], row=row, col=col)  # Prepare axes for centering label
+            sub.update_yaxes(range=[0, 1], row=row, col=col)
             sub.add_shape(type="rect", x0=0, y0=0, x1=1, y1=1, line=dict(width=0), row=row, col=col)
             sub.add_annotation(
                 x=0.5,
