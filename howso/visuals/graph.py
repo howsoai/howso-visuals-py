@@ -273,7 +273,7 @@ def _remap_axis_ref(ref: str | None, ax_idx: int) -> str | None:
 
 def compare_network_figures(  # noqa: PLR0912, PLR0915
     *figs: go.Figure,
-    titles: list[str] | None = None,
+    titles: list[str | None] | None = None,
     max_columns: int | None = None,
     per_row_colorbar: bool = True,
     width: int = 900,
@@ -286,8 +286,8 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
     ----------
     *figs : go.Figure
         Network figures to compare. All must share the same colorbar scale.
-    titles : list[str], optional
-        Override the titles for each figure. Length must match the number of figures.
+    titles : list[str | None], optional
+        Override the titles of each figure.
     max_columns : int, optional
         The maximum number of columns of figures. If unspecified, all figures
         will be side by side on the same row.
@@ -314,16 +314,21 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
 
     color_ranges = []
     for fig in figs:
+        if fig.data == tuple():
+            continue  # Skip empty figures
         ca = fig.layout.coloraxis
-        if ca is None:
-            color_ranges.append(None)
-        else:
+        if ca is not None:
             color_ranges.append((ca.cmin, ca.cmid, ca.cmax))
+        else:
+            color_ranges.append(None)
     if len(set(color_ranges)) > 1:
         raise ValueError("All figures must share the same colorbar scale.")
 
+    # Capture titles provided or from figures (each title must be truthy)
     if titles is None:
-        titles = [fig.layout.title.text or "" for fig in figs]
+        titles = [fig.layout.title.text or " " for fig in figs]
+    else:
+        titles = [t if t else (fig.layout.title.text or " ") for t in titles]
 
     horizontal_spacing = 0.02 / n_cols
     vertical_spacing = (0.05 / n_rows) * (800 / height)
@@ -353,32 +358,46 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
             base_coloraxis = fig.layout.coloraxis.to_plotly_json()
         row = (index // n_cols) + 1
         col = (index % n_cols) + 1
-        coloraxis_id = f"coloraxis{row}" if row > 1 else "coloraxis"
 
-        # Traces — all point to the single shared coloraxis
-        for trace in fig.data:
-            if hasattr(trace.marker, "coloraxis"):
-                if per_row_colorbar:
-                    trace.marker.coloraxis = coloraxis_id
-                else:
-                    trace.marker.coloraxis = "coloraxis"
-            sub.add_trace(trace, row=row, col=col)
+        if fig.data == tuple():
+            # Render empty plot
+            sub.add_shape(type="rect", x0=0, y0=0, x1=1, y1=1, line=dict(width=0), row=row, col=col)
+            sub.add_annotation(
+                x=0.5,
+                y=0.5,
+                text="No Results",
+                showarrow=False,
+                font=dict(size=14),
+                xref=_remap_axis_ref("x", index + 1),
+                yref=_remap_axis_ref("y", index + 1),
+            )
+        else:
+            # Traces
+            for trace in fig.data:
+                if hasattr(trace.marker, "coloraxis"):
+                    if per_row_colorbar:
+                        # coloraxis per row
+                        trace.marker.coloraxis = f"coloraxis{row}" if row > 1 else "coloraxis"
+                    else:
+                        # single shared coloraxis
+                        trace.marker.coloraxis = "coloraxis"
+                sub.add_trace(trace, row=row, col=col)
 
-        # Shapes (edges)
-        for shape in fig.layout.shapes:
-            s = shape.to_plotly_json()
-            s.pop("xref", None)
-            s.pop("yref", None)
-            sub.add_shape(**s, row=row, col=col)
+            # Shapes (edges)
+            for shape in fig.layout.shapes:
+                s = shape.to_plotly_json()
+                s.pop("xref", None)
+                s.pop("yref", None)
+                sub.add_shape(**s, row=row, col=col)
 
-        # Annotations (edge labels)
-        for ann in fig.layout.annotations:
-            a = ann.to_plotly_json()
-            a["xref"] = _remap_axis_ref(a.get("xref"), index + 1)
-            a["yref"] = _remap_axis_ref(a.get("yref"), index + 1)
-            a["axref"] = _remap_axis_ref(a.get("axref"), index + 1)
-            a["ayref"] = _remap_axis_ref(a.get("ayref"), index + 1)
-            sub.add_annotation(**a)
+            # Annotations (edge labels)
+            for ann in fig.layout.annotations:
+                a = ann.to_plotly_json()
+                a["xref"] = _remap_axis_ref(a.get("xref"), index + 1)
+                a["yref"] = _remap_axis_ref(a.get("yref"), index + 1)
+                a["axref"] = _remap_axis_ref(a.get("axref"), index + 1)
+                a["ayref"] = _remap_axis_ref(a.get("ayref"), index + 1)
+                sub.add_annotation(**a)
 
         sub.update_xaxes(
             showgrid=False,
