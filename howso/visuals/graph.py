@@ -217,7 +217,7 @@ def plot_graph(
             title=dict(text="<br>Network graph made with Python", font=dict(size=16)),
             showlegend=False,
             hovermode="closest",
-            margin=dict(b=20, l=5, r=5, t=40),
+            margin=dict(b=8, l=8, r=8, t=48),
             xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, constrain="domain"),
             yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, constrain="domain"),
             annotations=annotations,
@@ -254,7 +254,7 @@ def plot_graph(
     fig.add_trace(node_trace)
 
     fig.update_layout(
-        title=dict(text=title, subtitle=dict(text=subtitle)),
+        title=dict(text=title, subtitle=dict(text=subtitle), xref="paper", xanchor="left", x=0),
         width=1000,
         height=750,
     )
