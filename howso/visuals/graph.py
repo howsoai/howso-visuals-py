@@ -4,6 +4,7 @@ from typing import Any, SupportsInt, TypeAlias
 
 import networkx as nx
 import numpy as np
+import plotly.colors as pc
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from sklearn.preprocessing import minmax_scale
@@ -274,7 +275,7 @@ def _remap_axis_ref(ref: str | None, ax_idx: int) -> str | None:
 def compare_network_figures(  # noqa: PLR0912, PLR0915
     *figs: go.Figure,
     titles: list[str | None] | None = None,
-    max_columns: int | None = None,
+    columns: int | None = None,
     per_row_colorbar: bool = True,
     width: int = 900,
     height: int = 750,
@@ -288,9 +289,9 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
         Network figures to compare. All must share the same colorbar scale.
     titles : list[str | None], optional
         Override the titles of each figure.
-    max_columns : int, optional
-        The maximum number of columns of figures. If unspecified, all figures
-        will be side by side on the same row.
+    columns : int, optional
+        The number of columns of figures. If unspecified, all figures will be
+        rendered side by side on the same row.
     per_row_colorbar : bool, default True
         Show the colorbar on each row.
     width : int, default 900
@@ -304,14 +305,16 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
         The resulting `Plotly` figure.
     """
     n_figs = len(figs)
-    n_cols = min(n_figs, max_columns) if max_columns else n_figs
+    n_cols = min(n_figs, columns) if columns else n_figs
     n_rows = math.ceil(n_figs / n_cols)
     height = max(height, 400)
     width = max(width, 400)
 
-    if max_columns is not None and max_columns < 1:
-        raise ValueError("When specified, max columns must be greater than 0.")
+    if columns is not None and columns < 1:
+        raise ValueError("When specified, `columns` must be greater than 0.")
 
+    uses_coloraxis = False
+    coloraxis = None
     color_ranges = []
     for fig in figs:
         if fig.data == tuple():
@@ -319,8 +322,9 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
         ca = fig.layout.coloraxis
         if ca is not None:
             color_ranges.append((ca.cmin, ca.cmid, ca.cmax))
-        else:
-            color_ranges.append(None)
+            if coloraxis is None:
+                # Capture first non empty network plot's color axis
+                coloraxis = ca.to_plotly_json()
     if len(set(color_ranges)) > 1:
         raise ValueError("All figures must share the same colorbar scale.")
 
@@ -351,11 +355,7 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
         sub.layout.annotations[i].xanchor = "left"
 
     # Add all the plots
-    base_coloraxis = None
     for index, fig in enumerate(figs):
-        if base_coloraxis is None and fig.layout.coloraxis is not None:
-            # Capture first non empty network plot's color axis
-            base_coloraxis = fig.layout.coloraxis.to_plotly_json()
         row = (index // n_cols) + 1
         col = (index % n_cols) + 1
 
@@ -377,12 +377,19 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
             # Traces
             for trace in fig.data:
                 if hasattr(trace.marker, "coloraxis"):
-                    if per_row_colorbar:
-                        # coloraxis per row
-                        trace.marker.coloraxis = f"coloraxis{row}" if row > 1 else "coloraxis"
+                    # Apply coloraxis or marker color to each trace
+                    if trace.marker.color is not None:
+                        uses_coloraxis = coloraxis is not None  # If at least one plot uses MIR
+                        if per_row_colorbar:
+                            # coloraxis per row
+                            trace.marker.coloraxis = f"coloraxis{row}" if row > 1 else "coloraxis"
+                        else:
+                            # single shared coloraxis
+                            trace.marker.coloraxis = "coloraxis"
                     else:
-                        # single shared coloraxis
-                        trace.marker.coloraxis = "coloraxis"
+                        # Figure doesn't use MIR, use static color for all nodes
+                        trace.marker.color = pc.qualitative.Safe_r[0]
+                        trace.hoverlabel.font.color = "#ffffff"
                 sub.add_trace(trace, row=row, col=col)
 
             # Shapes (edges)
@@ -421,7 +428,7 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
         )
 
     # Overall figure layout
-    colorbar_width = 0 if base_coloraxis is None else 80
+    colorbar_width = 100 if uses_coloraxis else 0
     sub.update_layout(
         height=height * n_rows,
         width=(width * n_cols) + colorbar_width,
@@ -432,7 +439,7 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
     )
 
     # Update layout of each coloraxis
-    if base_coloraxis is not None:
+    if uses_coloraxis and coloraxis is not None:
         for row in range(1, n_rows + 1):
             coloraxis_id = "coloraxis" if row == 1 else f"coloraxis{row}"
             row_height = (1 - vertical_spacing * (n_rows - 1)) / n_rows
@@ -440,9 +447,9 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
             sub.update_layout(
                 {
                     coloraxis_id: {
-                        **base_coloraxis,
+                        **coloraxis,
                         "colorbar": {
-                            **base_coloraxis.get("colorbar", {}),
+                            **coloraxis.get("colorbar", {}),
                             "len": height - 60,
                             "lenmode": "pixels",
                             "y": y_top,
