@@ -1,9 +1,11 @@
 from collections.abc import Callable, Collection, Mapping, Sequence
+import math
 from typing import Any, SupportsInt, TypeAlias
 
 import networkx as nx
 import numpy as np
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 from sklearn.preprocessing import minmax_scale
 
 LayoutMapping: TypeAlias = Mapping[Any, tuple[float, float]]
@@ -256,3 +258,177 @@ def plot_graph(
         height=750,
     )
     return fig
+
+
+def _remap_axis_ref(ref: str | None, ax_idx: int) -> str | None:
+    """Remap an axis ref given new index."""
+    if ref in (None, "pixel", "paper"):
+        return ref
+    if ref.startswith("x"):
+        return "x" if ax_idx == 1 else f"x{ax_idx}"
+    if ref.startswith("y"):
+        return "y" if ax_idx == 1 else f"y{ax_idx}"
+    return ref
+
+
+def compare_network_figures(  # noqa: PLR0912, PLR0915
+    *figs: go.Figure,
+    titles: list[str] | None = None,
+    max_columns: int | None = None,
+    per_row_colorbar: bool = True,
+    width: int = 900,
+    height: int = 750,
+) -> go.Figure:
+    """
+    Combine multiple network graphs for comparison.
+
+    Parameters
+    ----------
+    *figs : go.Figure
+        Network figures to compare. All must share the same colorbar scale.
+    titles : list[str], optional
+        Override the titles for each figure. Length must match the number of figures.
+    max_columns : int, optional
+        The maximum number of columns of figures. If unspecified, all figures
+        will be side by side on the same row.
+    per_row_colorbar : bool, default True
+        Show the colorbar on each row.
+    width : int, default 900
+        The width of each individual figure.
+    height : int, default 750
+        The height of each individual figure.
+
+    Returns
+    -------
+    go.Figure
+        The resulting `Plotly` figure.
+    """
+    n_figs = len(figs)
+    n_cols = min(n_figs, max_columns) if max_columns else n_figs
+    n_rows = math.ceil(n_figs / n_cols)
+    height = max(height, 400)
+    width = max(width, 400)
+
+    if max_columns is not None and max_columns < 1:
+        raise ValueError("When specified, max columns must be greater than 0.")
+
+    color_ranges = []
+    for fig in figs:
+        ca = fig.layout.coloraxis
+        if ca is None:
+            color_ranges.append(None)
+        else:
+            color_ranges.append((ca.cmin, ca.cmid, ca.cmax))
+    if len(set(color_ranges)) > 1:
+        raise ValueError("All figures must share the same colorbar scale.")
+
+    if titles is None:
+        titles = [fig.layout.title.text or "" for fig in figs]
+
+    horizontal_spacing = 0.02 / n_cols
+    vertical_spacing = (0.05 / n_rows) * (800 / height)
+    sub = make_subplots(
+        rows=n_rows,
+        cols=n_cols,
+        subplot_titles=titles,
+        horizontal_spacing=horizontal_spacing,
+        vertical_spacing=vertical_spacing,
+    )
+
+    # Left align titles
+    for i in range(len(sub.layout.annotations)):
+        row = (i // n_cols) + 1
+        col = (i % n_cols) + 1
+        # Get the actual domain Plotly computed for this subplot
+        ax_key = "xaxis" if (row == 1 and col == 1) else f"xaxis{(row - 1) * n_cols + col}"
+        left_edge = sub.layout[ax_key].domain[0]
+        sub.layout.annotations[i].x = left_edge
+        sub.layout.annotations[i].xanchor = "left"
+
+    # Add all the plots
+    base_coloraxis = None
+    for index, fig in enumerate(figs):
+        if base_coloraxis is None and fig.layout.coloraxis is not None:
+            # Capture first non empty network plot's color axis
+            base_coloraxis = fig.layout.coloraxis.to_plotly_json()
+        row = (index // n_cols) + 1
+        col = (index % n_cols) + 1
+        coloraxis_id = f"coloraxis{row}" if row > 1 else "coloraxis"
+
+        # Traces — all point to the single shared coloraxis
+        for trace in fig.data:
+            if hasattr(trace.marker, "coloraxis"):
+                if per_row_colorbar:
+                    trace.marker.coloraxis = coloraxis_id
+                else:
+                    trace.marker.coloraxis = "coloraxis"
+            sub.add_trace(trace, row=row, col=col)
+
+        # Shapes (edges)
+        for shape in fig.layout.shapes:
+            s = shape.to_plotly_json()
+            s.pop("xref", None)
+            s.pop("yref", None)
+            sub.add_shape(**s, row=row, col=col)
+
+        # Annotations (edge labels)
+        for ann in fig.layout.annotations:
+            a = ann.to_plotly_json()
+            a["xref"] = _remap_axis_ref(a.get("xref"), index + 1)
+            a["yref"] = _remap_axis_ref(a.get("yref"), index + 1)
+            a["axref"] = _remap_axis_ref(a.get("axref"), index + 1)
+            a["ayref"] = _remap_axis_ref(a.get("ayref"), index + 1)
+            sub.add_annotation(**a)
+
+        sub.update_xaxes(
+            showgrid=False,
+            zeroline=False,
+            fixedrange=True,
+            showticklabels=False,
+            constrain="domain",
+            row=row,
+            col=col,
+        )
+        sub.update_yaxes(
+            showgrid=False,
+            zeroline=False,
+            fixedrange=True,
+            showticklabels=False,
+            constrain="domain",
+            row=row,
+            col=col,
+        )
+
+    # Overall figure layout
+    colorbar_width = 0 if base_coloraxis is None else 80
+    sub.update_layout(
+        height=height * n_rows,
+        width=(width * n_cols) + colorbar_width,
+        showlegend=False,
+        dragmode=False,
+        hovermode="closest",
+        margin=dict(b=8, l=8, r=8, t=40),
+    )
+
+    # Update layout of each coloraxis
+    if base_coloraxis is not None:
+        for row in range(1, n_rows + 1):
+            coloraxis_id = "coloraxis" if row == 1 else f"coloraxis{row}"
+            row_height = (1 - vertical_spacing * (n_rows - 1)) / n_rows
+            y_top = 1 - (row - 1) * (row_height + vertical_spacing)
+            sub.update_layout(
+                {
+                    coloraxis_id: {
+                        **base_coloraxis,
+                        "colorbar": {
+                            **base_coloraxis.get("colorbar", {}),
+                            "len": height - 60,
+                            "lenmode": "pixels",
+                            "y": y_top,
+                            "yanchor": "top",
+                        },
+                    }
+                }
+            )
+
+    return sub
