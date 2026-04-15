@@ -319,6 +319,9 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
     for fig in figs:
         if fig.data == tuple():
             continue  # Skip empty figures
+        for trace in fig.data:
+            if not isinstance(trace, go.Scatter):
+                raise TypeError("All figures must be network graph figures.")
         ca = fig.layout.coloraxis
         if ca is not None:
             color_ranges.append((ca.cmin, ca.cmid, ca.cmax))
