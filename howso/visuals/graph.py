@@ -319,9 +319,21 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
     uses_coloraxis = False
     coloraxis = None
     color_ranges = []
-    for fig in figures:
+    resolved_titles: list[str] = []
+    for i, fig in enumerate(figures):
+        # Capture titles provided or from figures (each title must be truthy)
+        if subplot_titles is not None and i < len(subplot_titles):
+            if subplot_titles[i] is None:
+                resolved_titles.append(fig.layout.title.text or " ")
+            else:
+                resolved_titles.append(subplot_titles[i] or " ")
+        else:
+            resolved_titles.append(fig.layout.title.text or " ")
+
         if fig.data == tuple():
             continue  # Skip empty figures
+
+        # Validate trace and coloraxis
         for trace in fig.data:
             if not isinstance(trace, go.Scatter):
                 raise TypeError("All figures must be network graph figures.")
@@ -334,18 +346,15 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
     if len(set(color_ranges)) > 1:
         raise ValueError("All figures must share the same colorbar scale.")
 
-    # Capture titles provided or from figures (each title must be truthy)
-    if subplot_titles is None:
-        subplot_titles = [fig.layout.title.text or " " for fig in figures]
-    else:
-        subplot_titles = [t or " " if t is not None else (fig.layout.title.text or " ") for t in subplot_titles]
-
     horizontal_spacing = 0.02 / n_cols
-    vertical_spacing = (0.05 / n_rows) * (800 / height)
+    vertical_gap = 0.01
+    if any(t != " " for t in resolved_titles):
+        vertical_gap = 0.05
+    vertical_spacing = (vertical_gap / n_rows) * (800 / height)
     sub = make_subplots(
         rows=n_rows,
         cols=n_cols,
-        subplot_titles=subplot_titles,
+        subplot_titles=resolved_titles,
         horizontal_spacing=horizontal_spacing,
         vertical_spacing=vertical_spacing,
     )
