@@ -1,7 +1,59 @@
 import plotly.graph_objects as go
 import pytest
 
-from howso.visuals.utilities import nice_range, normalize_axis_range
+from howso.visuals.utilities import compact_number, nice_range, normalize_axis_range
+
+
+@pytest.mark.parametrize(
+    ("value", "digits", "expected"),
+    [
+        # Zero
+        (0, 3, "0"),
+        # Small decimals (milli range, handled without SI suffix)
+        (0.001, 3, "0.001"),
+        (0.001, 1, "1m"),  # too few digits, uses m
+        (0.0099, 3, "0.01"),
+        (0.0001, 4, "0.0001"),
+        (0.0001, 3, "100µ"),
+        (0.00001, 8, "0.00001"),  # no tailing 0s
+        (-0.00001, 6, "-0.00001"),
+        (0.00000009999, 4, "99.99n"),
+        (-0.00000009999, 4, "-99.99n"),
+        (-0.000000099999, 4, "-100n"),  # round up
+        (1e-6, 3, "1µ"),
+        (2.5e-6, 3, "2.5µ"),
+        (1e-9, 3, "1n"),
+        # Base range
+        (1, 3, "1"),
+        (42, 3, "42"),
+        (999, 3, "999"),
+        (999, 1, "999"),
+        # Kilo
+        (1000, 3, "1k"),
+        (1500, 3, "1.5k"),
+        (1234, 4, "1.234k"),
+        (1234, 2, "1.2k"),
+        (1234, 1, "1k"),
+        # Mega
+        (999_999, 3, "1M"),  # round up
+        (1_000_000, 3, "1M"),
+        (2_500_000, 3, "2.5M"),
+        # Giga (B)
+        (1_000_000_000, 3, "1B"),
+        (1_234_000_000, 3, "1.23B"),
+        # Tera
+        (1e12, 3, "1T"),
+        # Peta
+        (1e15, 3, "1P"),
+        # Negative values
+        (-1000, 3, "-1k"),
+        (-0.001, 3, "-0.001"),
+        (-1_500_000, 3, "-1.5M"),
+    ],
+)
+def test_compact_number(value, digits, expected):
+    """Test compact number creates expected formatted number."""
+    assert compact_number(value, digits) == expected
 
 
 @pytest.mark.parametrize(

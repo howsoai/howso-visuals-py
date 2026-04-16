@@ -6,6 +6,8 @@ import numpy as np
 import plotly.graph_objects as go
 from sklearn.preprocessing import minmax_scale
 
+from .utilities import compact_number
+
 LayoutMapping: TypeAlias = Mapping[Any, tuple[float, float]]
 
 
@@ -78,7 +80,7 @@ def _create_edge_annotations(
 
         if label_edges:
             if edge_attr_sigfigs is not None and unscaled_widths is not None:
-                shape_label = f"{round(unscaled_widths[i], edge_attr_sigfigs)}"
+                shape_label = compact_number(unscaled_widths[i], edge_attr_sigfigs)
             elif unscaled_widths is not None:
                 shape_label = f"{unscaled_widths[i]}"
             else:
@@ -112,7 +114,7 @@ def plot_graph(
     G: nx.Graph,  # noqa: N803
     *,
     colorscale: str | Sequence[tuple[float, str]] = "Bluered",
-    cscale_tuple: tuple[float, float, float] = None,
+    cscale_tuple: tuple[float, float, float] | None = None,
     edge_attr_sigfigs: SupportsInt | None = 4,
     edge_attr: str | None = None,
     label_edges: bool = True,
