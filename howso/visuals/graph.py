@@ -277,7 +277,7 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
     *,
     columns: int | None = None,
     per_row_colorbar: bool = True,
-    subplot_titles: list[str | None] | None = None,
+    subplot_titles: Sequence[str | None] | None = None,
     title: str | None = None,
     width: int = 800,
     height: int = 650,
@@ -293,7 +293,7 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
         The number of columns of figures. If unspecified, all figures will be rendered side by side on the same row.
     per_row_colorbar : bool, default True
         Show the colorbar on each row.
-    subplot_titles : list[str | None], optional
+    subplot_titles : Sequence[str | None], optional
         Set the title of each individual figure. Using None will inherit the original figure title.
     title : str, optional
         Set an overall figure title.

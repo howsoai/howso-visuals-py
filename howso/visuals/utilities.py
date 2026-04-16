@@ -68,8 +68,16 @@ def normalize_axis_range(
                 if ax is None:
                     ax = []
                 for val in ax:
-                    if val is not None and math.isfinite(float(val)):
-                        bounds = min(bounds[0], float(val)), max(bounds[1], float(val))
+                    if val is None:
+                        continue
+                    try:
+                        value = float(val)
+                    except ValueError:
+                        break  # Not a normalizable axis
+                    if math.isfinite(value):
+                        bounds = min(bounds[0], value), max(bounds[1], value)
+        if bounds == (0, 0):
+            return  # no bounds detected
         bounds = nice_range(*bounds)
 
     for fig in figures:
