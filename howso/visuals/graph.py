@@ -273,30 +273,33 @@ def _remap_axis_ref(ref: str | None, ax_idx: int) -> str | None:
 
 
 def compare_network_figures(  # noqa: PLR0912, PLR0915
-    *figs: go.Figure,
-    titles: list[str | None] | None = None,
+    figures: Sequence[go.Figure],
+    *,
     columns: int | None = None,
     per_row_colorbar: bool = True,
-    width: int = 900,
-    height: int = 750,
+    subplot_titles: list[str | None] | None = None,
+    title: str | None = None,
+    width: int = 800,
+    height: int = 650,
 ) -> go.Figure:
     """
     Combine multiple network graphs for comparison.
 
     Parameters
     ----------
-    *figs : go.Figure
+    figures : Sequence[go.Figure]
         Network figures to compare. All must share the same colorbar scale.
-    titles : list[str | None], optional
-        Override the titles of each figure.
     columns : int, optional
-        The number of columns of figures. If unspecified, all figures will be
-        rendered side by side on the same row.
+        The number of columns of figures. If unspecified, all figures will be rendered side by side on the same row.
     per_row_colorbar : bool, default True
         Show the colorbar on each row.
-    width : int, default 900
+    subplot_titles : list[str | None], optional
+        Set the title of each individual figure. Using None will inherit the original figure title.
+    title : str, optional
+        Set an overall figure title.
+    width : int, default 800
         The width of each individual figure.
-    height : int, default 750
+    height : int, default 650
         The height of each individual figure.
 
     Returns
@@ -304,7 +307,7 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
     go.Figure
         The resulting `Plotly` figure.
     """
-    n_figs = len(figs)
+    n_figs = len(figures)
     n_cols = min(n_figs, columns) if columns else n_figs
     n_rows = math.ceil(n_figs / n_cols)
     height = max(height, 400)
@@ -316,7 +319,7 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
     uses_coloraxis = False
     coloraxis = None
     color_ranges = []
-    for fig in figs:
+    for fig in figures:
         if fig.data == tuple():
             continue  # Skip empty figures
         for trace in fig.data:
@@ -332,17 +335,17 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
         raise ValueError("All figures must share the same colorbar scale.")
 
     # Capture titles provided or from figures (each title must be truthy)
-    if titles is None:
-        titles = [fig.layout.title.text or " " for fig in figs]
+    if subplot_titles is None:
+        subplot_titles = [fig.layout.title.text or " " for fig in figures]
     else:
-        titles = [t if t else (fig.layout.title.text or " ") for t in titles]
+        subplot_titles = [t or " " if t is not None else (fig.layout.title.text or " ") for t in subplot_titles]
 
     horizontal_spacing = 0.02 / n_cols
     vertical_spacing = (0.05 / n_rows) * (800 / height)
     sub = make_subplots(
         rows=n_rows,
         cols=n_cols,
-        subplot_titles=titles,
+        subplot_titles=subplot_titles,
         horizontal_spacing=horizontal_spacing,
         vertical_spacing=vertical_spacing,
     )
@@ -358,7 +361,7 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
         sub.layout.annotations[i].xanchor = "left"
 
     # Add all the plots
-    for index, fig in enumerate(figs):
+    for index, fig in enumerate(figures):
         row = (index // n_cols) + 1
         col = (index % n_cols) + 1
 
@@ -433,12 +436,13 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
     # Overall figure layout
     colorbar_width = 100 if uses_coloraxis else 0
     sub.update_layout(
+        title=dict(text=title, xref="paper", xanchor="left", x=0),
         height=height * n_rows,
         width=(width * n_cols) + colorbar_width,
         showlegend=False,
         dragmode=False,
         hovermode="closest",
-        margin=dict(b=8, l=8, r=8, t=40),
+        margin=dict(b=8, l=8, r=8, t=60 if title else 40),
     )
 
     # Update layout of each coloraxis
