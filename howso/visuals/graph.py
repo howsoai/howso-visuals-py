@@ -300,9 +300,9 @@ def compare_network_figures(  # noqa: PLR0912, PLR0915
     title : str, optional
         Set an overall figure title.
     width : int, default 800
-        The width of each individual figure.
+        The width of each individual figure. Clamped to a minimum of 400.
     height : int, default 650
-        The height of each individual figure.
+        The height of each individual figure. Clamped to a minimum of 400.
 
     Returns
     -------
