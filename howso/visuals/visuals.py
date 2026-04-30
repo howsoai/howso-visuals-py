@@ -281,7 +281,7 @@ def plot_dataset(
         legendgrouptitle_text="Cases",
     )
 
-    if size is not None and not np.isnan(size):
+    if size is not None and not pd.isna(size):
         primary_scatter_kwargs["marker_size"] = data[size]
 
     if hue is not None:
