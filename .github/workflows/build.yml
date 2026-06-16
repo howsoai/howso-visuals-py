@@ -97,7 +97,7 @@ jobs:
     with:
       upstream-details: ${{ needs.metadata.outputs.upstream-details }}
 
-  pytest-linux-3-10-st:
+  pytest-linux-3-11-st:
     if: inputs.build-type != 'release'
     needs: ["metadata", "build"]
     uses: howsoai/.github/.github/workflows/pytest.yml@main
@@ -106,10 +106,10 @@ jobs:
       platform: "howso-ubuntu-runner-latest"
       platform-pretty: "Linux"
       amalgam-plat-arch: "linux-amd64"
-      python-version: "3.10"
+      python-version: "3.11"
       config-fp: "./config/latest-st-debug-howso.yml"
       config-pretty: "ST"
-      workers: "auto"
+      workers: "off"  # Amalgam>78.0 is not thread safe at all.
       upstream-details: ${{ needs.metadata.outputs.upstream-details }}
 
   pytest-linux-3-12-mt:
@@ -126,7 +126,7 @@ jobs:
       config-pretty: "MT"
       upstream-details: ${{ needs.metadata.outputs.upstream-details }}
 
-  pytest-windows-3-12-mt:
+  pytest-windows-3-13-mt:
     if: inputs.build-type != 'release'
     needs: ["metadata", "build"]
     uses: howsoai/.github/.github/workflows/pytest.yml@main
@@ -135,12 +135,12 @@ jobs:
       platform: "howso-windows-runner-latest"
       platform-pretty: "Windows"
       amalgam-plat-arch: "windows-amd64"
-      python-version: "3.12"
+      python-version: "3.13"
       config-fp: "./config/latest-mt-debug-howso.yml"
       config-pretty: "MT"
       upstream-details: ${{ needs.metadata.outputs.upstream-details }}
 
-  pytest-macos-3-12-mt:
+  pytest-macos-3-14-mt:
     if: inputs.build-type != 'release'
     needs: ["metadata", "build"]
     uses: howsoai/.github/.github/workflows/pytest.yml@main
@@ -149,7 +149,7 @@ jobs:
       platform: "macos-latest"
       platform-pretty: "MacOS"
       amalgam-plat-arch: "darwin-arm64"
-      python-version: "3.12"
+      python-version: "3.14"
       config-fp: "./config/latest-mt-debug-howso.yml"
       config-pretty: "MT"
       upstream-details: ${{ needs.metadata.outputs.upstream-details }}
