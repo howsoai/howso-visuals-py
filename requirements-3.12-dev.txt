@@ -4,9 +4,9 @@
 #
 #    pip-compile --allow-unsafe --cert=None --client-cert=None --extra=dev --index-url=None --no-emit-index-url --output-file=requirements-3.12-dev.txt --pip-args=None
 #
-amalgam-lang==32.0.1
+amalgam-lang==33.0.0
     # via howso-engine
-certifi==2026.5.20
+certifi==2026.6.17
     # via
     #   howso-engine
     #   requests
@@ -30,7 +30,7 @@ flake8==7.3.0
     # via howso-visuals (pyproject.toml)
 fonttools==4.63.0
     # via matplotlib
-howso-engine==60.3.1
+howso-engine==61.0.0
     # via howso-visuals (pyproject.toml)
 humanize==4.15.0
     # via howso-engine
@@ -155,7 +155,7 @@ requests==2.34.2
     # via howso-engine
 rich==15.0.0
     # via howso-engine
-ruff==0.15.17
+ruff==0.15.18
     # via howso-visuals (pyproject.toml)
 sacremoses==0.1.1
     # via howso-engine
@@ -179,7 +179,7 @@ six==1.17.0
     # via python-dateutil
 threadpoolctl==3.6.0
     # via scikit-learn
-tqdm==4.68.2
+tqdm==4.68.3
     # via
     #   sacremoses
     #   umap-learn

@@ -119,12 +119,12 @@ DEALINGS IN THE SOFTWARE.
 
 
 certifi
-2026.5.20
+2026.6.17
 Mozilla Public License 2.0 (MPL 2.0)
 Kenneth Reitz
 https://github.com/certifi/python-certifi
 Python package for providing Mozilla's CA Bundle.
-/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/certifi-2026.5.20.dist-info/licenses/LICENSE
+/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/certifi-2026.6.17.dist-info/licenses/LICENSE
 This package contains a modified version of ca-bundle.crt:
 
 ca-bundle.crt -- Bundle of CA Root Certificates
@@ -8193,12 +8193,12 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 tqdm
-4.68.2
+4.68.3
 MPL-2.0 AND MIT
 UNKNOWN
 https://tqdm.github.io
 Fast, Extensible Progress Meter
-/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/tqdm-4.68.2.dist-info/licenses/LICENCE
+/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/tqdm-4.68.3.dist-info/licenses/LICENCE
 `tqdm` is a product of collaborative work.
 Unless otherwise stated, all authors (see commit logs) retain copyright
 for their respective work, and release the work under the MIT licence
