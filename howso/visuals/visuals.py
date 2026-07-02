@@ -16,6 +16,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from scipy.stats import gaussian_kde
+from scipy.sparse import csr_matrix
 
 with warnings.catch_warnings():
     warnings.simplefilter("ignore")
@@ -833,6 +834,7 @@ def plot_umap(
     n_cases: int | None = None,
     n_neighbors: int | None = None,
     session: str | None = None,
+    sparse: bool = True,
     title: str = "UMAP Representation",
     tooltip_features: Collection[str] | None = None,
     use_case_weights: bool = False,
@@ -865,6 +867,8 @@ def plot_umap(
         selected by :meth:`Trainee.analyze`.
     session : str, optional
         The training session to plot cases from. When None, pulls cases across all sessions.
+    sparse : bool, default True
+        If true, a sparse distance matrix is computed and used. If false, a dense distance matrix is used instead.
     title : str, default "UMAP Representation"
         The title for the figure.
     tooltip_features : Collection[str], optional
@@ -918,7 +922,15 @@ def plot_umap(
         action_feature=action_feature,
         use_case_weights=use_case_weights,
         weight_feature=weight_feature,
+        sparse=sparse
     )["distances"]
+    if sparse:
+        distances = csr_matrix(distances.sparse.to_coo())
+        # Use minimum float distance to replace zeros so they are not lost through maximum
+        distances.data[distances.data == 0] = np.finfo(np.float64).tiny
+        # Must do this so matrices are symmetrical for UMAP
+        distances = distances.maximum(distances.T)
+
     hyperparameter_map = t.get_params(action_feature=".targetless")["hyperparameter_map"]
 
     n_neighbors = n_neighbors or hyperparameter_map["k"]

@@ -1,10 +1,10 @@
 Faker
-40.23.0
+40.28.1
 MIT License
 joke2k
 https://github.com/joke2k/faker
 Faker is a Python package that generates fake data for you.
-/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/faker-40.23.0.dist-info/licenses/LICENSE.txt
+/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/faker-40.28.1.dist-info/licenses/LICENSE.txt
 Copyright (c) 2012 Daniele Faraglia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -235,12 +235,12 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 click
-8.4.1
+8.4.2
 BSD-3-Clause
 UNKNOWN
 https://github.com/pallets/click/
 Composable command line interface toolkit
-/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/click-8.4.1.dist-info/licenses/LICENSE.txt
+/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/click-8.4.2.dist-info/licenses/LICENSE.txt
 Copyright 2014 Pallets
 
 Redistribution and use in source and binary forms, with or without
@@ -375,12 +375,12 @@ SOFTWARE.
 
 
 humanize
-4.15.0
+4.16.0
 MIT
 Jason Moiron <jmoiron@jmoiron.net>
 https://github.com/python-humanize/humanize
 Python humanize utilities
-/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/humanize-4.15.0.dist-info/licenses/LICENCE
+/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/humanize-4.16.0.dist-info/licenses/LICENCE
 Copyright (c) 2010-2020 Jason Moiron and Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -613,12 +613,12 @@ to indicate the copyright and license terms:
 
 
 llvmlite
-0.47.0
+0.48.0
 BSD-2-Clause AND Apache-2.0 WITH LLVM-exception
 UNKNOWN
 http://llvmlite.readthedocs.io
 lightweight wrapper around basic LLVM functionality
-/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/llvmlite-0.47.0.dist-info/licenses/LICENSE
+/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/llvmlite-0.48.0.dist-info/licenses/LICENSE
 Copyright (c) 2014, Anaconda Inc.
 All rights reserved.
 
@@ -2073,12 +2073,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 narwhals
-2.22.1
+2.23.0
 MIT
 Marco Gorelli
 https://github.com/narwhals-dev/narwhals
 Extremely lightweight compatibility layer between dataframe libraries
-/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/narwhals-2.22.1.dist-info/licenses/LICENSE.md
+/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/narwhals-2.23.0.dist-info/licenses/LICENSE.md
 MIT License
 
 Copyright (c) 2024 to present, Marco Gorelli
@@ -2149,12 +2149,12 @@ NetworkX is distributed with the 3-clause BSD license.
 
 
 numba
-0.65.1
+0.66.0
 BSD License
 UNKNOWN
 https://numba.pydata.org
 compiling Python code using LLVM
-/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/numba-0.65.1.dist-info/licenses/LICENSE
+/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/numba-0.66.0.dist-info/licenses/LICENSE
 Copyright (c) 2012, Anaconda, Inc.
 All rights reserved.
 
@@ -4606,12 +4606,12 @@ third-party archives.
    limitations under the License.
 
 pillow
-12.2.0
+12.3.0
 MIT-CMU
 Jeffrey 'Alex' Clark <aclark@aclark.net>
 https://python-pillow.github.io
 Python Imaging Library (fork)
-/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/pillow-12.2.0.dist-info/licenses/LICENSE
+/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/pillow-12.3.0.dist-info/licenses/LICENSE
 The Python Imaging Library (PIL) is
 
     Copyright © 1997-2011 by Secret Labs AB
@@ -5976,6 +5976,57 @@ SOFTWARE.
 
 ----
 
+TCL_TK
+
+This software is copyrighted by the Regents of the University
+of California, Sun Microsystems, Inc., Scriptics Corporation,
+and other parties. The following terms apply to all files
+associated with the software unless explicitly disclaimed in
+individual files.
+
+The authors hereby grant permission to use, copy, modify,
+distribute, and license this software and its documentation
+for any purpose, provided that existing copyright notices are
+retained in all copies and that this notice is included
+verbatim in any distributions. No written agreement, license,
+or royalty fee is required for any of the authorized uses.
+Modifications to this software may be copyrighted by their
+authors and need not follow the licensing terms described
+here, provided that the new terms are clearly indicated on
+the first page of each file where they apply.
+
+IN NO EVENT SHALL THE AUTHORS OR DISTRIBUTORS BE LIABLE TO
+ANY PARTY FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR
+CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OF THIS
+SOFTWARE, ITS DOCUMENTATION, OR ANY DERIVATIVES THEREOF, EVEN
+IF THE AUTHORS HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH
+DAMAGE.
+
+THE AUTHORS AND DISTRIBUTORS SPECIFICALLY DISCLAIM ANY
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE, AND NON-INFRINGEMENT. THIS SOFTWARE IS PROVIDED ON
+AN "AS IS" BASIS, AND THE AUTHORS AND DISTRIBUTORS HAVE NO
+OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES,
+ENHANCEMENTS, OR MODIFICATIONS.
+
+GOVERNMENT USE: If you are acquiring this software on behalf
+of the U.S. government, the Government shall have only
+"Restricted Rights" in the software and related documentation
+as defined in the Federal Acquisition Regulations (FARs) in
+Clause 52.227.19 (c) (2). If you are acquiring the software
+on behalf of the Department of Defense, the software shall be
+classified as "Commercial Computer Software" and the
+Government shall have only "Restricted Rights" as defined in
+Clause 252.227-7013 (c) (1) of DFARs. Notwithstanding the
+foregoing, the authors grant the U.S. Government and others
+acting in its behalf permission to use and distribute the
+software in accordance with the terms specified in this
+license
+
+
+----
+
 XAU
 
 Copyright 1988, 1993, 1994, 1998  The Open Group
@@ -6456,12 +6507,12 @@ DEALINGS IN THE SOFTWARE.
 
 
 regex
-2026.5.9
+2026.6.28
 Apache-2.0 AND CNRI-Python
 Matthew Barnett <regex@mrabarnett.plus.com>
 https://github.com/mrabarnett/mrab-regex
 Alternative regular expression module, to replace re.
-/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/regex-2026.5.9.dist-info/licenses/LICENSE.txt
+/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/regex-2026.6.28.dist-info/licenses/LICENSE.txt
 This work was derived from the 're' module of CPython 2.6 and CPython 3.1,
 copyright (c) 1998-2001 by Secret Labs AB and licensed under CNRI's Python 1.6
 license.
@@ -7036,12 +7087,12 @@ requirements of the license of GCC.
 
 
 scipy
-1.17.1
+1.18.0
 BSD License
 UNKNOWN
 https://scipy.org/
 Fundamental algorithms for scientific computing in Python
-/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/scipy-1.17.1.dist-info/LICENSE.txt
+/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/scipy-1.18.0.dist-info/LICENSE.txt
 Copyright (c) 2001-2002 Enthought, Inc. 2003, SciPy Developers.
 All rights reserved.
 
@@ -7072,6 +7123,9 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
 THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+----
+
 
 ----
 
@@ -8251,12 +8305,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 typing_extensions
-4.15.0
+4.16.0
 PSF-2.0
 "Guido van Rossum, Jukka Lehtosalo, Łukasz Langa, Michael Lee" <levkivskyi@gmail.com>
 https://github.com/python/typing_extensions
 Backported and Experimental Type Hints for Python 3.9+
-/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/typing_extensions-4.15.0.dist-info/licenses/LICENSE
+/home/runner/.pyenv/versions/3.14.6/lib/python3.14/site-packages/typing_extensions-4.16.0.dist-info/licenses/LICENSE
 A. HISTORY OF THE SOFTWARE
 ==========================
 
