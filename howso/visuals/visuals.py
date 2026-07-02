@@ -16,6 +16,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from scipy.stats import gaussian_kde
+from scipy.sparse import csr_matrix
 
 with warnings.catch_warnings():
     warnings.simplefilter("ignore")
@@ -919,6 +920,12 @@ def plot_umap(
         use_case_weights=use_case_weights,
         weight_feature=weight_feature,
     )["distances"]
+    sparse_distances = csr_matrix(distances.sparse.to_coo())
+    # Use minimum float distance to replace zeros so they are not lost through maximum
+    sparse_distances.data[sparse_distances.data == 0] = np.finfo(np.float64).tiny
+    # Must do this so matrices are symmetrical for UMAP
+    sparse_distances = sparse_distances.maximum(sparse_distances.T)
+
     hyperparameter_map = t.get_params(action_feature=".targetless")["hyperparameter_map"]
 
     n_neighbors = n_neighbors or hyperparameter_map["k"]
@@ -943,7 +950,7 @@ def plot_umap(
             metric="precomputed",
             min_dist=min_dist,
             n_neighbors=n_neighbors,
-        ).fit_transform(distances)
+        ).fit_transform(sparse_distances)
 
     sessions = sampled_cases[".session"]
     scatter_kwargs = {}
