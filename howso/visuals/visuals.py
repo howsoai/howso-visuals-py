@@ -933,7 +933,7 @@ def plot_umap(
 
     dataparameter_map = t.get_params(action_feature=".targetless")["data_parameters_map"]
 
-    n_neighbors = n_neighbors or hyperparameter_map["k"]
+    n_neighbors = n_neighbors or dataparameter_map["k"]
     if isinstance(n_neighbors, list):
         n_neighbors = n_neighbors[-1]
 
