@@ -159,10 +159,10 @@ def outliers_convictions(iris_trainee, iris_features):
         session=iris_trainee.active_session,
         features=[
             *iris_features.get_names(),
-            "familiarity_conviction_addition",
+            ".familiarity_conviction_addition",
             ".session_training_index",
             ".session",
-            "distance_contribution",
+            ".distance_contribution",
         ],
     )
 

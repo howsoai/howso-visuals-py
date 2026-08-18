@@ -853,7 +853,7 @@ def plot_umap(
     data : DataFrame | Trainee
         The data to transform or a :class:`Trainee` containing the data to transform.
     action_feature : str, optional
-        The action feature to use when selecting hyperparameters for :meth:`Trainee.get_distances`.
+        The action feature to use when selecting dataparameters for :meth:`Trainee.get_distances`.
     color : str, optional
         The name of the column in ``data`` to use for determining marker color.
     min_dist : float, optional
@@ -874,9 +874,9 @@ def plot_umap(
     tooltip_features : Collection[str], optional
         Additional features to include in the tooltip when hovering over a case in the plot.
     use_case_weights : bool, default False
-        Whether to use case weights when selecting hyperparameters for :meth:`Trainee.get_distances`.
+        Whether to use case weights when selecting dataparameters for :meth:`Trainee.get_distances`.
     weight_feature: str, optional
-        The weight feature to use when selecting hyperparameters for :meth:`Trainee.get_distances`.
+        The weight feature to use when selecting dataparameters for :meth:`Trainee.get_distances`.
     xaxis_title : str, default "Component 1"
         The title for the x-axis.
     yaxis_title : str, default "Component 2"
@@ -931,13 +931,13 @@ def plot_umap(
         # Must do this so matrices are symmetrical for UMAP
         distances = distances.maximum(distances.T)
 
-    hyperparameter_map = t.get_params(action_feature=".targetless")["hyperparameter_map"]
+    dataparameter_map = t.get_params(action_feature=".targetless")["data_parameters_map"]
 
-    n_neighbors = n_neighbors or hyperparameter_map["k"]
+    n_neighbors = n_neighbors or dataparameter_map["k"]
     if isinstance(n_neighbors, list):
         n_neighbors = n_neighbors[-1]
 
-    p = hyperparameter_map["p"]
+    p = dataparameter_map["p"]
 
     if min_dist is None:
         residuals = t.react_aggregate(
