@@ -1,22 +1,15 @@
-from collections.abc import Collection
-from typing import (
-    Any,
-    SupportsFloat,
-    TYPE_CHECKING,
-)
+from collections.abc import Collection, Mapping, Sequence
+from typing import Any, SupportsFloat, TYPE_CHECKING
 import warnings
 
 import numpy as np
 import pandas as pd
-from pandas import (
-    DataFrame,
-    Series,
-)
+from pandas import DataFrame, Series
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-from scipy.stats import gaussian_kde
 from scipy.sparse import csr_matrix
+from scipy.stats import gaussian_kde
 
 with warnings.catch_warnings():
     warnings.simplefilter("ignore")
@@ -24,6 +17,8 @@ with warnings.catch_warnings():
 
 from howso.engine import Trainee
 from howso.utilities import infer_feature_attributes
+
+from .utilities import color_palette
 
 if TYPE_CHECKING:
     from howso.engine.trainee import Reaction
@@ -830,9 +825,12 @@ def plot_umap(
     *,
     action_feature: str | None = None,
     color: str | None = None,
+    color_discrete_sequence: Sequence[str] | None = None,
+    color_discrete_map: Mapping[Any, str] | None = None,
     min_dist: float | None = None,
     n_cases: int | None = None,
     n_neighbors: int | None = None,
+    random_state: int | np.random.RandomState | None = None,
     session: str | None = None,
     sparse: bool = True,
     title: str = "UMAP Representation",
@@ -856,6 +854,11 @@ def plot_umap(
         The action feature to use when selecting dataparameters for :meth:`Trainee.get_distances`.
     color : str, optional
         The name of the column in ``data`` to use for determining marker color.
+    color_discrete_sequence : Sequence[str], optional
+        The discrete colors to use for each unique value in the color column. Defaults to built-in color palettes.
+    color_discrete_map : Mapping[Any, str], optional
+        The discrete colors to use for each unique value in the color column keyed by the column values.
+        Takes precedence over ``color_discrete_sequence``.
     min_dist : float, optional
         The ``min_dist`` parameter for ``umap.UMAP``. If None, this will be the :math:`p` norm
         of the feature residuals, where :math:`p` is selected by :meth:`Trainee.analyze`.
@@ -865,6 +868,8 @@ def plot_umap(
     n_neighbors : int, optional
         The ``n_neighbors`` parameter for ``umap.UMAP``. If None, this will be the :math:`k`
         selected by :meth:`Trainee.analyze`.
+    random_state : int | RandomState, optional
+        The random state to use for UMAP plotting.
     session : str, optional
         The training session to plot cases from. When None, pulls cases across all sessions.
     sparse : bool, default True
@@ -955,6 +960,7 @@ def plot_umap(
             metric="precomputed",
             min_dist=min_dist,
             n_neighbors=n_neighbors,
+            random_state=random_state,
         ).fit_transform(distances)
 
     sessions = sampled_cases[".session"]
@@ -986,6 +992,19 @@ def plot_umap(
 
     # Color cases by feature value
     if color is not None:
+        if color_discrete_map is not None:
+            scatter_kwargs["color_discrete_map"] = color_discrete_map
+        elif color_discrete_sequence is not None:
+            if isinstance(color_discrete_sequence, (str, bytes, bytearray)):
+                raise TypeError(
+                    "`color_discrete_sequence` must be a sequence of color strings, "
+                    f"got {type(color_discrete_sequence)}."
+                )
+            scatter_kwargs["color_discrete_sequence"] = color_discrete_sequence
+        else:
+            # Pick a best fitting color palette
+            n_colors = sampled_cases[color].nunique()
+            scatter_kwargs["color_discrete_sequence"] = color_palette(n_colors)
         scatter_kwargs["color"] = sampled_cases[color].astype(object)
         labels["color"] = color
         hover_template += "<extra>%{fullData.name}</extra>"
