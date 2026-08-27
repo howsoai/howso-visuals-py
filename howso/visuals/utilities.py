@@ -1,7 +1,10 @@
 import math
 from typing import Literal, SupportsFloat, SupportsInt
 
+import plotly.express as px
 import plotly.graph_objects as go
+
+from .colors import Categorical64
 
 SI_PREFIXES = [
     (1e30, "Q"),  # quetta
@@ -163,3 +166,26 @@ def normalize_axis_range(
             fig.update_xaxes(range=bounds)
         elif axis == "y":
             fig.update_yaxes(range=bounds)
+
+
+def color_palette(n_categories: int) -> list[str]:
+    """
+    Get the smallest palette that has a distinct color for every category.
+
+    NOTE: The maximum size that can be returned is 64.
+
+    Parameters
+    ----------
+    n_categories : int
+        Number of distinct categories that need their own color.
+
+    Returns
+    -------
+    list[str]
+        The list of color strings.
+    """
+    if n_categories <= len(px.colors.qualitative.Plotly):
+        return px.colors.qualitative.Plotly
+    if n_categories <= len(px.colors.qualitative.Alphabet):
+        return px.colors.qualitative.Alphabet
+    return Categorical64
