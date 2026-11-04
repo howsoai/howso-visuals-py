@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
+from howso.engine import Trainee
 from howso.visuals import (
     plot_anomalies,
     plot_dataset,
@@ -169,10 +170,14 @@ def test_plot_dataset(
 
 
 @pytest.fixture(scope="module")
-def outliers_convictions(iris_trainee, iris_features):
-    iris_trainee.react_into_features(familiarity_conviction_addition=True, distance_contribution=True)
-    outliers = iris_trainee.get_cases(
-        session=iris_trainee.active_session,
+def outliers_convictions(iris_train, iris_features):
+    # react_into_features adds derived features to the trainee, so use a trainee that no other test shares.
+    trainee = Trainee(features=iris_features)
+    trainee.train(iris_train)
+    trainee.analyze()
+    trainee.react_into_features(familiarity_conviction_addition=True, distance_contribution=True)
+    outliers = trainee.get_cases(
+        session=trainee.active_session,
         features=[
             *iris_features.get_names(),
             ".familiarity_conviction_addition",
@@ -183,7 +188,7 @@ def outliers_convictions(iris_trainee, iris_features):
     )
 
     outliers_indices = outliers[[".session", ".session_training_index"]].values
-    convictions = iris_trainee.react(
+    convictions = trainee.react(
         case_indices=outliers_indices,
         preserve_feature_values=iris_features.get_names(),
         leave_case_out=True,
