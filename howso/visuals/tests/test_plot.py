@@ -1,3 +1,5 @@
+import warnings
+
 import numpy as np
 import pandas as pd
 import pytest
@@ -14,6 +16,20 @@ from howso.visuals.visuals import (
     plot_drift,
     plot_feature_importances,
 )
+
+
+def test_plot_dataset_categorical_hue_keeps_unused_categories():
+    """A categorical hue gives one trace per category, including categories with no rows."""
+    data = pd.DataFrame({
+        "x": [1.0, 2.0, 3.0],
+        "y": [4.0, 5.0, 6.0],
+        "h": pd.Categorical(["a", "a", "c"], categories=["a", "b", "c"]),
+    })
+    with warnings.catch_warnings():
+        warnings.filterwarnings("error", message=".*observed.*")
+        fig = plot_dataset(data, "x", "y", hue="h")
+    assert [trace.name for trace in fig.data] == ["a", "b", "c"]
+    assert len(fig.data[1].x) == 0
 
 
 @pytest.mark.flaky(reruns=3)

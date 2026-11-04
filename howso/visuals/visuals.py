@@ -297,7 +297,7 @@ def plot_dataset(
         primary_scatter_kwargs["marker_size"] = data[size]
 
     if hue is not None:
-        for name, group in data.groupby(hue):
+        for name, group in data.groupby(hue, observed=False):
             fig.add_trace(go.Scattergl(name=name, x=group[x], y=group[y], **primary_scatter_kwargs))
     else:
         fig.add_trace(go.Scattergl(name="Cases", x=data[x], y=data[y], **primary_scatter_kwargs))
