@@ -240,3 +240,32 @@ def test_plot_umap(data, n_cases, request):
     assert fig is not None
     if n_cases is not None:
         assert len(fig.data[0].y) == n_cases
+
+
+@pytest.mark.parametrize(("name_values", "name_dtype", "expected_missing"), [
+    pytest.param(["a", np.nan], object, "nan", id="object-nan"),
+    pytest.param(["a", None], object, "None", id="object-none"),
+    pytest.param(["a", np.nan], "str", "nan", id="str-nan"),
+    pytest.param(["a", pd.NA], "string", "<NA>", id="string-na"),
+])
+def test_plot_anomalies_text(name_values, name_dtype, expected_missing):
+    """Heatmap cell text renders every value, including missing ones, as text."""
+    anomalies = pd.DataFrame({
+        "name": pd.Series(name_values, dtype=name_dtype),
+        "score": [1.5, np.nan],
+        "count": [1, 2],
+    })
+    convictions = pd.DataFrame({"name": [1.0, 2.0], "score": [1.0, 2.0], "count": [1.0, 2.0]})
+    fig = plot_anomalies(anomalies, convictions, num_cases_to_plot=2)
+    assert [list(row) for row in fig.data[0].text] == [["a", "1.5", "1"], [expected_missing, "nan", "2"]]
+
+
+def test_plot_umap_tooltip_missing_value(iris_train):
+    """A missing nominal tooltip value is shown as <NA>."""
+    data = iris_train.copy()
+    data["target"] = data["target"].astype(str)
+    data.loc[data.index[0], "target"] = None
+    fig = plot_umap(data, tooltip_features=["target"], random_state=0)
+    tooltip_text = [row[2] for row in fig.data[0].customdata]
+    assert "<NA>" in tooltip_text
+    assert all(isinstance(text, str) for text in tooltip_text)

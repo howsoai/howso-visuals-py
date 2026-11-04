@@ -24,6 +24,21 @@ if TYPE_CHECKING:
     from howso.engine.trainee import Reaction
 
 
+def _display_strings(column: Series) -> Series:
+    """Return an object Series of ``str`` for ``column``, rendering missing values as ``str(value)``."""
+    result = column.astype(str).astype(object)
+    missing = column.isna()
+    result[missing] = [str(value) for value in column[missing].astype(object)]
+    return result
+
+
+def _tooltip_strings(column: Series) -> Series:
+    """Return tooltip text for ``column``, rendering missing values as ``<NA>`` for string columns."""
+    if pd.api.types.is_string_dtype(column.dtype):
+        column = column.astype(object)
+    return _display_strings(column.fillna(pd.NA))
+
+
 def plot_feature_importances(
     feature_importances: DataFrame,
     *,
@@ -162,7 +177,7 @@ def plot_anomalies(
             y=convictions_to_plot.index,
             xgap=3,
             ygap=3,
-            text=anomalies_to_plot.astype(str),
+            text=anomalies_to_plot.apply(_display_strings),
             texttemplate="%{text}",
             hovertemplate="Conviction=%{z}",
             name="Outliers",
@@ -986,7 +1001,7 @@ def plot_umap(
     # Add additional features to hover data
     for feature in tooltip_features:
         if feature not in {".session", ".session_training_index"}:
-            hover_data.append(sampled_cases[feature].fillna(pd.NA).astype(str))
+            hover_data.append(_tooltip_strings(sampled_cases[feature]))
             idx = len(hover_data) - 1
             hover_template += f"<b>{feature}:</b> %{{customdata[{idx}]}}<br>"
 
