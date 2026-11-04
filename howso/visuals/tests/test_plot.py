@@ -235,6 +235,36 @@ def test_plot_feature_importances(feature_residuals):
     assert fig is not None
 
 
+@pytest.mark.parametrize("feature_residuals", [None, 0.6])
+def test_plot_feature_importances_unsorted(feature_residuals):
+    """Unsorted importances plot one bar per feature in the given column order."""
+    data = pd.DataFrame({"a": [0.1], "b": [0.5], "c": [0.2]})
+    fig = plot_feature_importances(data, sort_values=False, feature_residuals=feature_residuals)
+    assert list(fig.data[0].x) == ["a", "b", "c"]
+    assert list(fig.data[0].y) == [0.1, 0.5, 0.2]
+    if feature_residuals is not None:
+        assert list(fig.data[0].error_y.array) == pytest.approx([0.2, 0.2, 0.2])
+        assert list(fig.data[0].error_y.arrayminus) == pytest.approx([0.1, 0.2, 0.2])
+
+
+def test_plot_interpretable_prediction_tooltip_features(iris_trainee, iris_test, iris_features):
+    """Tooltip features present in the influential cases appear in their hover text, in order."""
+    context_features = iris_features.get_names(without=["sepal-length", "target"])
+    react = iris_trainee.react(
+        action_features=["sepal-length"],
+        contexts=iris_test.iloc[[0]][context_features],
+        details={"influential_cases": True},
+    )
+    fig = plot_interpretable_prediction(react, tooltip_features=["petal-width", "not-a-feature", "sepal-width"])
+    trace = next(t for t in fig.data if t.name == "Influential Case")
+    influential = react["details"]["influential_cases"][0]
+    assert "<b>petal-width:</b> %{customdata[2]}" in trace.hovertemplate
+    assert "<b>sepal-width:</b> %{customdata[3]}" in trace.hovertemplate
+    assert "not-a-feature" not in trace.hovertemplate
+    assert [row[2] for row in trace.customdata] == [str(v) for v in influential["petal-width"]]
+    assert [row[3] for row in trace.customdata] == [str(v) for v in influential["sepal-width"]]
+
+
 @pytest.mark.parametrize("x_tickangle", [True, False, 45])
 def test_plot_fairness_disparity(x_tickangle):
     fairness_results = {

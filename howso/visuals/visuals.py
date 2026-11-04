@@ -83,7 +83,8 @@ def plot_feature_importances(
             by=feature_importances.index[0],
             axis=1,
             ascending=False,
-        ).iloc[0]
+        )
+    feature_importances = feature_importances.iloc[0]
 
     if feature_residuals is not None:
         error_value = feature_residuals / len(feature_importances)
@@ -639,9 +640,9 @@ def plot_interpretable_prediction(
                 "<b>Case Index:</b> %{customdata[1]}<br>"
                 "<b>Session:</b> %{customdata[0]}<br>"
             )
-            for i, f in enumerate(tooltip_features):
-                if f in influential_cases[0]:
-                    inf_case_hover_template += f"<b>{f}:</b> %{{customdata[{i + 2}]}}<br>"
+            present_tooltip_features = [f for f in tooltip_features if f in influential_cases.columns]
+            for i, f in enumerate(present_tooltip_features):
+                inf_case_hover_template += f"<b>{f}:</b> %{{customdata[{i + 2}]}}<br>"
 
             inf_case_values = []
             inf_case_weights = []
@@ -652,7 +653,7 @@ def plot_interpretable_prediction(
             for i in influential_cases:
                 inf_case_values.append(i[action_feature])
                 inf_case_weights.append(i[".influence_weight"])
-                inf_case_features = [str(i[f]) for f in tooltip_features if f in i]
+                inf_case_features = [str(i[f]) for f in present_tooltip_features]
                 inf_case_labels.append([i[".session"], i[".session_training_index"], *inf_case_features])
 
             fig.add_trace(
