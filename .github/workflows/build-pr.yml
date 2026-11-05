@@ -58,6 +58,7 @@ jobs:
     secrets: inherit
     with:
       upstream-packages: 'amalgam-lang-py howso-engine-py'
+      constraints-file: .github/lockfile-constraints.txt
 
   build:
     needs: ['gen-requirements']
