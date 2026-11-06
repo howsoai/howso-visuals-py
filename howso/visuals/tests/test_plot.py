@@ -1,7 +1,10 @@
+import warnings
+
 import numpy as np
 import pandas as pd
 import pytest
 
+from howso.engine import Trainee
 from howso.visuals import (
     plot_anomalies,
     plot_dataset,
@@ -14,6 +17,20 @@ from howso.visuals.visuals import (
     plot_drift,
     plot_feature_importances,
 )
+
+
+def test_plot_dataset_categorical_hue_keeps_unused_categories():
+    """A categorical hue gives one trace per category, including categories with no rows."""
+    data = pd.DataFrame({
+        "x": [1.0, 2.0, 3.0],
+        "y": [4.0, 5.0, 6.0],
+        "h": pd.Categorical(["a", "a", "c"], categories=["a", "b", "c"]),
+    })
+    with warnings.catch_warnings():
+        warnings.filterwarnings("error", message=".*observed.*")
+        fig = plot_dataset(data, "x", "y", hue="h")
+    assert [trace.name for trace in fig.data] == ["a", "b", "c"]
+    assert len(fig.data[1].x) == 0
 
 
 @pytest.mark.flaky(reruns=3)
@@ -153,10 +170,14 @@ def test_plot_dataset(
 
 
 @pytest.fixture(scope="module")
-def outliers_convictions(iris_trainee, iris_features):
-    iris_trainee.react_into_features(familiarity_conviction_addition=True, distance_contribution=True)
-    outliers = iris_trainee.get_cases(
-        session=iris_trainee.active_session,
+def outliers_convictions(iris_train, iris_features):
+    # react_into_features adds derived features to the trainee, so use a trainee that no other test shares.
+    trainee = Trainee(features=iris_features)
+    trainee.train(iris_train)
+    trainee.analyze()
+    trainee.react_into_features(familiarity_conviction_addition=True, distance_contribution=True)
+    outliers = trainee.get_cases(
+        session=trainee.active_session,
         features=[
             *iris_features.get_names(),
             ".familiarity_conviction_addition",
@@ -167,7 +188,7 @@ def outliers_convictions(iris_trainee, iris_features):
     )
 
     outliers_indices = outliers[[".session", ".session_training_index"]].values
-    convictions = iris_trainee.react(
+    convictions = trainee.react(
         case_indices=outliers_indices,
         preserve_feature_values=iris_features.get_names(),
         leave_case_out=True,
@@ -219,6 +240,36 @@ def test_plot_feature_importances(feature_residuals):
     assert fig is not None
 
 
+@pytest.mark.parametrize("feature_residuals", [None, 0.6])
+def test_plot_feature_importances_unsorted(feature_residuals):
+    """Unsorted importances plot one bar per feature in the given column order."""
+    data = pd.DataFrame({"a": [0.1], "b": [0.5], "c": [0.2]})
+    fig = plot_feature_importances(data, sort_values=False, feature_residuals=feature_residuals)
+    assert list(fig.data[0].x) == ["a", "b", "c"]
+    assert list(fig.data[0].y) == [0.1, 0.5, 0.2]
+    if feature_residuals is not None:
+        assert list(fig.data[0].error_y.array) == pytest.approx([0.2, 0.2, 0.2])
+        assert list(fig.data[0].error_y.arrayminus) == pytest.approx([0.1, 0.2, 0.2])
+
+
+def test_plot_interpretable_prediction_tooltip_features(iris_trainee, iris_test, iris_features):
+    """Tooltip features present in the influential cases appear in their hover text, in order."""
+    context_features = iris_features.get_names(without=["sepal-length", "target"])
+    react = iris_trainee.react(
+        action_features=["sepal-length"],
+        contexts=iris_test.iloc[[0]][context_features],
+        details={"influential_cases": True},
+    )
+    fig = plot_interpretable_prediction(react, tooltip_features=["petal-width", "not-a-feature", "sepal-width"])
+    trace = next(t for t in fig.data if t.name == "Influential Case")
+    influential = react["details"]["influential_cases"][0]
+    assert "<b>petal-width:</b> %{customdata[2]}" in trace.hovertemplate
+    assert "<b>sepal-width:</b> %{customdata[3]}" in trace.hovertemplate
+    assert "not-a-feature" not in trace.hovertemplate
+    assert [row[2] for row in trace.customdata] == [str(v) for v in influential["petal-width"]]
+    assert [row[3] for row in trace.customdata] == [str(v) for v in influential["sepal-width"]]
+
+
 @pytest.mark.parametrize("x_tickangle", [True, False, 45])
 def test_plot_fairness_disparity(x_tickangle):
     fairness_results = {
@@ -240,3 +291,32 @@ def test_plot_umap(data, n_cases, request):
     assert fig is not None
     if n_cases is not None:
         assert len(fig.data[0].y) == n_cases
+
+
+@pytest.mark.parametrize(("name_values", "name_dtype", "expected_missing"), [
+    pytest.param(["a", np.nan], object, "nan", id="object-nan"),
+    pytest.param(["a", None], object, "None", id="object-none"),
+    pytest.param(["a", np.nan], "str", "nan", id="str-nan"),
+    pytest.param(["a", pd.NA], "string", "<NA>", id="string-na"),
+])
+def test_plot_anomalies_text(name_values, name_dtype, expected_missing):
+    """Heatmap cell text renders every value, including missing ones, as text."""
+    anomalies = pd.DataFrame({
+        "name": pd.Series(name_values, dtype=name_dtype),
+        "score": [1.5, np.nan],
+        "count": [1, 2],
+    })
+    convictions = pd.DataFrame({"name": [1.0, 2.0], "score": [1.0, 2.0], "count": [1.0, 2.0]})
+    fig = plot_anomalies(anomalies, convictions, num_cases_to_plot=2)
+    assert [list(row) for row in fig.data[0].text] == [["a", "1.5", "1"], [expected_missing, "nan", "2"]]
+
+
+def test_plot_umap_tooltip_missing_value(iris_train):
+    """A missing nominal tooltip value is shown as <NA>."""
+    data = iris_train.copy()
+    data["target"] = data["target"].astype(str)
+    data.loc[data.index[0], "target"] = None
+    fig = plot_umap(data, tooltip_features=["target"], random_state=0)
+    tooltip_text = [row[2] for row in fig.data[0].customdata]
+    assert "<NA>" in tooltip_text
+    assert all(isinstance(text, str) for text in tooltip_text)
