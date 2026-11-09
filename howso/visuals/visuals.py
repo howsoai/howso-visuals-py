@@ -24,6 +24,21 @@ if TYPE_CHECKING:
     from howso.engine.trainee import Reaction
 
 
+def _display_strings(column: Series) -> Series:
+    """Return an object Series of ``str`` for ``column``, rendering missing values as ``str(value)``."""
+    result = column.astype(str).astype(object)
+    missing = column.isna()
+    result[missing] = [str(value) for value in column[missing].astype(object)]
+    return result
+
+
+def _tooltip_strings(column: Series) -> Series:
+    """Return tooltip text for ``column``, rendering missing values as ``<NA>`` for string columns."""
+    if pd.api.types.is_string_dtype(column.dtype):
+        column = column.astype(object)
+    return _display_strings(column.fillna(pd.NA))
+
+
 def plot_feature_importances(
     feature_importances: DataFrame,
     *,
@@ -68,7 +83,8 @@ def plot_feature_importances(
             by=feature_importances.index[0],
             axis=1,
             ascending=False,
-        ).iloc[0]
+        )
+    feature_importances = feature_importances.iloc[0]
 
     if feature_residuals is not None:
         error_value = feature_residuals / len(feature_importances)
@@ -162,7 +178,7 @@ def plot_anomalies(
             y=convictions_to_plot.index,
             xgap=3,
             ygap=3,
-            text=anomalies_to_plot.astype(str),
+            text=anomalies_to_plot.apply(_display_strings),
             texttemplate="%{text}",
             hovertemplate="Conviction=%{z}",
             name="Outliers",
@@ -282,7 +298,7 @@ def plot_dataset(
         primary_scatter_kwargs["marker_size"] = data[size]
 
     if hue is not None:
-        for name, group in data.groupby(hue):
+        for name, group in data.groupby(hue, observed=False):
             fig.add_trace(go.Scattergl(name=name, x=group[x], y=group[y], **primary_scatter_kwargs))
     else:
         fig.add_trace(go.Scattergl(name="Cases", x=data[x], y=data[y], **primary_scatter_kwargs))
@@ -624,9 +640,9 @@ def plot_interpretable_prediction(
                 "<b>Case Index:</b> %{customdata[1]}<br>"
                 "<b>Session:</b> %{customdata[0]}<br>"
             )
-            for i, f in enumerate(tooltip_features):
-                if f in influential_cases[0]:
-                    inf_case_hover_template += f"<b>{f}:</b> %{{customdata[{i + 2}]}}<br>"
+            present_tooltip_features = [f for f in tooltip_features if f in influential_cases.columns]
+            for i, f in enumerate(present_tooltip_features):
+                inf_case_hover_template += f"<b>{f}:</b> %{{customdata[{i + 2}]}}<br>"
 
             inf_case_values = []
             inf_case_weights = []
@@ -637,7 +653,7 @@ def plot_interpretable_prediction(
             for i in influential_cases:
                 inf_case_values.append(i[action_feature])
                 inf_case_weights.append(i[".influence_weight"])
-                inf_case_features = [str(i[f]) for f in tooltip_features if f in i]
+                inf_case_features = [str(i[f]) for f in present_tooltip_features]
                 inf_case_labels.append([i[".session"], i[".session_training_index"], *inf_case_features])
 
             fig.add_trace(
@@ -986,7 +1002,7 @@ def plot_umap(
     # Add additional features to hover data
     for feature in tooltip_features:
         if feature not in {".session", ".session_training_index"}:
-            hover_data.append(sampled_cases[feature].fillna(pd.NA).astype(str))
+            hover_data.append(_tooltip_strings(sampled_cases[feature]))
             idx = len(hover_data) - 1
             hover_template += f"<b>{feature}:</b> %{{customdata[{idx}]}}<br>"
 
