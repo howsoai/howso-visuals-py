@@ -883,7 +883,9 @@ def plot_umap(
         are used.
     n_neighbors : int, optional
         The ``n_neighbors`` parameter for ``umap.UMAP``. If None, this will be the :math:`k`
-        selected by :meth:`Trainee.analyze`.
+        selected by :meth:`Trainee.analyze`. When ``sparse`` is true, each case's ``n_neighbors``
+        nearest neighbors are computed, and ``n_neighbors`` is reduced if there are too few cases
+        to provide that many neighbors for every case.
     random_state : int | RandomState, optional
         The random state to use for UMAP plotting.
     session : str, optional
@@ -938,9 +940,19 @@ def plot_umap(
         case_indices = sampled_cases[[".session", ".session_training_index"]]
         case_indices = case_indices.values.tolist()
 
+    dataparameter_map = t.get_params(action_feature=".targetless")["data_parameters_map"]
+
+    k = dataparameter_map["k"]
+    if isinstance(k, list):
+        k = k[-1]
+    num_neighbors: int = n_neighbors or k
+
     distances = t.get_distances(
         case_indices=case_indices,
         action_feature=action_feature,
+        # Each case's own zero distance is one of its sparse entries, and UMAP needs
+        # num_neighbors entries besides it
+        num_nearest_neighbors=num_neighbors + 1,
         use_case_weights=use_case_weights,
         weight_feature=weight_feature,
         sparse=sparse
@@ -950,13 +962,9 @@ def plot_umap(
         # Use minimum float distance to replace zeros so they are not lost through maximum
         distances.data[distances.data == 0] = np.finfo(np.float64).tiny
         # Must do this so matrices are symmetrical for UMAP
-        distances = distances.maximum(distances.T)
-
-    dataparameter_map = t.get_params(action_feature=".targetless")["data_parameters_map"]
-
-    n_neighbors = n_neighbors or dataparameter_map["k"]
-    if isinstance(n_neighbors, list):
-        n_neighbors = n_neighbors[-1]
+        distances = csr_matrix(distances.maximum(distances.T))
+        # With few cases the engine returns fewer than num_neighbors + 1 entries per case
+        num_neighbors = min(num_neighbors, int(np.diff(distances.indptr).min()) - 1)
 
     p = dataparameter_map["p"]
 
@@ -975,7 +983,7 @@ def plot_umap(
         points = umap.UMAP(
             metric="precomputed",
             min_dist=min_dist,
-            n_neighbors=n_neighbors,
+            n_neighbors=num_neighbors,
             random_state=random_state,
         ).fit_transform(distances)
 

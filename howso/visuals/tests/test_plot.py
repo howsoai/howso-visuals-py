@@ -293,6 +293,20 @@ def test_plot_umap(data, n_cases, request):
         assert len(fig.data[0].y) == n_cases
 
 
+@pytest.mark.parametrize("n_neighbors", [5, 20, 25])
+def test_plot_umap_sparse_n_neighbors(iris_trainee: Trainee, n_neighbors: int) -> None:
+    """The sparse distance matrix carries enough neighbors per case for the requested ``n_neighbors``."""
+    fig = plot_umap(iris_trainee, n_neighbors=n_neighbors, sparse=True, random_state=0)
+    assert len(fig.data[0].y) == iris_trainee.get_num_training_cases()
+
+
+@pytest.mark.parametrize("n_cases", [8, 21])
+def test_plot_umap_sparse_few_cases(iris_trainee: Trainee, n_cases: int) -> None:
+    """With fewer cases than ``n_neighbors`` needs, the sparse path limits ``n_neighbors`` to what the cases allow."""
+    fig = plot_umap(iris_trainee, n_cases=n_cases, n_neighbors=20, sparse=True, random_state=0)
+    assert len(fig.data[0].y) == n_cases
+
+
 @pytest.mark.parametrize(("name_values", "name_dtype", "expected_missing"), [
     pytest.param(["a", np.nan], object, "nan", id="object-nan"),
     pytest.param(["a", None], object, "None", id="object-none"),
