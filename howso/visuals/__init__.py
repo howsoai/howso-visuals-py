@@ -1,4 +1,5 @@
 from . import graph
+from .paging import RowPagedFigure
 from .visuals import (
     compose_figures,
     plot_anomalies,
@@ -12,6 +13,7 @@ from .visuals import (
 )
 
 __all__ = [
+    "RowPagedFigure",
     "compose_figures",
     "graph",
     "plot_anomalies",
