@@ -26,13 +26,13 @@ cycler==0.12.1
     # via matplotlib
 execnet==2.1.2
     # via pytest-xdist
-faker==40.44.0
+faker==40.54.0
     # via howso-engine
 flake8==7.5.0
     # via howso-visuals (pyproject.toml)
 fonttools==4.68.0
     # via matplotlib
-howso-engine==69.0.5
+howso-engine==69.0.7
     # via howso-visuals (pyproject.toml)
 humanize==4.16.0
     # via howso-engine
@@ -59,7 +59,7 @@ logistro==2.0.1
     # via
     #   choreographer
     #   kaleido
-markdown-it-py==4.2.0
+markdown-it-py==4.3.0
     # via rich
 matplotlib==3.11.2
     # via seaborn
@@ -152,7 +152,7 @@ pytz==2026.6
     # via pandas
 pyyaml==6.0.3
     # via howso-engine
-regex==2026.9.29
+regex==2026.11.9
     # via sacremoses
 requests==2.34.2
     # via howso-engine
@@ -176,7 +176,7 @@ seaborn==0.13.2
     # via howso-visuals (pyproject.toml)
 semantic-version==2.10.0
     # via howso-engine
-simplejson==4.2.0
+simplejson==4.3.0
     # via choreographer
 threadpoolctl==3.8.0
     # via scikit-learn
@@ -190,7 +190,7 @@ tzdata==2026.6
     # via
     #   pandas
     #   python-dateutil
-umap-learn==0.5.12
+umap-learn==0.6.0
     # via howso-visuals (pyproject.toml)
 urllib3==2.8.0
     # via

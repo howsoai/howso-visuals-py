@@ -1,10 +1,10 @@
 Faker
-40.44.0
+40.54.0
 MIT License
 joke2k
 https://github.com/joke2k/faker
 Faker is a Python package that generates fake data for you.
-/home/runner/.pyenv/versions/3.12.16/lib/python3.12/site-packages/faker-40.44.0.dist-info/licenses/LICENSE.txt
+/home/runner/.pyenv/versions/3.12.16/lib/python3.12/site-packages/faker-40.54.0.dist-info/licenses/LICENSE.txt
 Copyright (c) 2012 Daniele Faraglia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -714,12 +714,12 @@ SOFTWARE.
 
 
 markdown-it-py
-4.2.0
+4.3.0
 MIT License
 Chris Sewell <chrisj_sewell@hotmail.com>
 https://github.com/executablebooks/markdown-it-py
 Python port of markdown-it. Markdown parsing, done right!
-/home/runner/.pyenv/versions/3.12.16/lib/python3.12/site-packages/markdown_it_py-4.2.0.dist-info/licenses/LICENSE
+/home/runner/.pyenv/versions/3.12.16/lib/python3.12/site-packages/markdown_it_py-4.3.0.dist-info/licenses/LICENSE
 MIT License
 
 Copyright (c) 2020 ExecutableBookProject
@@ -2199,12 +2199,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 numpy
-2.4.6
+2.5.4
 BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0
 Travis E. Oliphant et al.
 https://numpy.org
 Fundamental package for array computing in Python
-/home/runner/.pyenv/versions/3.12.16/lib/python3.12/site-packages/numpy-2.4.6.dist-info/licenses/LICENSE.txt
+/home/runner/.pyenv/versions/3.12.16/lib/python3.12/site-packages/numpy-2.5.4.dist-info/licenses/LICENSE.txt
 Copyright (c) 2005-2025, NumPy Developers.
 All rights reserved.
 
@@ -6314,12 +6314,12 @@ DEALINGS IN THE SOFTWARE.
 
 
 regex
-2026.9.29
+2026.11.9
 Apache-2.0 AND CNRI-Python
 Matthew Barnett <regex@mrabarnett.plus.com>
 https://github.com/mrabarnett/mrab-regex
 Alternative regular expression module, to replace re.
-/home/runner/.pyenv/versions/3.12.16/lib/python3.12/site-packages/regex-2026.9.29.dist-info/licenses/LICENSE.txt
+/home/runner/.pyenv/versions/3.12.16/lib/python3.12/site-packages/regex-2026.11.9.dist-info/licenses/LICENSE.txt
 This work was derived from the 're' module of CPython 2.6 and CPython 3.1,
 copyright (c) 1998-2001 by Secret Labs AB and licensed under CNRI's Python 1.6
 license.
@@ -7907,12 +7907,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 simplejson
-4.2.0
+4.3.0
 MIT OR AFL-2.1
 Bob Ippolito
 https://github.com/simplejson/simplejson
 Simple, fast, extensible JSON encoder/decoder for Python
-/home/runner/.pyenv/versions/3.12.16/lib/python3.12/site-packages/simplejson-4.2.0.dist-info/licenses/LICENSE.txt
+/home/runner/.pyenv/versions/3.12.16/lib/python3.12/site-packages/simplejson-4.3.0.dist-info/licenses/LICENSE.txt
 simplejson is dual-licensed software. It is available under the terms
 of the MIT license, or the Academic Free License version 2.1. The full
 text of each license agreement is included below. This code is also
@@ -8399,12 +8399,12 @@ limitations under the License.
 
 
 umap-learn
-0.5.12
+0.6.0
 BSD
 UNKNOWN
 http://github.com/lmcinnes/umap
 Uniform Manifold Approximation and Projection
-/home/runner/.pyenv/versions/3.12.16/lib/python3.12/site-packages/umap_learn-0.5.12.dist-info/licenses/LICENSE.txt
+/home/runner/.pyenv/versions/3.12.16/lib/python3.12/site-packages/umap_learn-0.6.0.dist-info/licenses/LICENSE.txt
 BSD 3-Clause License
 
 Copyright (c) 2017, Leland McInnes
