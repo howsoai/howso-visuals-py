@@ -836,6 +836,31 @@ def compose_figures(
     return return_figure
 
 
+def _sparse_umap_n_neighbors(distances: csr_matrix, n_neighbors: int) -> int:
+    """
+    Choose the ``n_neighbors`` to pass to ``umap.UMAP`` for a sparse precomputed distance matrix.
+
+    Each row holds the case's own distance plus its nearest neighbors.  With few cases a row holds fewer than
+    ``n_neighbors + 1`` entries, so ``n_neighbors`` is reduced to what every row provides.  UMAP rejects an
+    ``n_neighbors`` below 2; with one or two cases it handles the small input itself, using a single point or
+    ``n_samples - 1`` neighbors, so the result is never below 2.
+
+    Parameters
+    ----------
+    distances : csr_matrix
+        The symmetric sparse distance matrix, one row per case.
+    n_neighbors : int
+        The requested number of neighbors.
+
+    Returns
+    -------
+    int
+        The number of neighbors to pass to UMAP.
+    """
+    entries_per_case = int(np.diff(distances.indptr).min())
+    return max(2, min(n_neighbors, entries_per_case - 1))
+
+
 def plot_umap(
     data: DataFrame | Trainee,
     *,
@@ -963,8 +988,7 @@ def plot_umap(
         distances.data[distances.data == 0] = np.finfo(np.float64).tiny
         # Must do this so matrices are symmetrical for UMAP
         distances = csr_matrix(distances.maximum(distances.T))
-        # With few cases the engine returns fewer than num_neighbors + 1 entries per case
-        num_neighbors = min(num_neighbors, int(np.diff(distances.indptr).min()) - 1)
+        num_neighbors = _sparse_umap_n_neighbors(distances, num_neighbors)
 
     p = dataparameter_map["p"]
 

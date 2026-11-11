@@ -3,6 +3,7 @@ import warnings
 import numpy as np
 import pandas as pd
 import pytest
+from scipy.sparse import csr_matrix
 
 from howso.engine import Trainee
 from howso.visuals import (
@@ -14,6 +15,7 @@ from howso.visuals import (
     plot_umap,
 )
 from howso.visuals.visuals import (
+    _sparse_umap_n_neighbors,
     plot_drift,
     plot_feature_importances,
 )
@@ -305,6 +307,20 @@ def test_plot_umap_sparse_few_cases(iris_trainee: Trainee, n_cases: int) -> None
     """With fewer cases than ``n_neighbors`` needs, the sparse path limits ``n_neighbors`` to what the cases allow."""
     fig = plot_umap(iris_trainee, n_cases=n_cases, n_neighbors=20, sparse=True, random_state=0)
     assert len(fig.data[0].y) == n_cases
+
+
+@pytest.mark.parametrize(("n_cases", "n_neighbors", "expected"), [
+    pytest.param(1, 15, 2, id="single-case"),
+    pytest.param(2, 15, 2, id="two-cases"),
+    pytest.param(6, 15, 5, id="fewer-cases-than-neighbors"),
+    pytest.param(30, 15, 15, id="enough-cases"),
+])
+def test_sparse_umap_n_neighbors(n_cases: int, n_neighbors: int, expected: int) -> None:
+    """``n_neighbors`` is what every case's row provides, and never below the 2 that UMAP accepts."""
+    rows = np.repeat(np.arange(n_cases), n_cases)
+    cols = np.tile(np.arange(n_cases), n_cases)
+    distances = csr_matrix((np.ones(n_cases * n_cases), (rows, cols)), shape=(n_cases, n_cases))
+    assert _sparse_umap_n_neighbors(distances, n_neighbors) == expected
 
 
 @pytest.mark.parametrize(("name_values", "name_dtype", "expected_missing"), [
