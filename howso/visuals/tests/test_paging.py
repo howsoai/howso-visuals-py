@@ -56,7 +56,9 @@ def test_page_rows_stacks_buttons():
 
     assert fig.layout.yaxis.autorange is False
     assert tuple(fig.layout.yaxis.range) == (19.5, -0.5)
-    assert fig.layout.dragmode == "pan"
+    # Dragging is left off for renderers that cannot run the page sync script, which turns it on.
+    assert fig.layout.dragmode is False
+    assert fig.layout.yaxis.fixedrange is True
     assert fig.layout.xaxis.fixedrange is True
 
     (menu,) = fig.layout.updatemenus
@@ -94,6 +96,7 @@ def test_page_rows_bottom_up_on_another_axis():
     fig.page_rows(30, 10, menu_height_px=500, yaxis="yaxis2", top_down=False)
 
     assert tuple(fig.layout.yaxis2.range) == (-0.5, 9.5)
+    assert fig.layout.yaxis2.fixedrange is True
     assert len(fig.layout.updatemenus) == 2
     assert fig.layout.updatemenus[1].buttons[1].args[0]["yaxis2.range"] == [9.5, 19.5]
 

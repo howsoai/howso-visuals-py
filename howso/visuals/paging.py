@@ -11,24 +11,28 @@ _PAGE_MENU_NAME = "howso_row_pager"
 """The ``name`` of the page menus that :class:`RowPagedFigure` adds, used to find them in the browser."""
 
 # Plotly.js can only tie a button's active state to an axis range that matches the button's range exactly,
-# which a drag never does. This script, run after the plot is drawn, marks the page closest to the rows in
-# view as active whenever the paged axis moves. It reads everything it needs from the page menus, and
-# ignores the relayout it makes itself because that changes only the menu. Plotly replaces ``{plot_id}``.
+# which a drag never does. This script, run after the plot is drawn, keeps the page buttons in step with
+# dragging: it marks the page closest to the rows in view as active whenever a paged axis moves, then turns
+# on vertical dragging, which the figure leaves off so that it is only possible where this script runs. It
+# reads everything it needs from the page menus, and ignores the relayout it makes to update a menu because
+# that changes only the menu. Plotly replaces ``{plot_id}``.
 _PAGE_SYNC_SCRIPT = """
 (function () {
     var gd = document.getElementById("{plot_id}");
     if (!gd || typeof gd.on !== "function") {
         return;
     }
-    gd.on("plotly_relayout", function (eventData) {
-        var menus = gd.layout.updatemenus || [];
-        var update = {};
-        menus.forEach(function (menu, index) {
-            if (menu.name !== "__MENU_NAME__" || !menu.buttons || !menu.buttons.length) {
-                return;
+    function forEachPager(callback) {
+        (gd.layout.updatemenus || []).forEach(function (menu, index) {
+            if (menu.name === "__MENU_NAME__" && menu.buttons && menu.buttons.length) {
+                var key = Object.keys(menu.buttons[0].args[0])[0];
+                callback(menu, index, key, key.slice(0, -".range".length));
             }
-            var key = Object.keys(menu.buttons[0].args[0])[0];
-            var axis = key.slice(0, -".range".length);
+        });
+    }
+    gd.on("plotly_relayout", function (eventData) {
+        var update = {};
+        forEachPager(function (menu, index, key, axis) {
             var moved = Object.keys(eventData || {}).some(function (k) {
                 return k === axis || k.indexOf(axis + ".") === 0;
             });
@@ -55,6 +59,14 @@ _PAGE_SYNC_SCRIPT = """
             Plotly.relayout(gd, update);
         }
     });
+    var enableDragging = {};
+    forEachPager(function (menu, index, key, axis) {
+        enableDragging.dragmode = "pan";
+        enableDragging[axis + ".fixedrange"] = false;
+    });
+    if (Object.keys(enableDragging).length) {
+        Plotly.relayout(gd, enableDragging);
+    }
 })();
 """.replace("__MENU_NAME__", _PAGE_MENU_NAME)
 
@@ -68,15 +80,16 @@ class RowPagedFigure(go.Figure):
     Build the figure as usual, size it for :meth:`visible_rows` rows, then call :meth:`page_rows`.
 
     Plotly has no vertical scrollbar, so the figure pages through its rows with a vertical stack of
-    buttons to the right of the plot, one per page, under a small label. The rows can also be dragged
-    vertically. When there are too many pages to stack in the available space, the buttons collapse
-    into a dropdown that opens upward and scrolls.
+    buttons to the right of the plot, one per page, under a small label. When there are too many pages to
+    stack in the available space, the buttons collapse into a dropdown that opens upward and scrolls.
 
-    Dragging the plot moves the active button to the page closest to the rows in view. This uses a small
-    script that the figure adds whenever it is rendered as HTML: with :meth:`show`, :meth:`to_html` or
-    :meth:`write_html`, or when displayed in a notebook with an HTML renderer such as "notebook" or
-    "browser". Renderers that pass Plotly only the figure's JSON, such as "plotly_mimetype" (the default in
-    JupyterLab and VS Code), cannot run the script, so there the active button changes only when clicked.
+    The rows can also be dragged vertically, and dragging moves the active button to the page closest to
+    the rows in view. That needs a small script, which the figure adds whenever it is rendered as HTML: with
+    :meth:`show`, :meth:`to_html` or :meth:`write_html`, or when displayed in a notebook with an HTML
+    renderer such as "notebook" or "browser". Renderers that pass Plotly only the figure's JSON, such as
+    "plotly_mimetype" (the default in JupyterLab and VS Code), cannot run the script, so the figure leaves
+    dragging off and the script turns it on. Where the script cannot run, the page buttons are the only way
+    to move through the rows and always show the page in view.
 
     A ``RowPagedFigure`` is a ``plotly.graph_objects.Figure``, so it can be returned anywhere a figure is
     expected. To page an existing figure, wrap it with ``RowPagedFigure(fig)``. Subplot grid information
@@ -164,8 +177,9 @@ class RowPagedFigure(go.Figure):
         Show a window of the figure's rows and add controls to page through the rest.
 
         Does nothing when every row fits within ``max_visible_rows``. Otherwise the y axis shows the first
-        page of rows, the plot can be dragged vertically but not horizontally, and page buttons are added to
-        the right of the plot. Double clicking the plot resets it to the first page.
+        page of rows and page buttons are added to the right of the plot. Zooming and dragging are turned
+        off; when the figure is rendered as HTML, a script turns vertical dragging back on and keeps the
+        page buttons in step with it. Double clicking a draggable plot resets it to the first page.
 
         The rows must sit at integer positions 0 through ``num_rows - 1`` along the y axis, as they do for a
         categorical axis.
@@ -223,11 +237,13 @@ class RowPagedFigure(go.Figure):
         stacked = len(buttons) * self.page_button_height_px <= menu_height_px
         menu_height = len(buttons) * self.page_button_height_px if stacked else self.page_dropdown_height_px
 
-        # The pan is intentionally unbounded: Plotly's ``minallowed``/``maxallowed`` clamp each end of the
-        # range independently, which shrinks or stalls the window at the edges.
+        # Dragging stays off unless the page sync script runs, so the active button always shows the page in
+        # view. When the script turns dragging on, the pan is intentionally unbounded: Plotly's
+        # ``minallowed``/``maxallowed`` clamp each end of the range independently, which shrinks or stalls
+        # the window at the edges.
         self.update_layout({
-            "dragmode": "pan",
-            yaxis: {"autorange": False, "range": page_range(0)},
+            "dragmode": False,
+            yaxis: {"autorange": False, "range": page_range(0), "fixedrange": True},
         })
         self.update_xaxes(fixedrange=True)
         page_menu = {
