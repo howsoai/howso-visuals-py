@@ -1,5 +1,6 @@
 import plotly.graph_objects as go
 import plotly.io as pio
+from plotly.subplots import make_subplots
 import pytest
 
 from howso.visuals import RowPagedFigure
@@ -171,3 +172,102 @@ def test_notebook_display_includes_page_sync_script(monkeypatch, renderer, expec
 
     assert bundle
     assert _sync_script_count(bundle.get("text/html", "")) == expected_count
+
+
+def _paged_figure() -> RowPagedFigure:
+    """Build a heatmap whose 30 rows are paged 10 at a time."""
+    fig = _heatmap_figure(30)
+    fig.page_rows(30, 10, menu_height_px=500)
+    return fig
+
+
+def test_to_html_keeps_positional_post_script():
+    """to_html accepts post_script by position, as plotly does, and keeps it alongside the sync script."""
+    html = _paged_figure().to_html(None, True, False, False, "console.log('caller');")
+
+    assert _sync_script_count(html) == 1
+    assert "console.log('caller');" in html
+
+
+def test_write_html_keeps_positional_post_script(tmp_path):
+    """write_html accepts post_script by position, as plotly does, and keeps it alongside the sync script."""
+    path = tmp_path / "figure.html"
+
+    _paged_figure().write_html(path, None, True, False, False, "console.log('caller');")
+
+    html = path.read_text(encoding="utf-8")
+    assert _sync_script_count(html) == 1
+    assert "console.log('caller');" in html
+
+
+def test_notebook_display_keeps_renderer_post_script(monkeypatch):
+    """Displaying a paged figure keeps the renderer's configured post_script, and leaves the renderer as it was."""
+    monkeypatch.setattr(pio.renderers, "default", "notebook")
+    monkeypatch.setattr(pio.renderers["notebook"], "post_script", "console.log('renderer');")
+
+    html = _paged_figure()._repr_mimebundle_()["text/html"]
+
+    assert _sync_script_count(html) == 1
+    assert html.index('gd.on("plotly_relayout"') < html.index("console.log('renderer');")
+    assert pio.renderers["notebook"].post_script == "console.log('renderer');"
+
+
+def test_notebook_display_keeps_call_post_script(monkeypatch):
+    """A post_script given to the display call is kept alongside the sync script."""
+    monkeypatch.setattr(pio.renderers, "default", "notebook")
+
+    html = _paged_figure()._repr_mimebundle_(post_script="console.log('caller');")["text/html"]
+
+    assert _sync_script_count(html) == 1
+    assert "console.log('caller');" in html
+
+
+@pytest.mark.parametrize(
+    ("args", "kwargs", "expected_renderer"),
+    [((), {}, "notebook"), (("browser",), {}, "browser"), ((), {"renderer": "browser"}, "browser")],
+)
+def test_show_keeps_renderer_post_script(monkeypatch, args, expected_renderer, kwargs):
+    """`show` adds the sync script to the chosen renderer's own post_script only for the call."""
+    monkeypatch.setattr(pio.renderers, "default", "notebook")
+    for name in ("notebook", "browser"):
+        monkeypatch.setattr(pio.renderers[name], "post_script", f"console.log('{name}');")
+    seen = {}
+
+    def fake_show(fig, renderer=None, validate=True, **show_kwargs: object) -> None:  # noqa: ARG001
+        seen["renderer"] = renderer or pio.renderers.default
+        seen["post_script"] = pio.renderers[seen["renderer"]].post_script
+        seen["kwargs"] = show_kwargs
+
+    monkeypatch.setattr(pio, "show", fake_show)
+
+    _paged_figure().show(*args, **kwargs)
+
+    assert seen["renderer"] == expected_renderer
+    assert seen["post_script"][1:] == [f"console.log('{expected_renderer}');"]
+    assert _sync_script_count(seen["post_script"][0]) == 1
+    assert "post_script" not in seen["kwargs"]
+    assert pio.renderers[expected_renderer].post_script == f"console.log('{expected_renderer}');"
+
+
+def test_show_keeps_call_post_script(monkeypatch):
+    """A post_script given to show is kept alongside the sync script."""
+    seen = {}
+
+    def fake_show(fig, renderer=None, validate=True, **show_kwargs: object) -> None:  # noqa: ARG001
+        seen["post_script"] = show_kwargs["post_script"]
+
+    monkeypatch.setattr(pio, "show", fake_show)
+
+    _paged_figure().show(post_script="console.log('caller');")
+
+    assert seen["post_script"][1:] == ["console.log('caller');"]
+    assert _sync_script_count(seen["post_script"][0]) == 1
+
+
+def test_wraps_make_subplots_figure():
+    """Wrapping a make_subplots figure keeps its grid, so traces can still be added by row and column."""
+    fig = RowPagedFigure(make_subplots(rows=2, cols=1))
+
+    fig.add_scatter(y=[1], row=2, col=1)
+
+    assert fig.data[0].yaxis == "y2"

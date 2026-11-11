@@ -1,5 +1,8 @@
 """Figures whose rows can be paged through when there are too many to show at once."""
 
+from collections.abc import Callable, Iterator
+from contextlib import contextmanager
+import inspect
 from typing import Any
 
 import plotly.graph_objects as go
@@ -71,6 +74,18 @@ _PAGE_SYNC_SCRIPT = """
 """.replace("__MENU_NAME__", _PAGE_MENU_NAME)
 
 
+def _with_page_sync_script(post_script: str | list[str] | tuple[str, ...] | None) -> list[str]:
+    """Add the page sync script to the start of ``post_script``, keeping any scripts already there."""
+    if post_script is None:
+        scripts = []
+    elif isinstance(post_script, str):
+        scripts = [post_script]
+    else:
+        scripts = list(post_script)
+    # Run first so the buttons follow any relayout that the other scripts make.
+    return [_PAGE_SYNC_SCRIPT, *scripts]
+
+
 class RowPagedFigure(go.Figure):
     """
     A Plotly figure that shows a window of its rows and pages vertically through the rest.
@@ -92,9 +107,8 @@ class RowPagedFigure(go.Figure):
     to move through the rows and always show the page in view.
 
     A ``RowPagedFigure`` is a ``plotly.graph_objects.Figure``, so it can be returned anywhere a figure is
-    expected. To page an existing figure, wrap it with ``RowPagedFigure(fig)``. Subplot grid information
-    from ``make_subplots`` is not kept when wrapping, so add traces by axis reference rather than by
-    ``row``/``col`` afterward.
+    expected. To page an existing figure, including one from ``make_subplots``, wrap it with
+    ``RowPagedFigure(fig)``.
 
     Subclasses can change the size estimates used to lay out the menu with :attr:`page_button_height_px`
     and :attr:`page_dropdown_height_px`, and the button text with :meth:`page_label`.
@@ -270,19 +284,40 @@ class RowPagedFigure(go.Figure):
         return any(menu.name == _PAGE_MENU_NAME for menu in self.layout.updatemenus)
 
     def show(self, *args: Any, **kwargs: Any) -> None:  # noqa: D102 - Documented by plotly.
-        return super().show(*args, **self._with_page_sync(kwargs))
+        if not self.is_paged:
+            return super().show(*args, **kwargs)
+        signature = inspect.signature(pio.show)
+        bound = signature.bind(self, *args, **kwargs)
+        # pio.show takes renderer options such as post_script through its ``**kwargs``.
+        var_keyword = next(
+            (name for name, param in signature.parameters.items() if param.kind is param.VAR_KEYWORD), None
+        )
+        call_kwargs = bound.arguments.get(var_keyword, {}) if var_keyword else {}
+        if "post_script" in call_kwargs:
+            # A post_script given in the call replaces the renderers' own, so add the page sync script to it.
+            call_kwargs["post_script"] = _with_page_sync_script(call_kwargs["post_script"])
+            return pio.show(*bound.args, **bound.kwargs)
+        renderer = bound.arguments.get("renderer") or pio.renderers.default
+        with self._page_sync_in_renderers(renderer):
+            return pio.show(*bound.args, **bound.kwargs)
 
     def to_html(self, *args: Any, **kwargs: Any) -> str:  # noqa: D102 - Documented by plotly.
-        return super().to_html(*args, **self._with_page_sync(kwargs))
+        return self._call_with_page_sync(pio.to_html, args, kwargs)
 
     def write_html(self, *args: Any, **kwargs: Any) -> None:  # noqa: D102 - Documented by plotly.
-        return super().write_html(*args, **self._with_page_sync(kwargs))
+        return self._call_with_page_sync(pio.write_html, args, kwargs)
 
     def _repr_mimebundle_(
         self, include: Any = None, exclude: Any = None, validate: bool = True, **kwargs: Any
     ) -> dict[str, Any]:
         """Return the notebook display of the figure, keeping the page buttons in step with dragging."""
-        return super()._repr_mimebundle_(include, exclude, validate, **self._with_page_sync(kwargs))
+        if not self.is_paged:
+            return super()._repr_mimebundle_(include, exclude, validate, **kwargs)
+        if "post_script" in kwargs:
+            kwargs["post_script"] = _with_page_sync_script(kwargs["post_script"])
+            return super()._repr_mimebundle_(include, exclude, validate, **kwargs)
+        with self._page_sync_in_renderers(pio.renderers.default):
+            return super()._repr_mimebundle_(include, exclude, validate, **kwargs)
 
     def _ipython_display_(self) -> None:
         """Display the figure in IPython, keeping the page buttons in step with dragging."""
@@ -291,19 +326,42 @@ class RowPagedFigure(go.Figure):
         else:
             print(repr(self))
 
-    def _with_page_sync(self, kwargs: dict[str, Any]) -> dict[str, Any]:
-        """Add the script that syncs the page buttons with dragging to ``post_script`` in ``kwargs``."""
+    def _call_with_page_sync(self, func: Callable[..., Any], args: tuple[Any, ...], kwargs: dict[str, Any]) -> Any:
+        """
+        Call a ``plotly.io`` HTML function on the figure with the page sync script added to ``post_script``.
+
+        ``post_script`` may be given by position or keyword, so the call is bound to ``func``'s signature to find
+        it rather than adding it as another keyword.
+        """
         if not self.is_paged:
-            return kwargs
-        post_script = kwargs.get("post_script")
-        if post_script is None:
-            scripts = []
-        elif isinstance(post_script, str):
-            scripts = [post_script]
-        else:
-            scripts = list(post_script)
-        # Run first so the buttons follow any relayout that the caller's scripts make.
-        return {**kwargs, "post_script": [_PAGE_SYNC_SCRIPT, *scripts]}
+            return func(self, *args, **kwargs)
+        bound = inspect.signature(func).bind(self, *args, **kwargs)
+        bound.arguments["post_script"] = _with_page_sync_script(bound.arguments.get("post_script"))
+        return func(*bound.args, **bound.kwargs)
+
+    @contextmanager
+    def _page_sync_in_renderers(self, renderers: str | None) -> Iterator[None]:
+        """
+        Add the page sync script to each named renderer's own ``post_script`` while the context is open.
+
+        Used when the call gives no ``post_script``, so each renderer keeps any ``post_script`` configured on
+        it, such as ``pio.renderers["notebook"].post_script``. ``renderers`` is a renderer string such as
+        "plotly_mimetype+notebook". Names that are not registered are left for Plotly to report.
+        """
+        patched = []
+        try:
+            for name in dict.fromkeys((renderers or "").split("+")):
+                try:
+                    renderer = pio.renderers[name]
+                except (KeyError, ValueError):
+                    continue
+                if hasattr(renderer, "post_script"):
+                    patched.append((renderer, renderer.post_script))
+                    renderer.post_script = _with_page_sync_script(renderer.post_script)
+            yield
+        finally:
+            for renderer, post_script in patched:
+                renderer.post_script = post_script
 
     @staticmethod
     def _page_menu_label(text: str, menu_height_px: float) -> dict[str, Any]:
