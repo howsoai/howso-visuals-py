@@ -1,4 +1,5 @@
 import plotly.graph_objects as go
+import plotly.io as pio
 import pytest
 
 from howso.visuals import RowPagedFigure
@@ -108,3 +109,62 @@ def test_page_label_can_be_overridden():
     fig.page_rows(4, 2, menu_height_px=500)
 
     assert [b.label for b in fig.layout.updatemenus[0].buttons] == ["1 to 2", "3 to 4"]
+
+
+def _sync_script_count(html: str) -> int:
+    """Count how many times the page sync script is attached in rendered HTML."""
+    return html.count('gd.on("plotly_relayout"')
+
+
+def test_is_paged():
+    """is_paged reports whether page_rows added page controls."""
+    fig = _heatmap_figure(30)
+    assert fig.is_paged is False
+    fig.page_rows(30, 10, menu_height_px=500)
+    assert fig.is_paged is True
+
+
+def test_html_includes_page_sync_script_only_when_paged():
+    """to_html attaches the script that follows dragging only to paged figures."""
+    unpaged = _heatmap_figure(3)
+    unpaged.page_rows(3, 5, menu_height_px=500)
+    assert _sync_script_count(unpaged.to_html(include_plotlyjs=False)) == 0
+
+    paged = _heatmap_figure(30)
+    paged.page_rows(30, 10, menu_height_px=500)
+    assert _sync_script_count(paged.to_html(include_plotlyjs=False)) == 1
+
+
+def test_html_keeps_caller_post_script():
+    """The page sync script is added before, not instead of, the caller's post_script."""
+    fig = _heatmap_figure(30)
+    fig.page_rows(30, 10, menu_height_px=500)
+
+    html = fig.to_html(include_plotlyjs=False, post_script="console.log('caller');")
+
+    assert _sync_script_count(html) == 1
+    assert html.index('gd.on("plotly_relayout"') < html.index("console.log('caller');")
+
+
+def test_write_html_includes_page_sync_script(tmp_path):
+    """write_html attaches the script that follows dragging."""
+    fig = _heatmap_figure(30)
+    fig.page_rows(30, 10, menu_height_px=500)
+    path = tmp_path / "figure.html"
+
+    fig.write_html(path, include_plotlyjs=False)
+
+    assert _sync_script_count(path.read_text(encoding="utf-8")) == 1
+
+
+@pytest.mark.parametrize(("renderer", "expected_count"), [("notebook", 1), ("plotly_mimetype", 0)])
+def test_notebook_display_includes_page_sync_script(monkeypatch, renderer, expected_count):
+    """HTML notebook renderers get the sync script; JSON-only renderers still display the figure."""
+    monkeypatch.setattr(pio.renderers, "default", renderer)
+    fig = _heatmap_figure(30)
+    fig.page_rows(30, 10, menu_height_px=500)
+
+    bundle = fig._repr_mimebundle_()
+
+    assert bundle
+    assert _sync_script_count(bundle.get("text/html", "")) == expected_count

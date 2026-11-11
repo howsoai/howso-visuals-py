@@ -3,8 +3,60 @@
 from typing import Any
 
 import plotly.graph_objects as go
+import plotly.io as pio
 
 __all__ = ["RowPagedFigure"]
+
+_PAGE_MENU_NAME = "howso_row_pager"
+"""The ``name`` of the page menus that :class:`RowPagedFigure` adds, used to find them in the browser."""
+
+# Plotly.js can only tie a button's active state to an axis range that matches the button's range exactly,
+# which a drag never does. This script, run after the plot is drawn, marks the page closest to the rows in
+# view as active whenever the paged axis moves. It reads everything it needs from the page menus, and
+# ignores the relayout it makes itself because that changes only the menu. Plotly replaces ``{plot_id}``.
+_PAGE_SYNC_SCRIPT = """
+(function () {
+    var gd = document.getElementById("{plot_id}");
+    if (!gd || typeof gd.on !== "function") {
+        return;
+    }
+    gd.on("plotly_relayout", function (eventData) {
+        var menus = gd.layout.updatemenus || [];
+        var update = {};
+        menus.forEach(function (menu, index) {
+            if (menu.name !== "__MENU_NAME__" || !menu.buttons || !menu.buttons.length) {
+                return;
+            }
+            var key = Object.keys(menu.buttons[0].args[0])[0];
+            var axis = key.slice(0, -".range".length);
+            var moved = Object.keys(eventData || {}).some(function (k) {
+                return k === axis || k.indexOf(axis + ".") === 0;
+            });
+            var range = gd.layout[axis] && gd.layout[axis].range;
+            if (!moved || !range) {
+                return;
+            }
+            var firstRow = Math.min(range[0], range[1]);
+            var closest = 0;
+            var closestDistance = Infinity;
+            menu.buttons.forEach(function (button, i) {
+                var pageRange = button.args[0][key];
+                var distance = Math.abs(Math.min(pageRange[0], pageRange[1]) - firstRow);
+                if (distance < closestDistance) {
+                    closest = i;
+                    closestDistance = distance;
+                }
+            });
+            if (menu.active !== closest) {
+                update["updatemenus[" + index + "].active"] = closest;
+            }
+        });
+        if (Object.keys(update).length) {
+            Plotly.relayout(gd, update);
+        }
+    });
+})();
+""".replace("__MENU_NAME__", _PAGE_MENU_NAME)
 
 
 class RowPagedFigure(go.Figure):
@@ -18,7 +70,13 @@ class RowPagedFigure(go.Figure):
     Plotly has no vertical scrollbar, so the figure pages through its rows with a vertical stack of
     buttons to the right of the plot, one per page, under a small label. The rows can also be dragged
     vertically. When there are too many pages to stack in the available space, the buttons collapse
-    into a dropdown that opens upward and scrolls. Dragging the plot does not change the active button.
+    into a dropdown that opens upward and scrolls.
+
+    Dragging the plot moves the active button to the page closest to the rows in view. This uses a small
+    script that the figure adds whenever it is rendered as HTML: with :meth:`show`, :meth:`to_html` or
+    :meth:`write_html`, or when displayed in a notebook with an HTML renderer such as "notebook" or
+    "browser". Renderers that pass Plotly only the figure's JSON, such as "plotly_mimetype" (the default in
+    JupyterLab and VS Code), cannot run the script, so there the active button changes only when clicked.
 
     A ``RowPagedFigure`` is a ``plotly.graph_objects.Figure``, so it can be returned anywhere a figure is
     expected. To page an existing figure, wrap it with ``RowPagedFigure(fig)``. Subplot grid information
@@ -173,6 +231,7 @@ class RowPagedFigure(go.Figure):
         })
         self.update_xaxes(fixedrange=True)
         page_menu = {
+            "name": _PAGE_MENU_NAME,
             "type": "buttons" if stacked else "dropdown",
             "direction": "down" if stacked else "up",
             "active": 0,
@@ -188,6 +247,47 @@ class RowPagedFigure(go.Figure):
         self.update_layout(updatemenus=[*self.layout.updatemenus, page_menu])
         self.add_annotation(self._page_menu_label(label, menu_height))
         return True
+
+    @property
+    def is_paged(self) -> bool:
+        """Whether :meth:`page_rows` has added page controls to the figure."""
+        return any(menu.name == _PAGE_MENU_NAME for menu in self.layout.updatemenus)
+
+    def show(self, *args: Any, **kwargs: Any) -> None:  # noqa: D102 - Documented by plotly.
+        return super().show(*args, **self._with_page_sync(kwargs))
+
+    def to_html(self, *args: Any, **kwargs: Any) -> str:  # noqa: D102 - Documented by plotly.
+        return super().to_html(*args, **self._with_page_sync(kwargs))
+
+    def write_html(self, *args: Any, **kwargs: Any) -> None:  # noqa: D102 - Documented by plotly.
+        return super().write_html(*args, **self._with_page_sync(kwargs))
+
+    def _repr_mimebundle_(
+        self, include: Any = None, exclude: Any = None, validate: bool = True, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Return the notebook display of the figure, keeping the page buttons in step with dragging."""
+        return super()._repr_mimebundle_(include, exclude, validate, **self._with_page_sync(kwargs))
+
+    def _ipython_display_(self) -> None:
+        """Display the figure in IPython, keeping the page buttons in step with dragging."""
+        if pio.renderers.render_on_display and pio.renderers.default:
+            self.show()
+        else:
+            print(repr(self))
+
+    def _with_page_sync(self, kwargs: dict[str, Any]) -> dict[str, Any]:
+        """Add the script that syncs the page buttons with dragging to ``post_script`` in ``kwargs``."""
+        if not self.is_paged:
+            return kwargs
+        post_script = kwargs.get("post_script")
+        if post_script is None:
+            scripts = []
+        elif isinstance(post_script, str):
+            scripts = [post_script]
+        else:
+            scripts = list(post_script)
+        # Run first so the buttons follow any relayout that the caller's scripts make.
+        return {**kwargs, "post_script": [_PAGE_SYNC_SCRIPT, *scripts]}
 
     @staticmethod
     def _page_menu_label(text: str, menu_height_px: float) -> dict[str, Any]:
