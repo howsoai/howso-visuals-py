@@ -27,6 +27,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "flake8",
+    "ipython",
     "isort",
     "pytest-cov",
     "pytest-rerunfailures",
